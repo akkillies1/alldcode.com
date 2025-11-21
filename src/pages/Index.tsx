@@ -43,7 +43,7 @@ const Index = () => {
         
         <div className="relative z-10 container-custom section-padding text-center animate-fade-in">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance">
-            Hagakure Studio
+            Malabar Studio
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-light leading-relaxed text-balance">
             Design & interiors inspired by the Hagakure philosophy — clarity, discipline, and refined simplicity.
@@ -62,38 +62,22 @@ const Index = () => {
 
       {/* About Section */}
       <section id="about" className="section-padding bg-card">
-        <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="animate-fade-in">
-              <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">About the Studio</h2>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Hagakure Studio brings the timeless principles of Japanese minimalism to Kerala's vibrant landscape. 
-                We believe in creating spaces that breathe — where every element serves a purpose, and beauty emerges 
-                from restraint.
-              </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Our approach combines meticulous planning, premium materials, and end-to-end execution to deliver 
-                interiors that stand the test of time.
-              </p>
-            </div>
-            
-            <div className="space-y-8 animate-fade-in-slow">
-              <Card className="p-6 border-l-4 border-l-accent bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)]">
-                <h3 className="text-xl font-medium mb-2">Akhil</h3>
-                <p className="text-sm text-muted-foreground mb-1">Execution & Delivery</p>
-                <p className="text-muted-foreground">
-                  Masters the art of bringing designs to life with precision manufacturing and flawless installation.
-                </p>
-              </Card>
-              
-              <Card className="p-6 border-l-4 border-l-accent bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)]">
-                <h3 className="text-xl font-medium mb-2">Shinu</h3>
-                <p className="text-sm text-muted-foreground mb-1">Design Direction</p>
-                <p className="text-muted-foreground">
-                  Crafts spatial experiences that balance aesthetics with functionality, inspired by timeless principles.
-                </p>
-              </Card>
-            </div>
+        <div className="container-custom max-w-4xl">
+          <div className="text-center animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">About the Studio</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Malabar Studio brings the timeless principles of Japanese minimalism to Kerala's vibrant landscape. 
+              We believe in creating spaces that breathe — where every element serves a purpose, and beauty emerges 
+              from restraint.
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Our approach combines meticulous planning, premium materials, and end-to-end execution to deliver 
+              interiors that stand the test of time.
+            </p>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              From concept to completion, we craft spaces that reflect Kerala's natural beauty while embracing 
+              the discipline and elegance of minimalist design philosophy.
+            </p>
           </div>
         </div>
       </section>
@@ -378,20 +362,13 @@ const Index = () => {
       {/* Footer */}
       <footer className="section-padding bg-charcoal text-warm-white">
         <div className="container-custom">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
+          <div className="grid md:grid-cols-2 gap-12 mb-12">
             <div>
-              <h3 className="text-2xl font-light mb-4">Hagakure Studio</h3>
+              <h3 className="text-2xl font-light mb-4">Malabar Studio</h3>
               <p className="text-warm-white/70 leading-relaxed">
-                Designing interiors inspired by the philosophy of clarity, discipline, and refined simplicity.
+                Designing interiors inspired by the philosophy of clarity, discipline, and refined simplicity. 
+                Bringing timeless elegance to Kerala's homes and spaces.
               </p>
-            </div>
-            
-            <div>
-              <h4 className="text-lg font-medium mb-4">Promoters</h4>
-              <div className="space-y-2 text-warm-white/70">
-                <p>Akhil — Execution & Delivery</p>
-                <p>Shinu — Design Direction</p>
-              </div>
             </div>
             
             <div>
@@ -399,7 +376,7 @@ const Index = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Mail className="w-5 h-5" />
-                  <span>hello@hagakurestudio.com</span>
+                  <span>hello@malabarstudio.com</span>
                 </div>
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Phone className="w-5 h-5" />
@@ -414,7 +391,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-warm-white/20 pt-8 text-center text-warm-white/60 text-sm">
-            <p>© {new Date().getFullYear()} Hagakure Studio. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Malabar Studio. All rights reserved.</p>
           </div>
         </div>
       </footer>
