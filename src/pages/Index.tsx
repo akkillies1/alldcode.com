@@ -126,6 +126,130 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Process Flow Section */}
+      <section className="section-padding bg-card">
+        <div className="container-custom">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Process</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              A seamless journey from concept to completion, guided by precision and care
+            </p>
+          </div>
+          
+          <div className="max-w-5xl mx-auto">
+            {/* Step 1 */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-2xl font-light text-accent">01</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Consultation</h3>
+                  <p className="text-muted-foreground">Initial Meeting</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-0.5 h-24 bg-accent/30"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  We begin with a comprehensive discussion to understand your vision, lifestyle, and spatial requirements. 
+                  We assess the space, discuss your aesthetic preferences, and establish project goals and timelines.
+                </p>
+              </Card>
+            </div>
+
+            {/* Step 2 */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-2xl font-light text-accent">02</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Design</h3>
+                  <p className="text-muted-foreground">Concept Development</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-0.5 h-24 bg-accent/30"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  Our design team creates detailed layouts, 3D visualizations, and material palettes. We present multiple 
+                  concepts, refine based on your feedback, and finalize every detail — from spatial planning to finishing touches.
+                </p>
+              </Card>
+            </div>
+
+            {/* Step 3 */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-2xl font-light text-accent">03</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Execution</h3>
+                  <p className="text-muted-foreground">Manufacturing & Build</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-0.5 h-24 bg-accent/30"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  We bring designs to life through precision manufacturing. Our skilled craftsmen work with premium materials, 
+                  ensuring every piece meets our exacting standards. Regular quality checks guarantee flawless execution.
+                </p>
+              </Card>
+            </div>
+
+            {/* Step 4 */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-2xl font-light text-accent">04</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Delivery</h3>
+                  <p className="text-muted-foreground">Installation & Handover</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  Professional installation ensures perfect placement and finish. We conduct a thorough walkthrough, 
+                  address any final details, and provide care instructions. Your space is ready to be lived in and loved.
+                </p>
+              </Card>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-16 animate-fade-in-slow">
+            <p className="text-lg text-muted-foreground mb-6">
+              Ready to begin your design journey?
+            </p>
+            <Button variant="hero" size="lg" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              Start Your Project
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="section-padding bg-card">
         <div className="container-custom">
