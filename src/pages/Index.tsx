@@ -43,10 +43,10 @@ const Index = () => {
         
         <div className="relative z-10 container-custom section-padding text-center animate-fade-in">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance">
-            Malabar Studio
+            Studio Ascend
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-light leading-relaxed text-balance">
-            Design & interiors inspired by the Hagakure philosophy — clarity, discipline, and refined simplicity.
+            Elevating spaces beyond the ordinary — where luxury meets purposeful design.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button variant="hero" size="lg" className="min-w-[200px]" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -64,19 +64,23 @@ const Index = () => {
       <section id="about" className="section-padding bg-card">
         <div className="container-custom max-w-4xl">
           <div className="text-center animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">About the Studio</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Malabar Studio brings the timeless principles of Japanese minimalism to Kerala's vibrant landscape. 
-              We believe in creating spaces that breathe — where every element serves a purpose, and beauty emerges 
-              from restraint.
+            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Story</h2>
+            <p className="text-lg font-medium mb-6">
+              Studio Ascend was born from a simple belief — that every space has the potential to rise above the ordinary.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Our approach combines meticulous planning, premium materials, and end-to-end execution to deliver 
-              interiors that stand the test of time.
+              We design not just interiors, but transformations — environments that elevate the way people live, move, and feel.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              From concept to completion, we craft spaces that reflect Kerala's natural beauty while embracing 
-              the discipline and elegance of minimalist design philosophy.
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, Studio Ascend blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
+            </p>
+            <p className="text-lg font-medium mb-6">
+              From bespoke interiors to signature spatial experiences, Studio Ascend creates environments that feel sculpted, luminous, and effortlessly sophisticated.
+            </p>
+            <p className="text-lg text-muted-foreground italic leading-relaxed">
+              We don't just design spaces.<br />
+              We elevate them.<br />
+              We ascend.
             </p>
           </div>
         </div>
@@ -86,9 +90,9 @@ const Index = () => {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">The Hagakure Way</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Three pillars that guide every design decision we make
+            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Philosophy</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto italic">
+              Our philosophy is rooted in growth
             </p>
           </div>
           
@@ -97,9 +101,9 @@ const Index = () => {
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
                 <Layers className="w-8 h-8 text-accent" />
               </div>
-              <h3 className="text-2xl font-medium mb-4">Discipline</h3>
+              <h3 className="text-2xl font-medium mb-4">Inspire Progress</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Every element is carefully chosen. No excess, no distraction — only what serves the space and its inhabitants.
+                Spaces should inspire progress — environments that elevate the way you live and feel.
               </p>
             </Card>
             
@@ -107,9 +111,9 @@ const Index = () => {
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
                 <PenTool className="w-8 h-8 text-accent" />
               </div>
-              <h3 className="text-2xl font-medium mb-4">Purpose</h3>
+              <h3 className="text-2xl font-medium mb-4">Move Upward</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Design with intention. Every space tells a story, reflects its purpose, and enhances daily living.
+                Design should move upward, not outward — reaching for refinement and clarity.
               </p>
             </Card>
             
@@ -117,9 +121,9 @@ const Index = () => {
               <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
                 <Ruler className="w-8 h-8 text-accent" />
               </div>
-              <h3 className="text-2xl font-medium mb-4">Simplicity</h3>
+              <h3 className="text-2xl font-medium mb-4">Elevate, Not Excess</h3>
               <p className="text-muted-foreground leading-relaxed">
-                True elegance lies in restraint. Clean lines, natural materials, and harmonious proportions create timeless beauty.
+                Luxury is not about excess, but elevation — sculpted, luminous, effortlessly sophisticated.
               </p>
             </Card>
           </div>
@@ -488,10 +492,9 @@ const Index = () => {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             <div>
-              <h3 className="text-2xl font-light mb-4">Malabar Studio</h3>
+              <h3 className="text-2xl font-light mb-4">Studio Ascend</h3>
               <p className="text-warm-white/70 leading-relaxed">
-                Designing interiors inspired by the philosophy of clarity, discipline, and refined simplicity. 
-                Bringing timeless elegance to Kerala's homes and spaces.
+                Elevating spaces beyond the ordinary. Creating transformative environments that inspire progress, refinement, and effortless sophistication.
               </p>
             </div>
             
@@ -500,7 +503,7 @@ const Index = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Mail className="w-5 h-5" />
-                  <span>hello@malabarstudio.com</span>
+                  <span>hello@studioascend.com</span>
                 </div>
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Phone className="w-5 h-5" />
@@ -515,7 +518,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-warm-white/20 pt-8 text-center text-warm-white/60 text-sm">
-            <p>© {new Date().getFullYear()} Malabar Studio. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Studio Ascend. All rights reserved.</p>
           </div>
         </div>
       </footer>
