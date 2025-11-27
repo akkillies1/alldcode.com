@@ -510,9 +510,13 @@ const Index = () => {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10 brightness-0 invert" />
-                <h3 className="text-2xl font-light">Studio Ascend</h3>
+              <div className="relative inline-block mb-4">
+                <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl transform -rotate-1"></div>
+                <div className="absolute -inset-4 border border-primary/20 rounded-2xl transform rotate-1"></div>
+                <div className="relative flex items-center gap-3 px-6 py-4 bg-background/5 backdrop-blur-sm rounded-xl border border-border/30">
+                  <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10 brightness-0 invert" />
+                  <h3 className="text-2xl font-light">Studio Ascend</h3>
+                </div>
               </div>
               <p className="text-warm-white/70 leading-relaxed">
                 Elevating spaces beyond the ordinary. Creating transformative environments that inspire progress, refinement, and effortless sophistication.
