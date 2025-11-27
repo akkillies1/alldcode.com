@@ -36,10 +36,8 @@ const Index = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container-custom py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10" />
-            <span className="text-xl font-light tracking-tight">Studio Ascend</span>
-          </div>
+          <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10" />
+          <span className="text-xl font-light tracking-tight">Studio Ascend</span>
           <div className="hidden md:flex items-center gap-8">
             <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
             <a href="#philosophy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
