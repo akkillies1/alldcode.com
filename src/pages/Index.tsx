@@ -10,6 +10,7 @@ import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
+import logo from "@/assets/logo.png";
 
 const Index = () => {
   const { toast } = useToast();
@@ -32,8 +33,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="container-custom py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10" />
+            <span className="text-xl font-light tracking-tight">Studio Ascend</span>
+          </div>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
+            <a href="#philosophy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
+            <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Services</a>
+            <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Work</a>
+            <Button variant="hero" size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              Contact
+            </Button>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
@@ -255,7 +275,7 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section className="section-padding bg-card">
+      <section id="services" className="section-padding bg-card">
         <div className="container-custom">
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Services</h2>
@@ -492,7 +512,10 @@ const Index = () => {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             <div>
-              <h3 className="text-2xl font-light mb-4">Studio Ascend</h3>
+              <div className="flex items-center gap-3 mb-4">
+                <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10 brightness-0 invert" />
+                <h3 className="text-2xl font-light">Studio Ascend</h3>
+              </div>
               <p className="text-warm-white/70 leading-relaxed">
                 Elevating spaces beyond the ordinary. Creating transformative environments that inspire progress, refinement, and effortless sophistication.
               </p>
