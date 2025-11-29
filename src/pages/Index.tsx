@@ -159,12 +159,12 @@ const Index = () => {
           </div>
           
           <div className="max-w-5xl mx-auto">
-            {/* Step 1 */}
+            {/* Step 1: D */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">01</span>
+                    <span className="text-3xl font-light text-accent">D</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Discovery</h3>
                   <p className="text-muted-foreground">Initial Assessment</p>
@@ -184,14 +184,14 @@ const Index = () => {
               </Card>
             </div>
 
-            {/* Step 2 */}
+            {/* Step 2: E */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">02</span>
+                    <span className="text-3xl font-light text-accent">E</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Consultation</h3>
+                  <h3 className="text-2xl font-medium mb-2">Engagement</h3>
                   <p className="text-muted-foreground">Detailed Planning</p>
                 </div>
               </div>
@@ -209,15 +209,15 @@ const Index = () => {
               </Card>
             </div>
 
-            {/* Step 3 */}
+            {/* Step 3: C */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">03</span>
+                    <span className="text-3xl font-light text-accent">C</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Design</h3>
-                  <p className="text-muted-foreground">Concept Development</p>
+                  <h3 className="text-2xl font-medium mb-2">Craft</h3>
+                  <p className="text-muted-foreground">Design / Creation</p>
                 </div>
               </div>
               
@@ -234,15 +234,15 @@ const Index = () => {
               </Card>
             </div>
 
-            {/* Step 4 */}
+            {/* Step 4: O */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">04</span>
+                    <span className="text-3xl font-light text-accent">O</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Execution</h3>
-                  <p className="text-muted-foreground">Manufacturing & Installation</p>
+                  <h3 className="text-2xl font-medium mb-2">Optimize</h3>
+                  <p className="text-muted-foreground">Execution / Implementation</p>
                 </div>
               </div>
               
@@ -259,14 +259,39 @@ const Index = () => {
               </Card>
             </div>
 
-            {/* Step 5 */}
+            {/* Step 5: D */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-3xl font-light text-accent">D</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Delivery</h3>
+                  <p className="text-muted-foreground">Final Installation</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-0.5 h-24 bg-accent/30"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  We bring designs to life through precision manufacturing and professional installation. Our skilled craftsmen 
+                  work with premium materials, ensuring every piece meets our exacting standards.
+                </p>
+              </Card>
+            </div>
+
+            {/* Step 6: E */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">05</span>
+                    <span className="text-3xl font-light text-accent">E</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Completion</h3>
+                  <h3 className="text-2xl font-medium mb-2">End</h3>
                   <p className="text-muted-foreground">Final Walkthrough</p>
                 </div>
               </div>
