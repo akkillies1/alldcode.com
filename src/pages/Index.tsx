@@ -36,8 +36,8 @@ const Index = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container-custom py-4 flex items-center justify-between">
-          <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10" />
-          <span className="text-xl font-light tracking-tight">Studio Ascend</span>
+          <img src={logo} alt="Allthing Decode Logo" className="h-10 w-10" />
+          <span className="text-xl font-light tracking-tight">Allthing Decode</span>
           <div className="hidden md:flex items-center gap-8">
             <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
             <a href="#philosophy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
@@ -61,7 +61,7 @@ const Index = () => {
         
         <div className="relative z-10 container-custom section-padding text-center animate-fade-in">
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance">
-            Studio Ascend
+            Allthing Decode
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-light leading-relaxed text-balance">
             Elevating spaces beyond the ordinary — where luxury meets purposeful design.
@@ -84,16 +84,16 @@ const Index = () => {
           <div className="text-center animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Story</h2>
             <p className="text-lg font-medium mb-6">
-              Studio Ascend was born from a simple belief — that every space has the potential to rise above the ordinary.
+              Allthing Decode was born from a simple belief — that every space has the potential to rise above the ordinary.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               We design not just interiors, but transformations — environments that elevate the way people live, move, and feel.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, Studio Ascend blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
+              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, Allthing Decode blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
             </p>
             <p className="text-lg font-medium mb-6">
-              From bespoke interiors to signature spatial experiences, Studio Ascend creates environments that feel sculpted, luminous, and effortlessly sophisticated.
+              From bespoke interiors to signature spatial experiences, Allthing Decode creates environments that feel sculpted, luminous, and effortlessly sophisticated.
             </p>
             <p className="text-lg text-muted-foreground italic leading-relaxed">
               We don't just design spaces.<br />
@@ -152,14 +152,14 @@ const Index = () => {
       <section className="section-padding bg-card">
         <div className="container-custom">
           <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Process</h2>
+            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">DECODE Workflow</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A seamless journey from concept to completion, guided by precision and care
+              D → Discovery → E → Engagement → C → Craft → O → Optimize → D → Delivery → E → Execution
             </p>
           </div>
           
           <div className="max-w-5xl mx-auto">
-            {/* Step 1: D */}
+            {/* Step 1: D → Discovery */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
@@ -167,24 +167,29 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">D</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Discovery</h3>
-                  <p className="text-muted-foreground">Initial Assessment</p>
+                  <p className="text-muted-foreground text-sm">Understand client needs</p>
                 </div>
               </div>
               
               <div className="hidden md:flex flex-col items-center">
                 <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-24 bg-accent/30"></div>
+                <div className="w-0.5 h-32 bg-accent/30"></div>
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  We start by understanding your vision, exploring the space, and identifying opportunities. This foundational phase 
-                  establishes your goals, style preferences, and practical requirements.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> Understand client needs, goals, and constraints.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Conduct in-depth discussions to uncover requirements, priorities, and vision. Assess site conditions, property specifications, or project feasibility. Gather insights on lifestyle, business objectives, or investment criteria. Identify potential challenges or regulatory considerations.
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> A clear project brief that forms the foundation for design and execution.
                 </p>
               </Card>
             </div>
 
-            {/* Step 2: E */}
+            {/* Step 2: E → Engagement */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
@@ -192,24 +197,29 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">E</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Engagement</h3>
-                  <p className="text-muted-foreground">Detailed Planning</p>
+                  <p className="text-muted-foreground text-sm">Build alignment</p>
                 </div>
               </div>
               
               <div className="hidden md:flex flex-col items-center">
                 <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-24 bg-accent/30"></div>
+                <div className="w-0.5 h-32 bg-accent/30"></div>
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  Through comprehensive discussions, we refine the project scope, discuss material choices, and develop a clear 
-                  project roadmap with timelines and budget considerations.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> Build alignment and formalize commitment.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Present initial ideas or concepts based on Discovery insights. Define timelines, budgets, scope, and deliverables. Set up communication channels and project protocols. Discuss advisory or transaction-related aspects (if applicable).
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> Signed agreement and mutual clarity on expectations.
                 </p>
               </Card>
             </div>
 
-            {/* Step 3: C */}
+            {/* Step 3: C → Craft */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
@@ -217,24 +227,29 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">C</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Craft</h3>
-                  <p className="text-muted-foreground">Design / Creation</p>
+                  <p className="text-muted-foreground text-sm">Design & conceptualization</p>
                 </div>
               </div>
               
               <div className="hidden md:flex flex-col items-center">
                 <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-24 bg-accent/30"></div>
+                <div className="w-0.5 h-32 bg-accent/30"></div>
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  Our design team creates detailed layouts, 3D visualizations, and material palettes. We present concepts, 
-                  refine based on your feedback, and finalize every detail — from spatial planning to finishing touches.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> Design and conceptualization phase.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Interior/space design: Layouts, renderings, materials, color schemes. Real estate planning: Project structuring, property plans, and investment strategy. Iterative refinement with client feedback.
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> A complete, approved design ready for optimization.
                 </p>
               </Card>
             </div>
 
-            {/* Step 4: O */}
+            {/* Step 4: O → Optimize */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
@@ -242,24 +257,29 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">O</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Optimize</h3>
-                  <p className="text-muted-foreground">Execution / Implementation</p>
+                  <p className="text-muted-foreground text-sm">Finalize & perfect</p>
                 </div>
               </div>
               
               <div className="hidden md:flex flex-col items-center">
                 <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-24 bg-accent/30"></div>
+                <div className="w-0.5 h-32 bg-accent/30"></div>
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  We bring designs to life through precision manufacturing and professional installation. Our skilled craftsmen 
-                  work with premium materials, ensuring every piece meets our exacting standards.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> Finalize and perfect the design in consultation with the client/end-user.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Review the crafted design with the client and end-users. Make adjustments for functionality, ergonomics, aesthetics, or compliance. Ensure cost efficiency, material selection, and technical feasibility. Finalize all design details for implementation.
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> Optimized, client-approved design ready for production or construction.
                 </p>
               </Card>
             </div>
 
-            {/* Step 5: D */}
+            {/* Step 5: D → Delivery */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
@@ -267,32 +287,37 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">D</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Delivery</h3>
-                  <p className="text-muted-foreground">Final Installation</p>
+                  <p className="text-muted-foreground text-sm">Production & logistics</p>
                 </div>
               </div>
               
               <div className="hidden md:flex flex-col items-center">
                 <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-24 bg-accent/30"></div>
+                <div className="w-0.5 h-32 bg-accent/30"></div>
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  We bring designs to life through precision manufacturing and professional installation. Our skilled craftsmen 
-                  work with premium materials, ensuring every piece meets our exacting standards.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> Factory production, prefabrication, and site logistics.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Coordinate production of materials, furniture, or fixtures. Manage quality checks at the factory or supplier site. Organize delivery logistics to the project site. Ensure all components are prepared for smooth installation.
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> All design elements and materials are delivered to site, ready for execution.
                 </p>
               </Card>
             </div>
 
-            {/* Step 6: E */}
+            {/* Step 6: E → Execution */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
                     <span className="text-3xl font-light text-accent">E</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">End</h3>
-                  <p className="text-muted-foreground">Final Walkthrough</p>
+                  <h3 className="text-2xl font-medium mb-2">Execution</h3>
+                  <p className="text-muted-foreground text-sm">Installation & handover</p>
                 </div>
               </div>
               
@@ -301,9 +326,14 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed">
-                  We conduct a thorough walkthrough, address any final details, and provide care instructions. 
-                  Your elevated space is ready to be lived in and loved.
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  <strong>Purpose:</strong> On-site installation, setup, and project handover.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  Install all design elements, furniture, fixtures, and systems on-site. Conduct thorough walkthroughs, snagging, and fine-tuning of details. Ensure the project matches the client-approved design and quality standards. Final handover with documentation, instructions, or training as needed.
+                </p>
+                <p className="text-muted-foreground leading-relaxed italic">
+                  <strong>Outcome:</strong> Fully functional, installed project that meets client expectations and is ready for occupancy or use.
                 </p>
               </Card>
             </div>
@@ -312,7 +342,7 @@ const Index = () => {
           {/* CTA */}
           <div className="text-center mt-16 animate-fade-in-slow">
             <p className="text-lg text-muted-foreground mb-6">
-              Ready to begin your design journey?
+              Ready to begin your DECODE journey?
             </p>
             <Button variant="hero" size="lg" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Start Your Project
@@ -564,8 +594,8 @@ const Index = () => {
                 <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl transform -rotate-1"></div>
                 <div className="absolute -inset-4 border border-primary/20 rounded-2xl transform rotate-1"></div>
                 <div className="relative flex items-center gap-3 px-6 py-4 bg-background/5 backdrop-blur-sm rounded-xl border border-border/30">
-                  <img src={logo} alt="Studio Ascend Logo" className="h-10 w-10 brightness-0 invert" />
-                  <h3 className="text-2xl font-light">Studio Ascend</h3>
+                  <img src={logo} alt="Allthing Decode Logo" className="h-10 w-10 brightness-0 invert" />
+                  <h3 className="text-2xl font-light">Allthing Decode</h3>
                 </div>
               </div>
               <p className="text-warm-white/70 leading-relaxed">
@@ -578,7 +608,7 @@ const Index = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Mail className="w-5 h-5" />
-                  <span>hello@studioascend.com</span>
+                  <span>hello@allthingdecode.com</span>
                 </div>
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Phone className="w-5 h-5" />
@@ -593,7 +623,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-warm-white/20 pt-8 text-center text-warm-white/60 text-sm">
-            <p>© {new Date().getFullYear()} Studio Ascend. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
           </div>
         </div>
       </footer>
