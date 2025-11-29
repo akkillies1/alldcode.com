@@ -166,8 +166,8 @@ const Index = () => {
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
                     <span className="text-2xl font-light text-accent">01</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Consultation</h3>
-                  <p className="text-muted-foreground">Initial Meeting</p>
+                  <h3 className="text-2xl font-medium mb-2">Discovery</h3>
+                  <p className="text-muted-foreground">Initial Assessment</p>
                 </div>
               </div>
               
@@ -178,8 +178,8 @@ const Index = () => {
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
                 <p className="text-muted-foreground leading-relaxed">
-                  We begin with a comprehensive discussion to understand your vision, lifestyle, and spatial requirements. 
-                  We assess the space, discuss your aesthetic preferences, and establish project goals and timelines.
+                  We start by understanding your vision, exploring the space, and identifying opportunities. This foundational phase 
+                  establishes your goals, style preferences, and practical requirements.
                 </p>
               </Card>
             </div>
@@ -190,6 +190,31 @@ const Index = () => {
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
                     <span className="text-2xl font-light text-accent">02</span>
+                  </div>
+                  <h3 className="text-2xl font-medium mb-2">Consultation</h3>
+                  <p className="text-muted-foreground">Detailed Planning</p>
+                </div>
+              </div>
+              
+              <div className="hidden md:flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-accent"></div>
+                <div className="w-0.5 h-24 bg-accent/30"></div>
+              </div>
+              
+              <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
+                <p className="text-muted-foreground leading-relaxed">
+                  Through comprehensive discussions, we refine the project scope, discuss material choices, and develop a clear 
+                  project roadmap with timelines and budget considerations.
+                </p>
+              </Card>
+            </div>
+
+            {/* Step 3 */}
+            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
+              <div className="md:text-right">
+                <div className="inline-block md:block">
+                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
+                    <span className="text-2xl font-light text-accent">03</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Design</h3>
                   <p className="text-muted-foreground">Concept Development</p>
@@ -203,21 +228,21 @@ const Index = () => {
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
                 <p className="text-muted-foreground leading-relaxed">
-                  Our design team creates detailed layouts, 3D visualizations, and material palettes. We present multiple 
-                  concepts, refine based on your feedback, and finalize every detail — from spatial planning to finishing touches.
+                  Our design team creates detailed layouts, 3D visualizations, and material palettes. We present concepts, 
+                  refine based on your feedback, and finalize every detail — from spatial planning to finishing touches.
                 </p>
               </Card>
             </div>
 
-            {/* Step 3 */}
+            {/* Step 4 */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">03</span>
+                    <span className="text-2xl font-light text-accent">04</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Execution</h3>
-                  <p className="text-muted-foreground">Manufacturing & Build</p>
+                  <p className="text-muted-foreground">Manufacturing & Installation</p>
                 </div>
               </div>
               
@@ -228,21 +253,21 @@ const Index = () => {
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
                 <p className="text-muted-foreground leading-relaxed">
-                  We bring designs to life through precision manufacturing. Our skilled craftsmen work with premium materials, 
-                  ensuring every piece meets our exacting standards. Regular quality checks guarantee flawless execution.
+                  We bring designs to life through precision manufacturing and professional installation. Our skilled craftsmen 
+                  work with premium materials, ensuring every piece meets our exacting standards.
                 </p>
               </Card>
             </div>
 
-            {/* Step 4 */}
+            {/* Step 5 */}
             <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 items-center animate-fade-in">
               <div className="md:text-right">
                 <div className="inline-block md:block">
                   <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-2xl font-light text-accent">04</span>
+                    <span className="text-2xl font-light text-accent">05</span>
                   </div>
-                  <h3 className="text-2xl font-medium mb-2">Delivery</h3>
-                  <p className="text-muted-foreground">Installation & Handover</p>
+                  <h3 className="text-2xl font-medium mb-2">Completion</h3>
+                  <p className="text-muted-foreground">Final Walkthrough</p>
                 </div>
               </div>
               
@@ -252,8 +277,8 @@ const Index = () => {
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
                 <p className="text-muted-foreground leading-relaxed">
-                  Professional installation ensures perfect placement and finish. We conduct a thorough walkthrough, 
-                  address any final details, and provide care instructions. Your space is ready to be lived in and loved.
+                  We conduct a thorough walkthrough, address any final details, and provide care instructions. 
+                  Your elevated space is ready to be lived in and loved.
                 </p>
               </Card>
             </div>
@@ -532,7 +557,7 @@ const Index = () => {
                 </div>
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <Phone className="w-5 h-5" />
-                  <span>+91 xxxxx xxxxx</span>
+                  <span>+91 96338 60898</span>
                 </div>
                 <div className="flex items-center gap-3 text-warm-white/70">
                   <MapPin className="w-5 h-5" />
