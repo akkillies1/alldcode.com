@@ -98,7 +98,10 @@ const Index = () => {
               variant="hero-outline" 
               size="lg" 
               className="min-w-[200px]"
-              onClick={() => window.open('https://wa.me/919633860898', '_blank')}
+              onClick={() => {
+                const message = encodeURIComponent("Hello! I'm interested in your interior design services. I'd like to discuss a project with you.");
+                window.open(`https://wa.me/919633860898?text=${message}`, '_blank');
+              }}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
               WhatsApp
