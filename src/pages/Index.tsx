@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import heroImage from "@/assets/hero-interior.jpg";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
@@ -22,13 +23,29 @@ const Index = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "Thank you for reaching out. We'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", phone: "", location: "", message: "" });
+    
+    try {
+      const { error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData,
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Message Sent",
+        description: "Thank you for reaching out. We'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", phone: "", location: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+      console.error("Error sending email:", error);
+    }
   };
 
   return (
@@ -73,6 +90,27 @@ const Index = () => {
             </Button>
             <Button variant="hero-outline" size="lg" className="min-w-[200px]" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
               View Work
+            </Button>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+            <Button 
+              variant="hero-outline" 
+              size="lg" 
+              className="min-w-[200px]"
+              onClick={() => window.open('https://wa.me/919633860898', '_blank')}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              WhatsApp
+            </Button>
+            <Button 
+              variant="hero-outline" 
+              size="lg" 
+              className="min-w-[200px]"
+              onClick={() => window.location.href = 'tel:+919633860898'}
+            >
+              <Phone className="mr-2 h-5 w-5" />
+              Call Us
             </Button>
           </div>
         </div>
@@ -154,7 +192,7 @@ const Index = () => {
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">DECODE Workflow</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              D → Discovery → E → Engagement → C → Craft → O → Optimize → D → Delivery → E → Execution
+              Our systematic approach to transforming your vision into reality
             </p>
           </div>
           
@@ -177,14 +215,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> Understand client needs, goals, and constraints.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Conduct in-depth discussions to uncover requirements, priorities, and vision. Assess site conditions, property specifications, or project feasibility. Gather insights on lifestyle, business objectives, or investment criteria. Identify potential challenges or regulatory considerations.
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> A clear project brief that forms the foundation for design and execution.
+                <p className="text-muted-foreground leading-relaxed">
+                  We dive deep into your vision — understanding your needs, goals, and site potential, capturing every detail from lifestyle to logistics, and creating a clear project brief that sets the foundation.
                 </p>
               </Card>
             </div>
@@ -207,14 +239,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> Build alignment and formalize commitment.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Present initial ideas or concepts based on Discovery insights. Define timelines, budgets, scope, and deliverables. Set up communication channels and project protocols. Discuss advisory or transaction-related aspects (if applicable).
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> Signed agreement and mutual clarity on expectations.
+                <p className="text-muted-foreground leading-relaxed">
+                  We bring ideas to life through discussion, aligning expectations, defining scope, timelines, and budget, and formalizing commitment with a signed agreement.
                 </p>
               </Card>
             </div>
@@ -237,14 +263,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> Design and conceptualization phase.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Interior/space design: Layouts, renderings, materials, color schemes. Real estate planning: Project structuring, property plans, and investment strategy. Iterative refinement with client feedback.
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> A complete, approved design ready for optimization.
+                <p className="text-muted-foreground leading-relaxed">
+                  We create thoughtful, tailored designs — layouts, materials, color schemes, and project plans — refined with your feedback to form a complete, client-approved design.
                 </p>
               </Card>
             </div>
@@ -267,14 +287,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> Finalize and perfect the design in consultation with the client/end-user.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Review the crafted design with the client and end-users. Make adjustments for functionality, ergonomics, aesthetics, or compliance. Ensure cost efficiency, material selection, and technical feasibility. Finalize all design details for implementation.
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> Optimized, client-approved design ready for production or construction.
+                <p className="text-muted-foreground leading-relaxed">
+                  We fine-tune the design with you and end-users, adjusting for functionality, aesthetics, and efficiency to ensure the design is perfected before production.
                 </p>
               </Card>
             </div>
@@ -297,14 +311,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> Factory production, prefabrication, and site logistics.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Coordinate production of materials, furniture, or fixtures. Manage quality checks at the factory or supplier site. Organize delivery logistics to the project site. Ensure all components are prepared for smooth installation.
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> All design elements and materials are delivered to site, ready for execution.
+                <p className="text-muted-foreground leading-relaxed">
+                  From factory to site, we manage production, quality checks, and logistics, ensuring every material, furniture, and fixture arrives ready for seamless installation.
                 </p>
               </Card>
             </div>
@@ -326,14 +334,8 @@ const Index = () => {
               </div>
               
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)]">
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  <strong>Purpose:</strong> On-site installation, setup, and project handover.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-3">
-                  Install all design elements, furniture, fixtures, and systems on-site. Conduct thorough walkthroughs, snagging, and fine-tuning of details. Ensure the project matches the client-approved design and quality standards. Final handover with documentation, instructions, or training as needed.
-                </p>
-                <p className="text-muted-foreground leading-relaxed italic">
-                  <strong>Outcome:</strong> Fully functional, installed project that meets client expectations and is ready for occupancy or use.
+                <p className="text-muted-foreground leading-relaxed">
+                  We bring the project to life on-site — installing, adjusting, and perfecting every detail, with thorough walkthroughs to deliver a fully functional space ready for use.
                 </p>
               </Card>
             </div>
