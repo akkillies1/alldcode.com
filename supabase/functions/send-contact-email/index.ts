@@ -43,7 +43,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: 'Allthing Decode <onboarding@resend.dev>',
-        to: ['theintercontinentalrealtor@gmail.com'],
+        to: ['shinu.thej1039@gmail.com'],
         reply_to: email,
         subject: `New Project Inquiry from ${name}`,
         html: `
