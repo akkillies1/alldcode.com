@@ -619,11 +619,11 @@ const Index = () => {
               <div className="space-y-4">
                 <a href="mailto:shinu.thej1039@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
                   <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>theintercontinentalrealtor@gmail.com</span>
+                  <span>shinu.thej1039@gmail.com</span>
                 </a>
                 <a href="tel:+919633860898" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
                   <Phone className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>+91 96338 60898</span>
+                  <span>+91 9633860898</span>
                 </a>
               </div>
             </div>
