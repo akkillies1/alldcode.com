@@ -617,7 +617,7 @@ const Index = () => {
             <div>
               <h4 className="text-lg font-semibold mb-6 tracking-wide uppercase text-xs">Contact</h4>
               <div className="space-y-4">
-                <a href="mailto:theintercontinentalrealtor@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
+                <a href="mailto:shinu.thej1039@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
                   <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>theintercontinentalrealtor@gmail.com</span>
                 </a>
