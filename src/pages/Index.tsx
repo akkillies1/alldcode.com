@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, MessageCircle } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { MobileMenu } from "@/components/MobileMenu";
+import { FloatingActionButtons } from "@/components/FloatingActionButtons";
 import heroImage from "@/assets/hero-interior.jpg";
 import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
@@ -23,47 +25,68 @@ const Index = () => {
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
     try {
-      const { error } = await supabase.functions.invoke('send-contact-email', {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
         body: formData,
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
 
       toast({
-        title: "Message Sent",
-        description: "Thank you for reaching out. We'll get back to you soon.",
+        title: "✓ Message Sent Successfully",
+        description: "Thank you for reaching out. We'll get back to you within 24 hours.",
+        className: "bg-success text-success-foreground",
       });
+      
       setFormData({ name: "", email: "", phone: "", location: "", message: "" });
-    } catch (error) {
+    } catch (error: any) {
+      console.error("Error sending email:", error);
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
+        title: "✗ Failed to Send Message",
+        description: error?.message || "Something went wrong. Please try calling us directly.",
         variant: "destructive",
       });
-      console.error("Error sending email:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Floating Action Buttons */}
+      <FloatingActionButtons />
+      
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container-custom py-4 flex items-center justify-between">
-          <img src={logo} alt="Allthing Decode Logo" className="h-10 w-10" />
-          <span className="text-xl font-light tracking-tight">Allthing Decode</span>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border/50 shadow-[var(--shadow-soft)]">
+        <div className="container-custom py-5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Allthing Decode Logo" className="h-8 w-8 md:h-10 md:w-10" />
+            <div className="flex items-baseline gap-2">
+              <span className="text-sm md:text-base font-light text-muted-foreground tracking-wide">Allthing</span>
+              <span className="text-2xl md:text-3xl font-serif font-semibold tracking-tight">Decode</span>
+            </div>
+          </div>
+          
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="#philosophy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
-            <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Services</a>
-            <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Work</a>
+            <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">About</a>
+            <a href="#philosophy" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
+            <a href="#services" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Services</a>
+            <a href="#portfolio" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Work</a>
             <Button variant="hero" size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Contact
             </Button>
           </div>
+          
+          <MobileMenu />
         </div>
       </nav>
 
@@ -73,47 +96,28 @@ const Index = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/96 via-background/90 to-background/96" />
         </div>
         
         <div className="relative z-10 container-custom section-padding text-center animate-fade-in">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 text-balance">
-            Allthing Decode
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 font-light leading-relaxed text-balance">
+          <div className="flex items-baseline justify-center gap-3 mb-6">
+            <h1 className="text-4xl md:text-5xl font-light text-muted-foreground tracking-wide">
+              Allthing
+            </h1>
+            <h1 className="text-7xl md:text-8xl lg:text-9xl font-serif font-semibold tracking-tight">
+              Decode
+            </h1>
+          </div>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-16 leading-relaxed text-balance">
             Elevating spaces beyond the ordinary — where luxury meets purposeful design.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button variant="hero" size="lg" className="min-w-[200px]" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Button variant="hero" size="lg" className="min-w-[220px] h-14" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Get a Quote
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="hero-outline" size="lg" className="min-w-[200px]" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button variant="hero-outline" size="lg" className="min-w-[220px] h-14" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
               View Work
-            </Button>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-            <Button 
-              variant="hero-outline" 
-              size="lg" 
-              className="min-w-[200px]"
-              onClick={() => {
-                const message = encodeURIComponent("Hello! I'm interested in your interior design services. I'd like to discuss a project with you.");
-                window.open(`https://wa.me/919633860898?text=${message}`, '_blank');
-              }}
-            >
-              <MessageCircle className="mr-2 h-5 w-5" />
-              WhatsApp
-            </Button>
-            <Button 
-              variant="hero-outline" 
-              size="lg" 
-              className="min-w-[200px]"
-              onClick={() => window.location.href = 'tel:+919633860898'}
-            >
-              <Phone className="mr-2 h-5 w-5" />
-              Call Us
             </Button>
           </div>
         </div>
@@ -123,20 +127,20 @@ const Index = () => {
       <section id="about" className="section-padding bg-card">
         <div className="container-custom max-w-4xl">
           <div className="text-center animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Story</h2>
-            <p className="text-lg font-medium mb-6">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-8 tracking-tight">Our Story</h2>
+            <p className="text-xl font-medium mb-8 leading-relaxed">
               Allthing Decode was born from a simple belief — that every space has the potential to rise above the ordinary.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
               We design not just interiors, but transformations — environments that elevate the way people live, move, and feel.
             </p>
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+            <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
               Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, Allthing Decode blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
             </p>
-            <p className="text-lg font-medium mb-6">
+            <p className="text-xl font-medium mb-8 leading-relaxed">
               From bespoke interiors to signature spatial experiences, Allthing Decode creates environments that feel sculpted, luminous, and effortlessly sophisticated.
             </p>
-            <p className="text-lg text-muted-foreground italic leading-relaxed">
+            <p className="text-xl text-muted-foreground italic leading-relaxed font-light">
               We don't just design spaces.<br />
               We elevate them.<br />
               We ascend.
@@ -146,11 +150,11 @@ const Index = () => {
       </section>
 
       {/* Philosophy Section */}
-      <section className="section-padding">
+      <section id="philosophy" className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Philosophy</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto italic">
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Philosophy</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto italic font-light">
               Our philosophy is rooted in growth
             </p>
           </div>
@@ -192,9 +196,9 @@ const Index = () => {
       {/* Process Flow Section */}
       <section className="section-padding bg-card">
         <div className="container-custom">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">DECODE Workflow</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">DECODE Workflow</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
               Our systematic approach to transforming your vision into reality
             </p>
           </div>
@@ -360,9 +364,9 @@ const Index = () => {
       {/* Services Section */}
       <section id="services" className="section-padding bg-card">
         <div className="container-custom">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Services</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Our Services</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
               From concept to completion, we handle every aspect of your interior journey
             </p>
           </div>
@@ -449,9 +453,9 @@ const Index = () => {
       {/* Portfolio Section */}
       <section id="portfolio" className="section-padding">
         <div className="container-custom">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Our Work</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Our Work</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
               Spaces designed with discipline, crafted with care
             </p>
           </div>
@@ -507,83 +511,89 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="section-padding bg-card">
         <div className="container-custom max-w-4xl">
-          <div className="text-center mb-16 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-light mb-6 tracking-tight">Tell Us About Your Project</h2>
-            <p className="text-lg text-muted-foreground">
-              Let's create something beautiful together
+          <div className="text-center mb-20 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Tell Us About Your Project</h2>
+            <p className="text-xl text-muted-foreground font-light">
+              Start your DECODE journey with us
             </p>
           </div>
-          
-          <Card className="p-8 md:p-12 bg-background shadow-[var(--shadow-medium)] animate-fade-in-slow">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+
+          <Card className="p-10 md:p-16 shadow-[var(--shadow-elevated)] animate-fade-in border-0">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+                  <label htmlFor="name" className="block text-sm font-semibold mb-3 tracking-wide uppercase text-xs">Name *</label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Your name"
                     required
-                    className="border-border"
+                    className="h-14 text-base"
+                    placeholder="Your full name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+                  <label htmlFor="email" className="block text-sm font-semibold mb-3 tracking-wide uppercase text-xs">Email *</label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="your@email.com"
                     required
-                    className="border-border"
+                    className="h-14 text-base"
+                    placeholder="your@email.com"
                   />
                 </div>
               </div>
-              
-              <div className="grid md:grid-cols-2 gap-6">
+
+              <div className="grid md:grid-cols-2 gap-8">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone</label>
+                  <label htmlFor="phone" className="block text-sm font-semibold mb-3 tracking-wide uppercase text-xs">Phone *</label>
                   <Input
                     id="phone"
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 xxxxx xxxxx"
                     required
-                    className="border-border"
+                    className="h-14 text-base"
+                    placeholder="+91 98765 43210"
                   />
                 </div>
                 <div>
-                  <label htmlFor="location" className="block text-sm font-medium mb-2">Location</label>
+                  <label htmlFor="location" className="block text-sm font-semibold mb-3 tracking-wide uppercase text-xs">Location *</label>
                   <Input
                     id="location"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    placeholder="Kerala, India"
                     required
-                    className="border-border"
+                    className="h-14 text-base"
+                    placeholder="City, State"
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-semibold mb-3 tracking-wide uppercase text-xs">Message *</label>
                 <Textarea
                   id="message"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell us about your project..."
-                  rows={6}
                   required
-                  className="border-border resize-none"
+                  rows={6}
+                  className="resize-none text-base"
+                  placeholder="Tell us about your project, budget, timeline, and any specific requirements..."
                 />
               </div>
-              
-              <Button type="submit" variant="hero" size="lg" className="w-full">
-                Send Message
-                <ArrowRight className="ml-2 h-5 w-5" />
+
+              <Button 
+                type="submit" 
+                variant="hero" 
+                size="lg" 
+                className="w-full h-16 text-lg font-semibold"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending..." : "Tell us about your project"}
+                {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
               </Button>
             </form>
           </Card>
@@ -591,44 +601,44 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="section-padding bg-charcoal text-warm-white">
+      <footer className="section-padding border-t border-border/50 bg-muted/20">
         <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-12 mb-12">
+          <div className="grid md:grid-cols-3 gap-16 mb-16">
             <div>
-              <div className="relative inline-block mb-4">
-                <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl transform -rotate-1"></div>
-                <div className="absolute -inset-4 border border-primary/20 rounded-2xl transform rotate-1"></div>
-                <div className="relative flex items-center gap-3 px-6 py-4 bg-background/5 backdrop-blur-sm rounded-xl border border-border/30">
-                  <img src={logo} alt="Allthing Decode Logo" className="h-10 w-10 brightness-0 invert" />
-                  <h3 className="text-2xl font-light">Allthing Decode</h3>
-                </div>
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="text-base font-light text-muted-foreground">Allthing</span>
+                <span className="text-3xl font-serif font-semibold">Decode</span>
               </div>
-              <p className="text-warm-white/70 leading-relaxed">
-                Elevating spaces beyond the ordinary. Creating transformative environments that inspire progress, refinement, and effortless sophistication.
+              <p className="text-muted-foreground leading-relaxed font-light">
+                Elevating spaces beyond the ordinary
               </p>
             </div>
             
             <div>
-              <h4 className="text-lg font-medium mb-4">Contact</h4>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-warm-white/70">
-                  <Mail className="w-5 h-5" />
-                  <span>hello@allthingdecode.com</span>
-                </div>
-                <div className="flex items-center gap-3 text-warm-white/70">
-                  <Phone className="w-5 h-5" />
+              <h4 className="text-lg font-semibold mb-6 tracking-wide uppercase text-xs">Contact</h4>
+              <div className="space-y-4">
+                <a href="mailto:theintercontinentalrealtor@gmail.com" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
+                  <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span>theintercontinentalrealtor@gmail.com</span>
+                </a>
+                <a href="tel:+919633860898" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors group">
+                  <Phone className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>+91 96338 60898</span>
-                </div>
-                <div className="flex items-center gap-3 text-warm-white/70">
-                  <MapPin className="w-5 h-5" />
-                  <span>Kerala, India</span>
-                </div>
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-semibold mb-6 tracking-wide uppercase text-xs">Location</h4>
+              <div className="flex items-start gap-3 text-muted-foreground">
+                <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
+                <span>Kerala, India</span>
               </div>
             </div>
           </div>
           
-          <div className="border-t border-warm-white/20 pt-8 text-center text-warm-white/60 text-sm">
-            <p>© {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
+          <div className="pt-8 border-t border-border/50 text-center text-muted-foreground font-light">
+            <p>&copy; {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
           </div>
         </div>
       </footer>

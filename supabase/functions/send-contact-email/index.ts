@@ -43,7 +43,8 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         from: 'Allthing Decode <onboarding@resend.dev>',
-        to: ['shinu.thej1039@gmail.com', 'theintercontinentalrealtor@gmail.com'],
+        to: ['theintercontinentalrealtor@gmail.com'],
+        reply_to: email,
         subject: `New Project Inquiry from ${name}`,
         html: `
           <h2>New Project Inquiry</h2>
@@ -53,6 +54,8 @@ const handler = async (req: Request): Promise<Response> => {
           <p><strong>Location:</strong> ${location}</p>
           <h3>Message:</h3>
           <p>${message}</p>
+          <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
+          <p style="color: #666; font-size: 12px;">Reply directly to this email to respond to ${name} at ${email}</p>
         `,
       }),
     });
