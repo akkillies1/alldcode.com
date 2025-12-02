@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, ChevronDown, Lightbulb, Hammer, Palette } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileMenu } from "@/components/MobileMenu";
@@ -26,13 +26,69 @@ const Index = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+
+  // Track scroll position for header shadow
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsHeaderScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Track active section on scroll
+  useEffect(() => {
+    const sections = ['hero', 'about', 'philosophy', 'services', 'portfolio', 'contact'];
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: '-100px 0px -50% 0px' }
+    );
+
+    sections.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Client-side validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.location || !formData.message) {
+      toast({
+        title: "✗ Missing Fields",
+        description: "Please fill in all fields before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "✗ Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsSubmitting(true);
     
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      const { data, error } = await supabase.functions.invoke('send-brevo-email', {
         body: formData,
       });
 
@@ -44,7 +100,7 @@ const Index = () => {
       toast({
         title: "✓ Message Sent Successfully",
         description: "Thank you for reaching out. We'll get back to you within 24 hours.",
-        className: "bg-success text-success-foreground",
+        className: "bg-green-50 border-green-200 text-green-900",
       });
       
       setFormData({ name: "", email: "", phone: "", location: "", message: "" });
@@ -52,7 +108,7 @@ const Index = () => {
       console.error("Error sending email:", error);
       toast({
         title: "✗ Failed to Send Message",
-        description: error?.message || "Something went wrong. Please try calling us directly.",
+        description: error?.message || "Something went wrong. Please try calling us directly at +91 9633860898.",
         variant: "destructive",
       });
     } finally {
@@ -66,7 +122,7 @@ const Index = () => {
       <FloatingActionButtons />
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border/50 shadow-[var(--shadow-soft)]">
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg transition-all duration-300 ${isHeaderScrolled ? 'shadow-lg border-b border-border/50' : 'border-b border-border/20'}`}>
         <div className="container-custom py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={logo} alt="Allthing Decode Logo" className="h-8 w-8 md:h-10 md:w-10" />
@@ -77,11 +133,36 @@ const Index = () => {
           </div>
           
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">About</a>
-            <a href="#philosophy" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Philosophy</a>
-            <a href="#services" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Services</a>
-            <a href="#portfolio" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Work</a>
-            <Button variant="hero" size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+            <a 
+              href="#about" 
+              className={`text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${activeSection === 'about' ? 'text-foreground after:w-full' : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full'}`}
+            >
+              About
+            </a>
+            <a 
+              href="#philosophy" 
+              className={`text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${activeSection === 'philosophy' ? 'text-foreground after:w-full' : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full'}`}
+            >
+              Philosophy
+            </a>
+            <a 
+              href="#services" 
+              className={`text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${activeSection === 'services' ? 'text-foreground after:w-full' : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full'}`}
+            >
+              Services
+            </a>
+            <a 
+              href="#portfolio" 
+              className={`text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${activeSection === 'portfolio' ? 'text-foreground after:w-full' : 'text-muted-foreground hover:text-foreground after:w-0 hover:after:w-full'}`}
+            >
+              Work
+            </a>
+            <Button 
+              variant="hero" 
+              size="sm" 
+              className="shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Contact
             </Button>
           </div>
@@ -91,7 +172,7 @@ const Index = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroImage})` }}
@@ -99,8 +180,8 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-background/96 via-background/90 to-background/96" />
         </div>
         
-        <div className="relative z-10 container-custom section-padding text-center animate-fade-in">
-          <div className="flex items-baseline justify-center gap-3 mb-6">
+        <div className="relative z-10 container-custom section-padding text-center">
+          <div className="flex items-baseline justify-center gap-3 mb-6 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-light text-muted-foreground tracking-wide">
               Allthing
             </h1>
@@ -108,17 +189,35 @@ const Index = () => {
               Decode
             </h1>
           </div>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-16 leading-relaxed text-balance">
-            Elevating spaces beyond the ordinary — where luxury meets purposeful design.
+          <p className="text-3xl md:text-4xl font-medium mb-4 leading-tight text-balance animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            Decode Allthing. Elevate Everything.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button variant="hero" size="lg" className="min-w-[220px] h-14" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-16 leading-relaxed text-balance animate-fade-in" style={{ animationDelay: '0.4s' }}>
+            We Decode. You Live Beautifully.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
+            <Button 
+              variant="hero" 
+              size="lg" 
+              className="min-w-[220px] h-14 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" 
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Get a Quote
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="hero-outline" size="lg" className="min-w-[220px] h-14" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button 
+              variant="hero-outline" 
+              size="lg" 
+              className="min-w-[220px] h-14 hover:scale-105 transition-all duration-300" 
+              onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               View Work
             </Button>
+          </div>
+          
+          {/* Scroll Cue */}
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+            <ChevronDown className="w-8 h-8 text-muted-foreground" />
           </div>
         </div>
       </section>
@@ -365,85 +464,61 @@ const Index = () => {
       <section id="services" className="section-padding bg-card">
         <div className="container-custom">
           <div className="text-center mb-20 animate-fade-in">
-            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Our Services</h2>
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Services</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
-              From concept to completion, we handle every aspect of your interior journey
+              Complete design solutions from concept to completion
+            </p>
+            <p className="text-lg text-accent font-medium mt-4 italic">
+              Elevate, Don't Excess.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
+            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] hover:-translate-y-1 group animate-fade-in">
+              <div className="w-16 h-16 mb-6 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Lightbulb className="w-8 h-8 text-accent" />
+              </div>
               <h3 className="text-2xl font-medium mb-4">Full Interiors</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Complete interior solutions from concept development through manufacturing to final installation.
+                From concept to installation — we design, manufacture, and deliver turnkey interior solutions.
               </p>
-              <ul className="space-y-2 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Space planning & layout</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Material selection</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Custom manufacturing</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Professional installation</span>
-                </li>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>• Space planning & layout design</li>
+                <li>• Custom furniture & cabinetry</li>
+                <li>• Material selection & procurement</li>
+                <li>• On-site installation & finishing</li>
               </ul>
             </Card>
             
-            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
+            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] hover:-translate-y-1 group animate-fade-in">
+              <div className="w-16 h-16 mb-6 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Palette className="w-8 h-8 text-accent" />
+              </div>
               <h3 className="text-2xl font-medium mb-4">Bespoke Furniture</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Custom-designed furniture pieces and modular solutions tailored to your space and lifestyle.
+                Modular and custom-built furniture tailored to your space and style.
               </p>
-              <ul className="space-y-2 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Custom furniture design</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Modular wardrobes</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Kitchen cabinetry</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Storage solutions</span>
-                </li>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>• Custom wardrobes & storage</li>
+                <li>• Modular kitchen systems</li>
+                <li>• Bespoke seating & tables</li>
+                <li>• Premium finishes & detailing</li>
               </ul>
             </Card>
             
-            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
-              <h3 className="text-2xl font-medium mb-4">Design Consulting</h3>
+            <Card className="p-8 bg-background shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] hover:-translate-y-1 group animate-fade-in">
+              <div className="w-16 h-16 mb-6 rounded-full bg-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Hammer className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-2xl font-medium mb-4">Consulting</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Expert guidance on layout optimization, material choices, and design planning for your project.
+                Expert guidance on layouts, materials, planning, and execution strategy.
               </p>
-              <ul className="space-y-2 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Layout consultation</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Material advisory</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Design planning</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent mt-1">•</span>
-                  <span>Project roadmap</span>
-                </li>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>• Space optimization consulting</li>
+                <li>• Material & finish selection</li>
+                <li>• Project planning & budgeting</li>
+                <li>• Contractor coordination support</li>
               </ul>
             </Card>
           </div>
@@ -456,52 +531,65 @@ const Index = () => {
           <div className="text-center mb-20 animate-fade-in">
             <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Our Work</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
-              Spaces designed with discipline, crafted with care
+              A curated selection of our transformative designs
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="relative overflow-hidden rounded-xl aspect-square group animate-fade-in">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="group relative h-[400px] overflow-hidden rounded-lg shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
               <img 
                 src={portfolio1} 
-                alt="Minimalist bedroom interior with natural wood" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Interior design project 1" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <p className="text-warm-white font-light">Contemporary Bedroom</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-medium text-foreground mb-2">Residential Project</h3>
+                  <p className="text-muted-foreground">Modern minimalist design</p>
+                </div>
               </div>
             </div>
-            
-            <div className="relative overflow-hidden rounded-xl aspect-square group animate-fade-in">
+            <div className="group relative h-[400px] overflow-hidden rounded-lg shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
               <img 
                 src={portfolio2} 
-                alt="Modern minimalist kitchen design" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Interior design project 2" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <p className="text-warm-white font-light">Zen Kitchen</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-medium text-foreground mb-2">Commercial Space</h3>
+                  <p className="text-muted-foreground">Elegant office interiors</p>
+                </div>
               </div>
             </div>
-            
-            <div className="relative overflow-hidden rounded-xl aspect-square group animate-fade-in">
+            <div className="group relative h-[400px] overflow-hidden rounded-lg shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
               <img 
                 src={portfolio3} 
-                alt="Minimalist dining room with Japanese aesthetic" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Interior design project 3" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <p className="text-warm-white font-light">Dining Space</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-medium text-foreground mb-2">Luxury Villa</h3>
+                  <p className="text-muted-foreground">Contemporary elegance</p>
+                </div>
               </div>
             </div>
-            
-            <div className="relative overflow-hidden rounded-xl aspect-square group animate-fade-in">
+            <div className="group relative h-[400px] overflow-hidden rounded-lg shadow-[var(--shadow-soft)] transition-all hover:shadow-[var(--shadow-medium)] animate-fade-in">
               <img 
                 src={portfolio4} 
-                alt="Elegant minimalist home office" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                alt="Interior design project 4" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <p className="text-warm-white font-light">Work Studio</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-6 left-6">
+                  <h3 className="text-2xl font-medium text-foreground mb-2">Boutique Hotel</h3>
+                  <p className="text-muted-foreground">Refined hospitality design</p>
+                </div>
               </div>
             </div>
           </div>
@@ -511,10 +599,13 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="section-padding bg-card">
         <div className="container-custom max-w-4xl">
-          <div className="text-center mb-20 animate-fade-in">
-            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Tell Us About Your Project</h2>
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">Get in Touch</h2>
             <p className="text-xl text-muted-foreground font-light">
-              Start your DECODE journey with us
+              Tell us about your project
+            </p>
+            <p className="text-lg text-accent font-medium mt-4 italic">
+              Let's elevate your space together.
             </p>
           </div>
 
@@ -528,7 +619,7 @@ const Index = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
-                    className="h-14 text-base"
+                    className="h-14 text-base bg-card transition-all focus:ring-2 focus:ring-accent"
                     placeholder="Your full name"
                   />
                 </div>
@@ -540,7 +631,7 @@ const Index = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
-                    className="h-14 text-base"
+                    className="h-14 text-base bg-card transition-all focus:ring-2 focus:ring-accent"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -555,7 +646,7 @@ const Index = () => {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     required
-                    className="h-14 text-base"
+                    className="h-14 text-base bg-card transition-all focus:ring-2 focus:ring-accent"
                     placeholder="+91 98765 43210"
                   />
                 </div>
@@ -566,7 +657,7 @@ const Index = () => {
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     required
-                    className="h-14 text-base"
+                    className="h-14 text-base bg-card transition-all focus:ring-2 focus:ring-accent"
                     placeholder="City, State"
                   />
                 </div>
@@ -580,7 +671,7 @@ const Index = () => {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   required
                   rows={6}
-                  className="resize-none text-base"
+                  className="resize-none text-base bg-card transition-all focus:ring-2 focus:ring-accent"
                   placeholder="Tell us about your project, budget, timeline, and any specific requirements..."
                 />
               </div>
@@ -589,11 +680,20 @@ const Index = () => {
                 type="submit" 
                 variant="hero" 
                 size="lg" 
-                className="w-full h-16 text-lg font-semibold"
+                className="w-full h-16 text-lg font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Sending..." : "Tell us about your project"}
-                {!isSubmitting && <ArrowRight className="ml-2 h-5 w-5" />}
+                {isSubmitting ? (
+                  <>
+                    <span className="inline-block w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin mr-2"></span>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Tell us about your project
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </>
+                )}
               </Button>
             </form>
           </Card>
