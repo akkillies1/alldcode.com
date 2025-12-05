@@ -45,7 +45,8 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
-    
+    const CONTACT_FORM_RECIPIENT = Deno.env.get("CONTACT_FORM_RECIPIENT") || "shinu.thej1039@gmail.com";
+
     if (!BREVO_API_KEY) {
       console.error("BREVO_API_KEY is not configured");
       return new Response(
@@ -56,7 +57,7 @@ const handler = async (req: Request): Promise<Response> => {
         }
       );
     }
-    
+
     // Send email using Brevo API
     const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
@@ -70,7 +71,7 @@ const handler = async (req: Request): Promise<Response> => {
           email: 'noreply@allthingdecode.com',
         },
         to: [
-          { email: 'shinu.thej1039@gmail.com', name: 'Allthing Decode' }
+          { email: CONTACT_FORM_RECIPIENT, name: 'Allthing Decode' }
         ],
         replyTo: {
           email: email,
