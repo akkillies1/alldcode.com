@@ -9,7 +9,9 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-sitemap": "tsx scripts/generate-sitemap.ts"
+    "generate-sitemap": "tsx scripts/generate-sitemap.ts",
+    "vercel-build": "npm run build",
+    "postbuild": "cp -r public/* dist/"
   },
   "reactSnap": {
     "source": "dist",
