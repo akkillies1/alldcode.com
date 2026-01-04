@@ -33,7 +33,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
                     title: "Session Timeout",
                     description: "Please try again",
                 });
-                navigate("/admin");
+                navigate("/admin/login");
                 return;
             }
 
