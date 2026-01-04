@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.validate-admin-pin]
 verify_jwt = false
+
+[functions.submit_lead]
+verify_jwt = false
