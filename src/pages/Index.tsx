@@ -209,7 +209,7 @@ const Index = () => {
         <div className="relative z-10 container-custom section-padding text-center">
           <div className="flex items-baseline justify-center gap-3 mb-6 animate-fade-in">
             <h1 className="text-7xl md:text-8xl lg:text-9xl font-serif font-semibold tracking-tight text-white">
-              The <span className="text-red-600">AllDcode</span>
+              The <span className="text-red-600">DCode</span>
             </h1>
           </div>
           <p className="text-3xl md:text-4xl font-medium mb-4 leading-tight text-balance animate-fade-in text-white/90" style={{ animationDelay: '0.2s' }}>
@@ -251,16 +251,16 @@ const Index = () => {
           <div className="text-center animate-fade-in">
             <h2 className="text-5xl md:text-6xl font-serif font-medium mb-8 tracking-tight">Our Story</h2>
             <p className="text-xl font-medium mb-8 leading-relaxed">
-              <span className="text-red-600 font-semibold">The AllDcode</span> was born from a simple belief — that every space has the potential to rise above the ordinary.
+              <span className="text-red-600 font-semibold">The DCode</span> was born from a simple belief — that every space has the potential to rise above the ordinary.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
               We design not just interiors, but transformations — environments that elevate the way people live, move, and feel.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
-              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, <span className="text-red-600 font-semibold">The AllDcode</span> blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
+              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, <span className="text-red-600 font-semibold">The DCode</span> blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
             </p>
             <p className="text-xl font-medium mb-8 leading-relaxed">
-              From bespoke interiors to signature spatial experiences, <span className="text-red-600 font-semibold">The AllDcode</span> creates environments that feel sculpted, luminous, and effortlessly sophisticated.
+              From bespoke interiors to signature spatial experiences, <span className="text-red-600 font-semibold">The DCode</span> creates environments that feel sculpted, luminous, and effortlessly sophisticated.
             </p>
             <p className="text-xl text-muted-foreground italic leading-relaxed font-light">
               We don't just design spaces.<br />
@@ -505,7 +505,7 @@ const Index = () => {
                   In a world full of excess, true luxury chooses restraint. It rises not through abundance, but through intention.
                 </p>
                 <p>
-                  At AllDcode, every space is shaped with this philosophy:
+                  At The DCode, every space is shaped with this philosophy:
                   <span className="block text-foreground font-medium mt-2">Don’t excess, elevate.</span>
                 </p>
               </div>
@@ -751,7 +751,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-16 mb-16">
             <div>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-3xl font-serif font-semibold">The <span className="text-red-600">AllDcode</span></span>
+                <span className="text-3xl font-serif font-semibold">The <span className="text-red-600">DCode</span></span>
               </div>
               <p className="text-muted-foreground leading-relaxed font-light">
                 Elevating spaces beyond the ordinary
@@ -776,14 +776,14 @@ const Index = () => {
               <h4 className="text-lg font-semibold mb-6 tracking-wide uppercase text-xs">Location</h4>
               <div className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
-                <span>AllDcode Pvt Ltd<br />Kakkanadu, Kerala</span>
+                <span>Dcode Pvt Ltd<br />Kakkanadu, Kerala</span>
               </div>
             </div>
           </div>
 
           <div className="pt-8 border-t border-border/50 text-center text-muted-foreground font-light">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <p>&copy; {new Date().getFullYear()} The AllDcode. All rights reserved.</p>
+              <p>&copy; {new Date().getFullYear()} The DCode. All rights reserved.</p>
               <a
                 href="/admin/login"
                 className="text-[10px] text-muted-foreground/50 hover:text-muted-foreground transition-all duration-300 md:self-end self-start"

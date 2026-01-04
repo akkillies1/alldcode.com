@@ -10,12 +10,12 @@ interface SEOProps {
 
 export const SEO = ({
     title,
-    description = "Allthing Decode - Interior Design Studio in Kerala",
+    description = "The DCode - Interior Design Studio in Kerala",
     image = "/og-image.png",
     url = window.location.href,
     type = "website"
 }: SEOProps) => {
-    const siteTitle = "Allthing Decode";
+    const siteTitle = "The DCode";
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
     return (

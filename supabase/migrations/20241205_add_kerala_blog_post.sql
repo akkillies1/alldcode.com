@@ -12,7 +12,7 @@ INSERT INTO public.blog_posts (
 ) VALUES (
     'Beyond the Nalukettu: Evolving Design Models in Kerala',
     'kerala-design-models-evolution',
-    'Allthing Decode Team',
+    'The DCode Team',
     NOW(),
     true,
     ARRAY['Architecture', 'Kerala', 'Design Trends', 'Tropical Modernism'],

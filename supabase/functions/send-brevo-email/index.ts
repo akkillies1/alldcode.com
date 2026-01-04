@@ -44,13 +44,37 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Get required configuration from Edge Function secrets
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
-    const CONTACT_FORM_RECIPIENT = Deno.env.get("CONTACT_FORM_RECIPIENT") || "shinu.thej1039@gmail.com";
-    const COMPANY_NAME = Deno.env.get("COMPANY_NAME") || "The AllDcode";
-    const BREVO_SENDER_EMAIL = Deno.env.get("BREVO_SENDER_EMAIL") || "noreply@allthingdecode.com";
+    const BREVO_SENDER_EMAIL = Deno.env.get("BREVO_SENDER_EMAIL");
+    const CONTACT_FORM_RECIPIENT = Deno.env.get("CONTACT_FORM_RECIPIENT");
+    const COMPANY_NAME = Deno.env.get("COMPANY_NAME") || "The DCode";
 
+    // Validate required secrets are configured
     if (!BREVO_API_KEY) {
-      console.error("BREVO_API_KEY is not configured");
+      console.error("BREVO_API_KEY is not configured in Edge Function secrets");
+      return new Response(
+        JSON.stringify({ error: "Email service not configured" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    if (!BREVO_SENDER_EMAIL) {
+      console.error("BREVO_SENDER_EMAIL is not configured in Edge Function secrets");
+      return new Response(
+        JSON.stringify({ error: "Email service not configured" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    if (!CONTACT_FORM_RECIPIENT) {
+      console.error("CONTACT_FORM_RECIPIENT is not configured in Edge Function secrets");
       return new Response(
         JSON.stringify({ error: "Email service not configured" }),
         {
@@ -80,6 +104,7 @@ const handler = async (req: Request): Promise<Response> => {
           name: name,
         },
         subject: `New Project Inquiry from ${name}`,
+        textContent: `New Project Inquiry\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\n\nMessage:\n${message}\n\n---\nReply directly to this email to respond to ${name} at ${email}`,
         htmlContent: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
             <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -128,13 +153,30 @@ const handler = async (req: Request): Promise<Response> => {
     const data = await emailResponse.json();
 
     if (!emailResponse.ok) {
-      console.error("Error from Brevo API:", data);
+      console.error("Error from Brevo API:", JSON.stringify(data, null, 2));
+      console.error("Response status:", emailResponse.status);
       throw new Error(data.message || "Failed to send email");
     }
 
-    console.log("Email sent successfully via Brevo:", data);
+    // Log detailed response for debugging
+    console.log("=== EMAIL SEND ATTEMPT ===");
+    console.log("Brevo API Response:", JSON.stringify(data, null, 2));
+    console.log("Email configuration:", {
+      sender: BREVO_SENDER_EMAIL,
+      recipient: CONTACT_FORM_RECIPIENT,
+      messageId: data.messageId,
+      responseStatus: emailResponse.status,
+    });
+    console.log("=== END EMAIL LOG ===");
 
-    return new Response(JSON.stringify({ success: true, messageId: data.messageId }), {
+    return new Response(JSON.stringify({ 
+      success: true, 
+      messageId: data.messageId,
+      debug: {
+        sender: BREVO_SENDER_EMAIL,
+        recipient: CONTACT_FORM_RECIPIENT,
+      }
+    }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

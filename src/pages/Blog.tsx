@@ -71,7 +71,7 @@ const Blog = () => {
         <div className="min-h-screen bg-background">
             <SEO
                 title={currentTag ? `${currentTag} Articles` : "Design Journal"}
-                description="Insights, trends, and stories from the world of interior design by AllDcode."
+                description="Insights, trends, and stories from the world of interior design by The DCode."
                 url={window.location.href}
             />
             {/* Header */}
@@ -219,7 +219,7 @@ const Blog = () => {
             {/* Footer */}
             <footer className="section-padding border-t border-border/50 bg-muted/20">
                 <div className="container-custom text-center text-muted-foreground font-light">
-                    <p>&copy; {new Date().getFullYear()} The AllDcode. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} The DCode. All rights reserved.</p>
                 </div>
             </footer>
         </div>

@@ -83,7 +83,7 @@ VALUES
   (
     'Suresh Menon',
     5,
-    'Allthing Decode beautifully transformed our ancestral home in Fort Kochi. They preserved the traditional Kerala architecture while adding modern comforts. The team understood our vision perfectly!',
+    'The DCode beautifully transformed our ancestral home in Fort Kochi. They preserved the traditional Kerala architecture while adding modern comforts. The team understood our vision perfectly!',
     'Heritage Home Renovation',
     'Fort Kochi',
     true,

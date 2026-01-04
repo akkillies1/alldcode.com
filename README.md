@@ -1,3 +1,3 @@
-# decode_allthing_2.0
+# The DCode Website
 
-Allthing Decode - Elevate, Don't Excess.
+The DCode - Elevate, Don't Excess.

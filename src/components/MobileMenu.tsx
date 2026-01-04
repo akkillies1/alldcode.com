@@ -48,7 +48,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
         </span>
         <div className="flex flex-col h-full bg-white dark:bg-black p-6">
           <div className="mb-8 px-2">
-            <h2 className="text-2xl font-serif font-medium tracking-tight">The <span className="text-red-600">AllDcode</span></h2>
+            <h2 className="text-2xl font-serif font-medium tracking-tight">The <span className="text-red-600">DCode</span></h2>
             <p className="text-sm text-muted-foreground font-light">Elevate Everything</p>
           </div>
 

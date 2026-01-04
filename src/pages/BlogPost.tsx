@@ -69,7 +69,7 @@ const BlogPost = () => {
         <div className="min-h-screen bg-background">
             <SEO
                 title={post.title}
-                description={post.excerpt || `Read ${post.title} on Allthing Decode Design Journal.`}
+                description={post.excerpt || `Read ${post.title} on The DCode Design Journal.`}
                 image={post.featured_image_url || "/og-image.png"}
                 url={window.location.href}
                 type="article"
@@ -155,7 +155,7 @@ const BlogPost = () => {
             {/* Footer */}
             <footer className="section-padding border-t border-border/50 bg-muted/20">
                 <div className="container-custom text-center text-muted-foreground font-light">
-                    <p>&copy; {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} The DCode. All rights reserved.</p>
                 </div>
             </footer>
         </div>

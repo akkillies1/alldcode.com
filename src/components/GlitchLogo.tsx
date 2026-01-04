@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 export const GlitchLogo = ({ isScrolled }: { isScrolled: boolean }) => {
-    const [text, setText] = useState("AllDcode");
-    const targetText = "AllDcode";
+    const [text, setText] = useState("DCode");
+    const targetText = "DCode";
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
     useEffect(() => {

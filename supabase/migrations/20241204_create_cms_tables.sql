@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS blog_posts (
   excerpt TEXT,
   content TEXT NOT NULL,
   featured_image_url TEXT,
-  author TEXT DEFAULT 'Allthing Decode',
+  author TEXT DEFAULT 'The DCode',
   tags TEXT[] DEFAULT '{}',
   meta_title TEXT,
   meta_description TEXT,

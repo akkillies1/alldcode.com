@@ -75,7 +75,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         <div className="flex flex-col h-full">
             <div className="mb-8">
                 <h1 className="text-2xl font-serif font-medium">Admin Panel</h1>
-                <p className="text-sm text-muted-foreground">Allthing Decode</p>
+                <p className="text-sm text-muted-foreground">The DCode</p>
             </div>
 
             <nav className="space-y-2 flex-1">
@@ -115,7 +115,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
         <div className="min-h-screen bg-background">
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card">
-                <h1 className="text-lg font-serif font-medium">Allthing Decode</h1>
+                <h1 className="text-lg font-serif font-medium">The DCode</h1>
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon">
