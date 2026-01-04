@@ -57,17 +57,27 @@ export const AdminLogin = () => {
         setLoading(true);
 
         try {
+            console.log('Attempting login with:', email);
+
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Login error:', error);
+                throw error;
+            }
+
+            console.log('Login successful, user:', data.user?.email);
+            console.log('User metadata:', data.user?.user_metadata);
 
             // Check if user has admin role
             const isAdmin = data.user?.user_metadata?.is_admin === true;
+            console.log('Is admin:', isAdmin);
 
             if (!isAdmin) {
+                console.log('User is not admin, signing out');
                 // Not an admin - silent failure
                 await supabase.auth.signOut();
                 toast({
@@ -79,6 +89,7 @@ export const AdminLogin = () => {
             }
 
             // Success - admin user
+            console.log('Admin login successful, redirecting to dashboard');
             toast({
                 title: "✓ Login Successful",
                 description: "Welcome to the admin dashboard",
@@ -87,6 +98,7 @@ export const AdminLogin = () => {
 
             navigate("/admin/dashboard");
         } catch (error: any) {
+            console.error('Login failed:', error);
             // Silent failure - don't reveal what went wrong
             toast({
                 title: "Session Timeout",
