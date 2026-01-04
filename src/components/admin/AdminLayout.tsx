@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,7 @@ import {
     FileText,
     LogOut,
     Menu,
+    Users,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -20,6 +21,38 @@ interface AdminLayoutProps {
 export const AdminLayout = ({ children }: AdminLayoutProps) => {
     const navigate = useNavigate();
     const { toast } = useToast();
+
+    // Check if user is authenticated AND has admin role
+    useEffect(() => {
+        const checkAdminAccess = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                // Not authenticated
+                toast({
+                    title: "Session Timeout",
+                    description: "Please try again",
+                });
+                navigate("/admin");
+                return;
+            }
+
+            // Check if user has admin role
+            const isAdmin = user.user_metadata?.is_admin === true;
+
+            if (!isAdmin) {
+                // Authenticated but not admin - silent failure
+                await supabase.auth.signOut();
+                toast({
+                    title: "Session Timeout",
+                    description: "Please try again",
+                });
+                navigate("/");
+            }
+        };
+
+        checkAdminAccess();
+    }, [navigate, toast]);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -32,6 +65,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
 
     const navItems = [
         { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
+        { icon: Users, label: "Leads", path: "/admin/leads" },
         { icon: Image, label: "Gallery", path: "/admin/gallery" },
         { icon: MessageSquare, label: "Testimonials", path: "/admin/testimonials" },
         { icon: FileText, label: "Blog", path: "/admin/blog" },

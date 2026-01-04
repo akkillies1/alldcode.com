@@ -46,6 +46,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
     const CONTACT_FORM_RECIPIENT = Deno.env.get("CONTACT_FORM_RECIPIENT") || "shinu.thej1039@gmail.com";
+    const COMPANY_NAME = Deno.env.get("COMPANY_NAME") || "The AllDcode";
+    const BREVO_SENDER_EMAIL = Deno.env.get("BREVO_SENDER_EMAIL") || "noreply@allthingdecode.com";
 
     if (!BREVO_API_KEY) {
       console.error("BREVO_API_KEY is not configured");
@@ -67,11 +69,11 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         sender: {
-          name: 'Allthing Decode',
-          email: 'noreply@allthingdecode.com',
+          name: COMPANY_NAME,
+          email: BREVO_SENDER_EMAIL,
         },
         to: [
-          { email: CONTACT_FORM_RECIPIENT, name: 'Allthing Decode' }
+          { email: CONTACT_FORM_RECIPIENT, name: COMPANY_NAME }
         ],
         replyTo: {
           email: email,
@@ -116,7 +118,7 @@ const handler = async (req: Request): Promise<Response> => {
             </div>
             
             <div style="text-align: center; margin-top: 20px; color: #999; font-size: 12px;">
-              <p>Allthing Decode - Elevate, Don't Excess.</p>
+              <p>${COMPANY_NAME} - Elevate, Don't Excess.</p>
             </div>
           </div>
         `,

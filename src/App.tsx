@@ -14,17 +14,12 @@ import { GalleryImageForm } from "./pages/admin/GalleryImageForm";
 import { TestimonialForm } from "./pages/admin/TestimonialForm";
 import { BlogPostForm } from "./pages/admin/BlogPostForm";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-
-const queryClient = new QueryClient();
-
+import { LeadsManager } from "./pages/admin/LeadsManager";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
-
-// ... existing imports
-
 import { HelmetProvider } from 'react-helmet-async';
 
-// ... imports
+const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
@@ -32,14 +27,20 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLogin />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/leads" element={<LeadsManager />} />
               <Route path="/admin/blog/:id" element={<BlogPostForm />} />
               <Route path="/admin/gallery" element={<GalleryManager />} />
               <Route path="/admin/gallery/new" element={<GalleryImageForm />} />

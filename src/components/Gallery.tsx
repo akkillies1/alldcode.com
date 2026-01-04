@@ -17,10 +17,43 @@ export const Gallery = () => {
     const [images, setImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentIndices, setCurrentIndices] = useState<number[]>([0, 1, 2, 3]);
 
     useEffect(() => {
         fetchFeaturedImages();
     }, []);
+
+    // Auto-slide effect - randomly change one image every 3 seconds
+    useEffect(() => {
+        if (images.length <= 4) return; // Don't animate if 4 or fewer images
+
+        const interval = setInterval(() => {
+            setCurrentIndices(prev => {
+                // Pick a random position (0-3) to replace
+                const positionToReplace = Math.floor(Math.random() * 4);
+
+                // Get all available indices not currently shown
+                const availableIndices = images
+                    .map((_, idx) => idx)
+                    .filter(idx => !prev.includes(idx));
+
+                if (availableIndices.length === 0) return prev;
+
+                // Pick a random available image
+                const randomAvailableIndex = availableIndices[
+                    Math.floor(Math.random() * availableIndices.length)
+                ];
+
+                // Replace the selected position
+                const newIndices = [...prev];
+                newIndices[positionToReplace] = randomAvailableIndex;
+
+                return newIndices;
+            });
+        }, 3000); // Change every 3 seconds
+
+        return () => clearInterval(interval);
+    }, [images]);
 
     const fetchFeaturedImages = async () => {
         try {
@@ -29,8 +62,7 @@ export const Gallery = () => {
                 .select('*')
                 .eq('is_published', true)
                 .eq('is_featured', true)
-                .order('display_order', { ascending: true })
-                .limit(8);
+                .order('display_order', { ascending: true });
 
             if (error) throw error;
             setImages(data || []);
@@ -57,6 +89,9 @@ export const Gallery = () => {
         return null; // Don't show section if no images
     }
 
+    // Get the 4 currently displayed images
+    const displayedImages = currentIndices.map(idx => images[idx]).filter(Boolean);
+
     return (
         <>
             <section id="portfolio" className="py-[60px] md:py-[80px]">
@@ -70,12 +105,11 @@ export const Gallery = () => {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {images.map((image, index) => (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {displayedImages.map((image, index) => (
                             <Card
-                                key={image.id}
-                                className="group relative overflow-hidden cursor-pointer premium-card-hover animate-fade-in aspect-square"
-                                style={{ animationDelay: `${index * 0.1}s` }}
+                                key={`${image.id}-${currentIndices[index]}`}
+                                className="group relative overflow-hidden cursor-pointer premium-card-hover aspect-square animate-fade-in"
                                 onClick={() => setIsModalOpen(true)}
                             >
                                 <img
@@ -114,3 +148,4 @@ export const Gallery = () => {
         </>
     );
 };
+

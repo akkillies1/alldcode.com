@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, User, Tag } from "lucide-react";
-import { ExplodingCube } from "@/components/ExplodingCube";
+import { GlitchLogo } from "@/components/GlitchLogo";
 import { MobileMenu } from "@/components/MobileMenu";
 
 import { SEO } from "@/components/SEO";
@@ -25,6 +25,18 @@ const Blog = () => {
     const [loading, setLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
     const currentTag = searchParams.get('tag');
+    const navigate = useNavigate();
+
+    const handleNavigation = (id: string) => {
+        navigate(`/#${id}`);
+        // Small timeout to allow potential navigation/render to complete before scrolling
+        setTimeout(() => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 500);
+    };
 
     useEffect(() => {
         fetchPosts();
@@ -59,14 +71,16 @@ const Blog = () => {
         <div className="min-h-screen bg-background">
             <SEO
                 title={currentTag ? `${currentTag} Articles` : "Design Journal"}
-                description="Insights, trends, and stories from the world of interior design by Allthing Decode."
+                description="Insights, trends, and stories from the world of interior design by AllDcode."
                 url={window.location.href}
             />
             {/* Header */}
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/50 py-3">
                 <div className="container-custom flex items-center justify-between">
                     <Link to="/" className="flex items-center gap-3">
-                        <ExplodingCube />
+                        <div className="pointer-events-none">
+                            <GlitchLogo isScrolled={true} />
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -78,10 +92,10 @@ const Blog = () => {
                             Blog
                         </Link>
                         <Button
-                            variant="secondary"
+                            variant="default"
                             size="sm"
-                            className="shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
-                            onClick={() => window.location.href = '/#contact'}
+                            className="bg-black text-white hover:bg-black/90 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+                            onClick={() => handleNavigation('contact')}
                         >
                             Contact
                         </Button>
@@ -205,7 +219,7 @@ const Blog = () => {
             {/* Footer */}
             <footer className="section-padding border-t border-border/50 bg-muted/20">
                 <div className="container-custom text-center text-muted-foreground font-light">
-                    <p>&copy; {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} The AllDcode. All rights reserved.</p>
                 </div>
             </footer>
         </div>

@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileMenu } from "@/components/MobileMenu";
 import { FloatingActionButtons } from "@/components/FloatingActionButtons";
-import { ExplodingCube } from "@/components/ExplodingCube";
+import { GlitchLogo } from "@/components/GlitchLogo";
 import { Gallery } from "@/components/Gallery";
 import { Testimonials } from "@/components/Testimonials";
 import heroImage from "@/assets/hero-interior.jpg";
@@ -16,7 +16,6 @@ import portfolio1 from "@/assets/portfolio-1.jpg";
 import portfolio2 from "@/assets/portfolio-2.jpg";
 import portfolio3 from "@/assets/portfolio-3.jpg";
 import portfolio4 from "@/assets/portfolio-4.jpg";
-import logo from "@/assets/logo.png";
 
 const Index = () => {
   const { toast } = useToast();
@@ -56,12 +55,24 @@ const Index = () => {
       { threshold: 0.1, rootMargin: '-80px 0px -40% 0px' }
     );
 
-    sections.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+    // Small delay to ensure all sections are rendered (especially dynamic ones like gallery)
+    const observeSections = () => {
+      sections.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    };
 
-    return () => observer.disconnect();
+    // Initial observation
+    observeSections();
+
+    // Re-observe after a short delay to catch dynamic content
+    const timeout = setTimeout(observeSections, 500);
+
+    return () => {
+      clearTimeout(timeout);
+      observer.disconnect();
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,13 +102,32 @@ const Index = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-brevo-email', {
-        body: formData,
-      });
+      // STEP 1: Save to database first (MOST IMPORTANT - prevents lead loss)
+      // STEP 1: Save to database first (MOST IMPORTANT - prevents lead loss)
+      // We use an RPC function to bypass RLS policies safely
+      const { data: lead, error: dbError } = await supabase
+        .rpc('submit_lead', {
+          p_name: formData.name,
+          p_email: formData.email,
+          p_phone: formData.phone,
+          p_location: formData.location,
+          p_message: formData.message,
+        });
 
-      if (error) {
-        console.error("Supabase error:", error);
-        throw error;
+      if (dbError) {
+        console.error("Database error:", dbError);
+        throw new Error("Failed to save your enquiry. Please try again.");
+      }
+
+      // STEP 2: Send email notification (SECONDARY - optional)
+      // If email fails, lead is still saved in database
+      try {
+        await supabase.functions.invoke('send-brevo-email', {
+          body: { ...formData, leadId: lead.id },
+        });
+      } catch (emailError) {
+        // Email failed but lead is saved - log but don't show error to user
+        console.error("Email notification failed (lead saved):", emailError);
       }
 
       toast({
@@ -127,9 +157,7 @@ const Index = () => {
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isHeaderScrolled ? 'bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/50 py-3' : 'bg-gradient-to-b from-black/60 to-transparent border-b border-transparent py-5'}`}>
         <div className="container-custom flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <ExplodingCube />
-          </div>
+          <GlitchLogo isScrolled={isHeaderScrolled} />
 
           <div className="hidden md:flex items-center gap-8">
             {['Home', 'About', 'Philosophy', 'Process', 'Services', 'Work', 'Testimonials'].map((item) => {
@@ -155,9 +183,9 @@ const Index = () => {
               Blog
             </a>
             <Button
-              variant={isHeaderScrolled ? "hero" : "secondary"}
+              variant="default"
               size="sm"
-              className={`shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 ${!isHeaderScrolled && "bg-white text-black hover:bg-white/90"}`}
+              className="bg-black text-white hover:bg-black/90 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Contact
@@ -180,15 +208,12 @@ const Index = () => {
 
         <div className="relative z-10 container-custom section-padding text-center">
           <div className="flex items-baseline justify-center gap-3 mb-6 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl font-light text-white/90 tracking-wide">
-              Allthing
-            </h1>
             <h1 className="text-7xl md:text-8xl lg:text-9xl font-serif font-semibold tracking-tight text-white">
-              Decode
+              The <span className="text-red-600">AllDcode</span>
             </h1>
           </div>
           <p className="text-3xl md:text-4xl font-medium mb-4 leading-tight text-balance animate-fade-in text-white/90" style={{ animationDelay: '0.2s' }}>
-            Decode Allthing. Elevate Everything.
+            Decode Ordinary. Elevate Everything.
           </p>
           <p className="text-xl md:text-2xl text-white/80 mb-16 leading-relaxed text-balance animate-fade-in" style={{ animationDelay: '0.4s' }}>
             We Decode. You Live Beautifully.
@@ -222,20 +247,20 @@ const Index = () => {
 
       {/* About Section */}
       < section id="about" className="py-[60px] md:py-[80px] bg-card" >
-        <div className="container-custom max-w-4xl">
+        <div className="container-custom max-w-6xl">
           <div className="text-center animate-fade-in">
             <h2 className="text-5xl md:text-6xl font-serif font-medium mb-8 tracking-tight">Our Story</h2>
             <p className="text-xl font-medium mb-8 leading-relaxed">
-              Allthing Decode was born from a simple belief — that every space has the potential to rise above the ordinary.
+              <span className="text-red-600 font-semibold">The AllDcode</span> was born from a simple belief — that every space has the potential to rise above the ordinary.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
               We design not just interiors, but transformations — environments that elevate the way people live, move, and feel.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed mb-8 font-light">
-              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, Allthing Decode blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
+              Inspired by the quiet discipline of craftsmanship and the timeless elegance of luxury design, <span className="text-red-600 font-semibold">The AllDcode</span> blends precision, purity of form, and intentional simplicity. Every line, material, and texture is chosen with purpose. Every project is a journey upward — toward refinement, clarity, and harmony.
             </p>
             <p className="text-xl font-medium mb-8 leading-relaxed">
-              From bespoke interiors to signature spatial experiences, Allthing Decode creates environments that feel sculpted, luminous, and effortlessly sophisticated.
+              From bespoke interiors to signature spatial experiences, <span className="text-red-600 font-semibold">The AllDcode</span> creates environments that feel sculpted, luminous, and effortlessly sophisticated.
             </p>
             <p className="text-xl text-muted-foreground italic leading-relaxed font-light">
               We don't just design spaces.<br />
@@ -450,7 +475,7 @@ const Index = () => {
             <p className="text-lg text-muted-foreground mb-6">
               Ready to begin your DECODE journey?
             </p>
-            <Button variant="hero" size="lg" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+            <Button variant="default" size="lg" className="bg-black text-white hover:bg-black/90 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Start Your Project
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -480,7 +505,7 @@ const Index = () => {
                   In a world full of excess, true luxury chooses restraint. It rises not through abundance, but through intention.
                 </p>
                 <p>
-                  At Allthing Decode, every space is shaped with this philosophy:
+                  At AllDcode, every space is shaped with this philosophy:
                   <span className="block text-foreground font-medium mt-2">Don’t excess, elevate.</span>
                 </p>
               </div>
@@ -698,14 +723,14 @@ const Index = () => {
 
               <Button
                 type="submit"
-                variant="hero"
+                variant="default"
                 size="lg"
-                className="w-full h-16 text-lg font-semibold shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
+                className="w-full h-16 text-lg font-semibold bg-black text-white hover:bg-black/90 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-300"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <span className="inline-block w-4 h-4 border-2 border-background border-t-transparent rounded-full animate-spin mr-2"></span>
+                    <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
                     Sending...
                   </>
                 ) : (
@@ -726,8 +751,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-16 mb-16">
             <div>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-base font-light text-muted-foreground">Allthing</span>
-                <span className="text-3xl font-serif font-semibold">Decode</span>
+                <span className="text-3xl font-serif font-semibold">The <span className="text-red-600">AllDcode</span></span>
               </div>
               <p className="text-muted-foreground leading-relaxed font-light">
                 Elevating spaces beyond the ordinary
@@ -752,16 +776,22 @@ const Index = () => {
               <h4 className="text-lg font-semibold mb-6 tracking-wide uppercase text-xs">Location</h4>
               <div className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
-                <span>Kerala, India</span>
+                <span>AllDcode Pvt Ltd<br />Kakkanadu, Kerala</span>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-border/50 text-center text-muted-foreground font-light flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>&copy; {new Date().getFullYear()} Allthing Decode. All rights reserved.</p>
-            <a href="/admin/login" className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors">
-              Admin
-            </a>
+          <div className="pt-8 border-t border-border/50 text-center text-muted-foreground font-light">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p>&copy; {new Date().getFullYear()} The AllDcode. All rights reserved.</p>
+              <a
+                href="/admin/login"
+                className="text-[10px] text-muted-foreground/50 hover:text-muted-foreground transition-all duration-300 md:self-end self-start"
+                aria-label="Admin Login"
+              >
+                admin
+              </a>
+            </div>
           </div>
         </div>
       </footer >

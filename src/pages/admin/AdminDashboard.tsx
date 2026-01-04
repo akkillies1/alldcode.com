@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Image, MessageSquare, FileText, TrendingUp } from "lucide-react";
+import { Image, MessageSquare, FileText, TrendingUp, Users } from "lucide-react";
 
 export const AdminDashboard = () => {
     const [stats, setStats] = useState({
@@ -10,6 +10,8 @@ export const AdminDashboard = () => {
         totalTestimonials: 0,
         totalBlogPosts: 0,
         publishedPosts: 0,
+        totalLeads: 0,
+        newLeads: 0,
     });
 
     useEffect(() => {
@@ -18,10 +20,11 @@ export const AdminDashboard = () => {
 
     const fetchStats = async () => {
         try {
-            const [imagesRes, testimonialsRes, blogRes] = await Promise.all([
+            const [imagesRes, testimonialsRes, blogRes, leadsRes] = await Promise.all([
                 supabase.from("gallery_images").select("id", { count: "exact" }),
                 supabase.from("testimonials").select("id", { count: "exact" }),
                 supabase.from("blog_posts").select("id, is_published", { count: "exact" }),
+                supabase.from("leads").select("id, status", { count: "exact" }),
             ]);
 
             setStats({
@@ -29,6 +32,8 @@ export const AdminDashboard = () => {
                 totalTestimonials: testimonialsRes.count || 0,
                 totalBlogPosts: blogRes.count || 0,
                 publishedPosts: blogRes.data?.filter((p) => p.is_published).length || 0,
+                totalLeads: leadsRes.count || 0,
+                newLeads: leadsRes.data?.filter((l) => l.status === 'new').length || 0,
             });
         } catch (error) {
             console.error("Error fetching stats:", error);
@@ -36,6 +41,13 @@ export const AdminDashboard = () => {
     };
 
     const statCards = [
+        {
+            icon: Users,
+            label: "Total Leads",
+            value: stats.totalLeads,
+            color: "text-red-600",
+            bgColor: "bg-red-50",
+        },
         {
             icon: Image,
             label: "Gallery Images",
@@ -56,13 +68,6 @@ export const AdminDashboard = () => {
             value: stats.totalBlogPosts,
             color: "text-purple-600",
             bgColor: "bg-purple-50",
-        },
-        {
-            icon: TrendingUp,
-            label: "Published Posts",
-            value: stats.publishedPosts,
-            color: "text-orange-600",
-            bgColor: "bg-orange-50",
         },
     ];
 
@@ -95,7 +100,17 @@ export const AdminDashboard = () => {
 
                 <Card className="p-6">
                     <h2 className="text-xl font-medium mb-4">Quick Actions</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a
+                            href="/admin/leads"
+                            className="p-4 border border-border rounded-lg hover:bg-accent transition-colors"
+                        >
+                            <Users className="w-8 h-8 mb-2 text-red-600" />
+                            <h3 className="font-medium mb-1">Manage Leads</h3>
+                            <p className="text-sm text-muted-foreground">
+                                {stats.newLeads} new enquiries
+                            </p>
+                        </a>
                         <a
                             href="/admin/gallery"
                             className="p-4 border border-border rounded-lg hover:bg-accent transition-colors"

@@ -49,79 +49,75 @@ export const Testimonials = () => {
         ));
     };
 
-    if (loading) {
-        return (
-            <section className="py-[60px] md:py-[80px] bg-card">
-                <div className="container-custom">
-                    <div className="text-center">
-                        <p className="text-muted-foreground">Loading testimonials...</p>
-                    </div>
-                </div>
-            </section>
-        );
-    }
-
-    if (testimonials.length === 0) {
-        return null; // Don't show section if no testimonials
-    }
-
     return (
         <section id="testimonials" className="py-[60px] md:py-[80px] bg-card">
             <div className="container-custom">
-                <div className="text-center mb-12 animate-fade-in">
-                    <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">
-                        Client Testimonials
-                    </h2>
-                    <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
-                        What our clients say about working with us
-                    </p>
-                </div>
+                {loading ? (
+                    <div className="text-center">
+                        <p className="text-muted-foreground">Loading testimonials...</p>
+                    </div>
+                ) : testimonials.length === 0 ? (
+                    <div className="text-center">
+                        <p className="text-muted-foreground">No testimonials yet.</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="text-center mb-12 animate-fade-in">
+                            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">
+                                Client Testimonials
+                            </h2>
+                            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+                                What our clients say about working with us
+                            </p>
+                        </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {testimonials.map((testimonial, index) => (
-                        <Card
-                            key={testimonial.id}
-                            className="p-8 bg-background shadow-[var(--shadow-soft)] premium-card-hover animate-fade-in"
-                            style={{ animationDelay: `${index * 0.1}s` }}
-                        >
-                            <div className="flex items-center gap-4 mb-4">
-                                {testimonial.client_photo_url ? (
-                                    <img
-                                        src={testimonial.client_photo_url}
-                                        alt={testimonial.client_name}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
-                                        <span className="text-xl font-medium text-accent">
-                                            {testimonial.client_name.charAt(0)}
-                                        </span>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {testimonials.map((testimonial, index) => (
+                                <Card
+                                    key={testimonial.id}
+                                    className="p-8 bg-background shadow-[var(--shadow-soft)] premium-card-hover animate-fade-in"
+                                    style={{ animationDelay: `${index * 0.1}s` }}
+                                >
+                                    <div className="flex items-center gap-4 mb-4">
+                                        {testimonial.client_photo_url ? (
+                                            <img
+                                                src={testimonial.client_photo_url}
+                                                alt={testimonial.client_name}
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                                                <span className="text-xl font-medium text-accent">
+                                                    {testimonial.client_name.charAt(0)}
+                                                </span>
+                                            </div>
+                                        )}
+                                        <div className="flex-1">
+                                            <h3 className="font-medium text-lg">{testimonial.client_name}</h3>
+                                            {testimonial.project_type && (
+                                                <p className="text-sm text-muted-foreground">
+                                                    {testimonial.project_type}
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
-                                )}
-                                <div className="flex-1">
-                                    <h3 className="font-medium text-lg">{testimonial.client_name}</h3>
-                                    {testimonial.project_type && (
-                                        <p className="text-sm text-muted-foreground">
-                                            {testimonial.project_type}
+
+                                    <div className="flex gap-1 mb-4">{renderStars(testimonial.rating)}</div>
+
+                                    <p className="text-muted-foreground leading-relaxed mb-4">
+                                        "{testimonial.review_text}"
+                                    </p>
+
+                                    {testimonial.location && (
+                                        <p className="text-sm text-muted-foreground italic">
+                                            {testimonial.location}
                                         </p>
                                     )}
-                                </div>
-                            </div>
-
-                            <div className="flex gap-1 mb-4">{renderStars(testimonial.rating)}</div>
-
-                            <p className="text-muted-foreground leading-relaxed mb-4">
-                                "{testimonial.review_text}"
-                            </p>
-
-                            {testimonial.location && (
-                                <p className="text-sm text-muted-foreground italic">
-                                    {testimonial.location}
-                                </p>
-                            )}
-                        </Card>
-                    ))}
-                </div>
+                                </Card>
+                            ))}
+                        </div>
+                    </>
+                )}
             </div>
         </section>
     );
