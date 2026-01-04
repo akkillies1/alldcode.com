@@ -37,7 +37,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
               <Route path="/admin/leads" element={<LeadsManager />} />
