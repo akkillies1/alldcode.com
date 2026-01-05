@@ -61,7 +61,6 @@ export const Gallery = () => {
                 .from('gallery_images')
                 .select('*')
                 .eq('is_published', true)
-                .eq('is_featured', true)
                 .order('display_order', { ascending: true });
 
             if (error) throw error;

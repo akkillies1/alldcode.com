@@ -213,10 +213,10 @@ const Index = () => {
             </h1>
           </div>
           <p className="text-3xl md:text-4xl font-medium mb-4 leading-tight text-balance animate-fade-in text-white/90" style={{ animationDelay: '0.2s' }}>
-            Decode Ordinary. Elevate Everything.
+            DCode Ordinary. Elevate Everything.
           </p>
           <p className="text-xl md:text-2xl text-white/80 mb-16 leading-relaxed text-balance animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            We Decode. You Live Beautifully.
+            We DCode. You Live Beautifully.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in" style={{ animationDelay: '0.6s' }}>
             <Button
@@ -319,7 +319,7 @@ const Index = () => {
       < section id="process" className="py-[60px] md:py-[80px] bg-card" >
         <div className="container-custom">
           <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">DECODE Workflow</h2>
+            <h2 className="text-5xl md:text-6xl font-serif font-medium mb-6 tracking-tight">DCode Workflow</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
               Our systematic approach to transforming your vision into reality
             </p>
@@ -334,7 +334,7 @@ const Index = () => {
                     <span className="text-3xl font-light text-accent">D</span>
                   </div>
                   <h3 className="text-2xl font-medium mb-2">Discovery</h3>
-                  <p className="text-muted-foreground text-sm">Understand client needs</p>
+                  <p className="text-muted-foreground text-sm">Understand & Align</p>
                 </div>
               </div>
 
@@ -345,31 +345,7 @@ const Index = () => {
 
               <Card className="p-6 bg-background shadow-[var(--shadow-soft)] premium-card-hover">
                 <p className="text-muted-foreground leading-relaxed">
-                  We dive deep into your vision — understanding your needs, goals, and site potential, capturing every detail from lifestyle to logistics, and creating a clear project brief that sets the foundation.
-                </p>
-              </Card>
-            </div>
-
-            {/* Step 2: E → Engagement */}
-            <div className="grid md:grid-cols-[1fr,auto,2fr] gap-8 mb-12 items-center animate-fade-in">
-              <div className="md:text-right pl-4 md:pl-0">
-                <div className="inline-block md:block">
-                  <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center mb-4 md:ml-auto">
-                    <span className="text-3xl font-light text-accent">E</span>
-                  </div>
-                  <h3 className="text-2xl font-medium mb-2">Engagement</h3>
-                  <p className="text-muted-foreground text-sm">Build alignment</p>
-                </div>
-              </div>
-
-              <div className="hidden md:flex flex-col items-center">
-                <div className="w-4 h-4 rounded-full bg-accent"></div>
-                <div className="w-0.5 h-32 bg-accent/30"></div>
-              </div>
-
-              <Card className="p-6 bg-background shadow-[var(--shadow-soft)] premium-card-hover">
-                <p className="text-muted-foreground leading-relaxed">
-                  We bring ideas to life through discussion, aligning expectations, defining scope, timelines, and budget, and formalizing commitment with a signed agreement.
+                  We begin by DCoding your vision—understanding your needs, goals, and site potential. This phase is about deep alignment, where we define expectations, timelines, and budgets to establish a shared direction before design begins.
                 </p>
               </Card>
             </div>
@@ -473,7 +449,7 @@ const Index = () => {
           {/* CTA */}
           <div className="text-center mt-16 animate-fade-in-slow">
             <p className="text-lg text-muted-foreground mb-6">
-              Ready to begin your DECODE journey?
+              Ready to begin your DCode journey?
             </p>
             <Button variant="default" size="lg" className="bg-black text-white hover:bg-black/90 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
               Start Your Project
@@ -564,7 +540,7 @@ const Index = () => {
 
           <div className="text-center mt-12 animate-fade-in">
             <p className="text-xl font-medium text-accent italic">
-              DECODE doesn’t end at delivery — you remain DECODED through Decor Duty.
+              DCode doesn’t end at delivery — you remain DCoded through Decor Duty.
             </p>
           </div>
         </div>
