@@ -316,8 +316,8 @@ const Index = () => {
         };
       default:
         return {
-          title: "Premium Interior Design & Turnkey Execution",
-          description: "Transform your space with DPL Homestar. Luxury turnkey interiors in Kerala, Cochin, Bangalore & Coimbatore. Budget-friendly elegance & precision craft.",
+          title: "DPL Homestar | Luxury Interior Design & Turnkey Interiors Kerala",
+          description: "DPL Homestar elevates spaces beyond the ordinary. Transformative luxury interior design, bespoke furniture, and signature spatial experiences in Kerala.",
         };
     }
   };

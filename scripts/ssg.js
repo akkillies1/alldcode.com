@@ -35,7 +35,7 @@ async function build() {
         const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
         // 4. Define routes to render
-        const routes = ['/', '/blog']; // Add any other public routes here
+        const routes = ['/', '/blog', '/mood-board']; // Add any other public routes here
 
         for (const url of routes) {
             const helmetContext = {};

@@ -10,7 +10,7 @@ interface SEOProps {
 
 export const SEO = ({
     title,
-    description = "DPL Homestar - Interior Design Studio in Kerala",
+    description = "DPL Homestar elevates spaces beyond the ordinary. Transformative luxury interior design, bespoke furniture, and signature spatial experiences in Kerala.",
     image = "https://dplhomestar.com/og-image.png",
     url = typeof window !== 'undefined' ? window.location.href : "",
     type = "website"
