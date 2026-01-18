@@ -60,9 +60,16 @@ const MoodBoard = () => {
             {/* Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
                 <div className="container-custom flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-3 group">
-                        <Logo className="w-32 md:w-40 h-auto transition-transform duration-500 group-hover:scale-105" />
-                    </Link>
+                    <div className="flex items-center gap-4 md:gap-8">
+                        <Link to="/" className="flex items-center gap-2 text-white/40 hover:text-accent transition-colors group">
+                            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Back</span>
+                        </Link>
+
+                        <Link to="/" className="flex items-center gap-3 group">
+                            <Logo className="w-32 md:w-40 h-auto transition-transform duration-500 group-hover:scale-105" />
+                        </Link>
+                    </div>
 
                     <div className="hidden md:flex items-center gap-8">
                         <Link to="/" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Home</Link>

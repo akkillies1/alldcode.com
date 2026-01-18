@@ -11,6 +11,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, ChevronDown, Lightbulb, Hammer, Palette, Scissors } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { SEO } from "@/components/SEO";
@@ -43,6 +44,7 @@ const COUNTRY_LIST = [
 ];
 
 const Index = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
@@ -418,7 +420,7 @@ const Index = () => {
             <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
             <span className="text-foreground dark:text-white">Execute.</span>
             <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
-            <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case">Elevate.</span>
+            <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case text-xl sm:text-3xl md:text-4xl lg:text-5xl">Elevate.</span>
           </h1>
 
           <p className="text-lg md:text-xl text-foreground/70 dark:text-white/70 mb-12 leading-relaxed text-balance animate-fade-in font-light tracking-wide max-w-3xl mx-auto" style={{ animationDelay: '0.4s' }}>
@@ -430,9 +432,9 @@ const Index = () => {
               variant="default"
               size="lg"
               className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-[0_10px_40px_-10px_rgba(252,211,77,0.3)] hover:scale-105 transition-all duration-500 rounded-full h-14 md:h-16 min-w-[200px] md:min-w-[240px] font-bold text-base md:text-lg uppercase tracking-widest"
-              onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => navigate('/mood-board')}
             >
-              Explore Portfolio
+              Enter the Atelier
               <ArrowRight className="ml-2 h-5 w-5 md:h-6 md:w-6" />
             </Button>
             <Button
