@@ -78,6 +78,15 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
             <button
               onClick={() => {
                 setIsOpen(false);
+                navigate('/mood-board');
+              }}
+              className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/5 hover:translate-x-1 text-foreground tracking-tight"
+            >
+              Mood Board
+            </button>
+            <button
+              onClick={() => {
+                setIsOpen(false);
                 navigate('/blog');
               }}
               className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/5 hover:translate-x-1 text-foreground tracking-tight"

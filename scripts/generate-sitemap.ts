@@ -22,6 +22,7 @@ const BASE_URL = 'https://www.dplhomestar.com';
 
 const staticRoutes = [
     '/',
+    '/mood-board',
     '/blog',
 ];
 

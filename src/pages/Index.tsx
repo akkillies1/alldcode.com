@@ -338,7 +338,7 @@ const Index = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-8">
-            {['Home', 'About', 'Philosophy', 'Process', 'Services', 'Work', 'Testimonials'].map((item) => {
+            {['Home', 'About', 'Philosophy', 'Process', 'Services', 'Work'].map((item) => {
               const id = item.toLowerCase() === 'home' ? 'home' : (item.toLowerCase() === 'work' ? 'work' : item.toLowerCase());
               const isActive = activeSection === id;
               const linkColor = isHeaderScrolled ? 'text-foreground' : 'text-white';
@@ -355,6 +355,12 @@ const Index = () => {
                 </a>
               );
             })}
+            <a
+              href="/mood-board"
+              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-white'}/80 hover:${isHeaderScrolled ? 'text-foreground' : 'text-white'} after:w-0 hover:after:w-full`}
+            >
+              Mood Board
+            </a>
             <a
               href="/blog"
               className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-white'}/80 hover:${isHeaderScrolled ? 'text-foreground' : 'text-white'} after:w-0 hover:after:w-full`}
@@ -979,7 +985,7 @@ const Index = () => {
               <div className="text-foreground/30 font-light text-sm">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-2">
                   <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-8 h-8 rounded-sm opacity-60" />
-                  <p>&copy; {new Date().getFullYear()} <span className="text-accent font-medium">dplHomestar</span> — A brand of <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.</p>
+                  <p>&copy; {new Date().getFullYear()} <span className="text-accent font-medium">DPL Homestar</span> — A brand of <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.</p>
                 </div>
               </div>
               <a

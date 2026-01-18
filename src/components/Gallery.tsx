@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { GalleryModal } from "./GalleryModal";
 import { StarSpinner } from "./StarSpinner";
+import { useNavigate } from "react-router-dom";
 
 interface GalleryImage {
     id: string;
@@ -23,6 +24,7 @@ export const Gallery = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [modalMode, setModalMode] = useState<'grid' | 'detail'>('detail');
     const [currentIndices, setCurrentIndices] = useState<number[]>([0, 1, 2, 3]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchFeaturedImages();
@@ -113,11 +115,12 @@ export const Gallery = () => {
             <section id="work" className="py-[100px] md:py-[140px] bg-background reveal">
                 <div className="container-custom">
                     <div className="text-center mb-16">
-                        <h2 className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter text-foreground">
-                            Our Work
+                        <h2 className="text-5xl md:text-8xl font-serif font-bold mb-6 tracking-tighter text-foreground">
+                            Signature <span className="text-accent italic font-light">Work</span>
                         </h2>
-                        <p className="text-xl text-foreground/50 max-w-2xl mx-auto font-light italic">
-                            Curated inspirations from our boutique design atelier
+                        <div className="h-1 w-20 bg-accent/20 mx-auto rounded-full mb-8" />
+                        <p className="text-xl md:text-2xl text-foreground/50 max-w-2xl mx-auto font-light italic">
+                            A curated preview of our boutique design projects and turnkey interiors
                         </p>
                     </div>
 
@@ -147,14 +150,14 @@ export const Gallery = () => {
                         ))}
                     </div>
 
-                    <div className="text-center mt-16">
+                    <div className="text-center mt-16 group">
                         <Button
                             size="lg"
                             variant="outline"
-                            onClick={handleOpenMoodBoard}
-                            className="min-w-[200px] md:min-w-[280px] h-12 md:h-14 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-bold rounded-full transition-all duration-500 uppercase tracking-widest text-[10px] md:text-xs"
+                            onClick={() => navigate('/mood-board')}
+                            className="min-w-[200px] md:min-w-[280px] h-12 md:h-14 border-accent text-accent hover:bg-accent hover:text-accent-foreground font-bold rounded-full transition-all duration-500 uppercase tracking-[0.2em] text-[10px] md:text-xs shadow-xl hover:shadow-accent/20"
                         >
-                            The Design Mood Board
+                            Explore The Design Mood Board
                         </Button>
                     </div>
                 </div>
