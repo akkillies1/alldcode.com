@@ -104,7 +104,19 @@ const handler = async (req: Request): Promise<Response> => {
           name: name,
         },
         subject: `New Project Inquiry from ${name}`,
-        textContent: `New Project Inquiry\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nLocation: ${location}\n\nMessage:\n${message}\n\n---\nReply directly to this email to respond to ${name} at ${email}`,
+        textContent: `New Project Inquiry
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Location: ${location}
+
+Message:
+${message}
+
+---
+By contacting us, you agree to our Privacy Policy: https://www.dplhomestar.com/privacy-policy
+Reply directly to this email to respond to ${name} at ${email}`,
         htmlContent: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
             <div style="background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
@@ -137,8 +149,14 @@ const handler = async (req: Request): Promise<Response> => {
               
               <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;" />
               
+              <p style="color: #999; font-size: 12px; margin: 0 0 4px 0;">
+                By contacting us, you agree to our
+                <a href="https://www.dplhomestar.com/privacy-policy" style="color:#D4B483; text-decoration:underline; margin-left:4px;">
+                  Privacy Policy
+                </a>.
+              </p>
               <p style="color: #999; font-size: 12px; margin: 0;">
-                Reply directly to this email to respond to ${name} at ${email}
+                Reply directly to this email to respond to ${name} at ${email}.
               </p>
             </div>
             

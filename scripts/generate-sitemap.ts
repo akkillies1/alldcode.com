@@ -24,6 +24,7 @@ const staticRoutes = [
     '/',
     '/mood-board',
     '/blog',
+    '/privacy-policy',
 ];
 
 async function generateSitemap() {

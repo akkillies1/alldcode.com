@@ -925,6 +925,28 @@ const Index = () => {
                 />
               </div>
 
+              <div className="space-y-2 pt-2">
+                <label className="flex items-start gap-3 text-[11px] md:text-xs text-muted-foreground leading-relaxed">
+                  <input
+                    type="checkbox"
+                    required
+                    className="mt-0.5 h-4 w-4 rounded border-border accent-accent cursor-pointer"
+                  />
+                  <span>
+                    I agree that my personal data may be used to respond to my enquiry in line with the{" "}
+                    <a
+                      href="/privacy-policy"
+                      className="underline underline-offset-2 hover:text-accent"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
+                </label>
+              </div>
+
               <Button
                 type="submit"
                 variant="default"
@@ -1017,7 +1039,18 @@ const Index = () => {
               <div className="text-foreground/30 font-light text-sm">
                 <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-2">
                   <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-8 h-8 rounded-sm opacity-60" />
-                  <p>&copy; {new Date().getFullYear()} <span className="text-accent font-medium">DPL Homestar</span> — A brand of <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.</p>
+                  <p>
+                    &copy; {new Date().getFullYear()}{" "}
+                    <span className="text-accent font-medium">DPL Homestar</span> — A brand of{" "}
+                    <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.
+                    {" "}
+                    <a
+                      href="/privacy-policy"
+                      className="ml-2 text-foreground/40 hover:text-accent underline underline-offset-4"
+                    >
+                      Privacy Policy
+                    </a>
+                  </p>
                 </div>
               </div>
               <a

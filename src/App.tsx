@@ -20,6 +20,7 @@ import BlogPost from "./pages/BlogPost";
 import { HelmetProvider } from 'react-helmet-async';
 
 import { AppRoutes } from "./AppRoutes";
+import { CookieBanner } from "./components/CookieBanner";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           }}
         >
           <AppRoutes />
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

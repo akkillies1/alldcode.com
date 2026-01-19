@@ -220,7 +220,16 @@ const Blog = () => {
             <footer className="py-12 border-t border-border bg-background">
                 <div className="container-custom text-center text-foreground/30 font-light text-sm">
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <p>&copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.</p>
+                        <p>
+                            &copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.
+                            {" "}
+                            <a
+                                href="/privacy-policy"
+                                className="ml-1 text-foreground/40 hover:text-accent underline underline-offset-4"
+                            >
+                                Privacy Policy
+                            </a>
+                        </p>
                         <a
                             href="https://instagram.com/dplhomestar"
                             target="_blank"

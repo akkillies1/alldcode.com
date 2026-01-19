@@ -14,6 +14,7 @@ import { LeadsManager } from "./pages/admin/LeadsManager";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import MoodBoard from "./pages/MoodBoard";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 export const AppRoutes = () => (
     <Routes>
@@ -21,6 +22,7 @@ export const AppRoutes = () => (
         <Route path="/mood-board" element={<MoodBoard />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route element={<ProtectedRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />

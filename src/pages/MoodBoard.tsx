@@ -188,6 +188,13 @@ const MoodBoard = () => {
                     </a>
                     <p className="text-white/20 text-[10px] uppercase tracking-[0.2em] font-medium text-center">
                         © {new Date().getFullYear()} DPL HOMESTAR. CURATED WITH PRECISION BY DCODE PRIVATE LIMITED.
+                        {" "}
+                        <a
+                            href="/privacy-policy"
+                            className="underline underline-offset-4 hover:text-accent text-white/40 ml-1"
+                        >
+                            Privacy Policy
+                        </a>
                     </p>
                 </div>
             </footer>
