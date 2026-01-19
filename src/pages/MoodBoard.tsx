@@ -172,6 +172,20 @@ const MoodBoard = () => {
             <footer className="py-20 border-t border-white/5 bg-black">
                 <div className="container-custom flex flex-col items-center">
                     <Logo className="w-48 h-auto opacity-40 grayscale hover:grayscale-0 transition-all mb-8" />
+                    <a
+                        href="https://instagram.com/dplhomestar"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 text-white/40 hover:text-accent transition-colors mb-6"
+                        aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
+                    >
+                        <img
+                            src="/instagram.svg"
+                            alt="Instagram"
+                            className="w-4 h-4 rounded"
+                        />
+                        <span className="text-[10px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
+                    </a>
                     <p className="text-white/20 text-[10px] uppercase tracking-[0.2em] font-medium text-center">
                         © {new Date().getFullYear()} DPL HOMESTAR. CURATED WITH PRECISION BY DCODE PRIVATE LIMITED.
                     </p>

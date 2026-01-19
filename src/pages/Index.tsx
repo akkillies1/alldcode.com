@@ -977,6 +977,20 @@ const Index = () => {
                   <Phone className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
                   <span>+91 9633860898</span>
                 </a>
+                <a
+                  href="https://instagram.com/dplhomestar"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group"
+                  aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
+                >
+                  <img
+                    src="/instagram.svg"
+                    alt="Instagram"
+                    className="w-5 h-5 rounded group-hover:scale-110 transition-transform"
+                  />
+                  <span>@dplhomestar</span>
+                </a>
               </div>
             </div>
 

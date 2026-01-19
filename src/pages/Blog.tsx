@@ -219,7 +219,23 @@ const Blog = () => {
             {/* Footer */}
             <footer className="py-12 border-t border-border bg-background">
                 <div className="container-custom text-center text-foreground/30 font-light text-sm">
-                    <p>&copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.</p>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <p>&copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.</p>
+                        <a
+                            href="https://instagram.com/dplhomestar"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors"
+                            aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
+                        >
+                            <img
+                                src="/instagram.svg"
+                                alt="Instagram"
+                                className="w-4 h-4 rounded"
+                            />
+                            <span className="text-[11px] uppercase tracking-widest font-medium">@dplhomestar</span>
+                        </a>
+                    </div>
                 </div>
             </footer>
         </div>
