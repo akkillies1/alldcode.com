@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,8 +12,13 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleNavigation = (id: string) => {
     setIsOpen(false);
@@ -32,6 +37,17 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
       }, 300);
     }
   };
+
+  if (!mounted) {
+    return (
+      <button
+        className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-accent bg-background/10 backdrop-blur-sm rounded-md'}`}
+        aria-label="Open menu"
+      >
+        <Menu className="h-6 w-6" />
+      </button>
+    );
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>

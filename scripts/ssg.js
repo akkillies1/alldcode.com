@@ -12,13 +12,14 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const BASE_URL = 'https://www.dplhomestar.com';
 
 // Mock browser globals for SSG
 global.window = {
     location: {
         pathname: '/',
-        href: 'https://dplhomestar.com/',
-        origin: 'https://dplhomestar.com',
+        href: BASE_URL,
+        origin: BASE_URL,
     },
     scrollTo: () => { },
     addEventListener: () => { },
@@ -47,26 +48,99 @@ global.localStorage = {
 };
 global.sessionStorage = global.localStorage;
 
-async function getBlogRoutes() {
+async function getAppData() {
     if (!supabaseUrl || !supabaseKey) {
-        console.warn('Supabase credentials missing. Skipping dynamic blog routes.');
-        return [];
+        console.warn('Supabase credentials missing. Skipping dynamic data fetching.');
+        return { posts: [], latestGalleryDate: new Date() };
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Fetch blog posts
     const { data: posts } = await supabase
         .from('blog_posts')
-        .select('slug')
-        .eq('is_published', true);
+        .select('slug, updated_at')
+        .eq('is_published', true)
+        .order('updated_at', { ascending: false });
 
-    return posts ? posts.map(post => `/blog/${post.slug}`) : [];
+    // Fetch gallery images for mood board lastmod
+    const { data: galleryImages } = await supabase
+        .from('gallery_images')
+        .select('updated_at')
+        .eq('is_published', true)
+        .order('updated_at', { ascending: false })
+        .limit(1);
+
+    return {
+        posts: posts || [],
+        latestGalleryDate: galleryImages && galleryImages.length > 0 ? new Date(galleryImages[0].updated_at) : new Date()
+    };
+}
+
+function generateSitemap(posts, latestGalleryDate, distPath, publicPath) {
+    console.log('Generating sitemap...');
+    const staticRoutes = ['/', '/mood-board', '/blog', '/privacy-policy'];
+    const latestPostDate = posts.length > 0 ? new Date(posts[0].updated_at) : new Date();
+
+    let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+    staticRoutes.forEach(route => {
+        let lastmod = new Date().toISOString();
+        let priority = '0.8';
+        let changefreq = 'weekly';
+
+        if (route === '/') {
+            priority = '1.0';
+        } else if (route === '/blog') {
+            lastmod = latestPostDate.toISOString();
+            changefreq = 'daily';
+        } else if (route === '/mood-board') {
+            lastmod = latestGalleryDate.toISOString();
+            changefreq = 'daily';
+        }
+
+        sitemap += `
+    <url>
+        <loc>${BASE_URL}${route === '/' ? '' : route}</loc>
+        <lastmod>${lastmod}</lastmod>
+        <changefreq>${changefreq}</changefreq>
+        <priority>${priority}</priority>
+    </url>`;
+    });
+
+    posts.forEach(post => {
+        sitemap += `
+    <url>
+        <loc>${BASE_URL}/blog/${post.slug}</loc>
+        <lastmod>${new Date(post.updated_at).toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>`;
+    });
+
+    sitemap += '\n</urlset>';
+
+    fs.writeFileSync(path.join(publicPath, 'sitemap.xml'), sitemap);
+    if (fs.existsSync(distPath)) {
+        fs.writeFileSync(path.join(distPath, 'sitemap.xml'), sitemap);
+    }
+    console.log('Sitemap generated successfully!');
 }
 
 async function build() {
     const root = path.resolve(__dirname, '..');
     const dist = path.resolve(root, 'dist');
+    const publicDir = path.resolve(root, 'public');
 
-    // 1. Create vite server to load the server entry
+    // 1. Fetch data once
+    console.log('Fetching application data...');
+    const { posts, latestGalleryDate } = await getAppData();
+
+    // 2. Generate Sitemap
+    generateSitemap(posts, latestGalleryDate, dist, publicDir);
+
+    // 3. Create vite server to load the server entry
     const vite = await createServer({
         root,
         server: { middlewareMode: true },
@@ -74,18 +148,17 @@ async function build() {
     });
 
     try {
-        // 2. Load the template
+        // 4. Load the template
         console.log('Loading template...');
         const template = fs.readFileSync(path.resolve(dist, 'index.html'), 'utf-8');
 
-        // 3. Load the server entry
+        // 5. Load the server entry
         console.log('Loading server entry...');
         const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
-        // 4. Define routes to render
-        console.log('Fetching blog routes...');
-        const blogRoutes = await getBlogRoutes();
-        const routes = ['/', '/blog', '/mood-board', ...blogRoutes]; // Add any other public routes here
+        // 6. Define routes to render
+        const blogRoutes = posts.map(post => `/blog/${post.slug}`);
+        const routes = ['/', '/blog', '/mood-board', '/privacy-policy', ...blogRoutes];
 
         console.log(`Prerendering ${routes.length} routes...`);
 
@@ -95,7 +168,6 @@ async function build() {
             const { html: appHtml } = await render(url, helmetContext);
             const { helmet } = helmetContext;
 
-            // Extract helmet tags
             const headHtml = [
                 helmet.title.toString(),
                 helmet.priority ? helmet.priority.toString() : '',
@@ -104,12 +176,10 @@ async function build() {
                 helmet.script.toString()
             ].filter(Boolean).join('\n');
 
-            // 5. Inject into template
             const html = template
                 .replace('<!--app-head-->', headHtml)
                 .replace('<!--app-html-->', appHtml);
 
-            // 6. Save target file
             const fileName = url === '/' ? 'index.html' : `${url}/index.html`;
             const filePath = path.resolve(dist, fileName);
             const dirPath = path.dirname(filePath);
