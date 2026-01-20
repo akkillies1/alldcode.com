@@ -170,23 +170,37 @@ const MoodBoard = () => {
 
             {/* Footer */}
             <footer className="py-20 border-t border-white/5 bg-black">
-                <div className="container-custom flex flex-col items-center">
+                <div className="container-custom flex flex-col items-center text-white">
                     <Logo className="w-48 h-auto opacity-40 grayscale hover:grayscale-0 transition-all mb-8" />
-                    <a
-                        href="https://instagram.com/dplhomestar"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-white/40 hover:text-accent transition-colors mb-6"
-                        aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
-                    >
-                        <img
-                            src="/instagram.svg"
-                            alt="Instagram"
-                            className="w-4 h-4 rounded"
-                        />
-                        <span className="text-[10px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
-                    </a>
-                    <p className="text-white/20 text-[10px] uppercase tracking-[0.2em] font-medium text-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8">
+                        <div>
+                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
+                            <a href="mailto:info@dplhomestar.com" className="text-white/80 hover:text-accent transition-colors">
+                                info@dplhomestar.com
+                            </a>
+                        </div>
+                        <div>
+                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Phone</div>
+                            <a href="tel:+919633860898" className="text-white/80 hover:text-accent transition-colors">
+                                +91 9633860898
+                            </a>
+                        </div>
+                        <div>
+                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Instagram</div>
+                            <a
+                                href="https://instagram.com/dplhomestar"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-white/80 hover:text-accent transition-colors"
+                                aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
+                            >
+                                <img src="/instagram.svg" alt="Instagram" className="w-4 h-4 rounded" />
+                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
+                            </a>
+                            <div className="mt-2 text-white/60 text-[11px]">@dplhomestar</div>
+                        </div>
+                    </div>
+                    <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-medium text-center">
                         © {new Date().getFullYear()} DPL HOMESTAR. CURATED WITH PRECISION BY DCODE PRIVATE LIMITED.
                         {" "}
                         <a

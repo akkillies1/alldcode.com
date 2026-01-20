@@ -152,7 +152,7 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.2, rootMargin: '-100px 0px -30% 0px' }
+      { threshold: 0.3, rootMargin: '-30% 0px -40% 0px' }
     );
 
     const observeSections = () => {
@@ -170,6 +170,39 @@ const Index = () => {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = () => {
+      const ids = ['home', 'about', 'philosophy', 'process', 'services', 'work', 'testimonials', 'contact'];
+      let bestId = activeSection;
+      let bestScore = -Infinity;
+      const vh = window.innerHeight || 0;
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, 0));
+        const score = visible - Math.abs(rect.top - vh * 0.3);
+        if (score > bestScore) {
+          bestScore = score;
+          bestId = id;
+        }
+      });
+      if (bestId && bestId !== activeSection) {
+        setActiveSection(bestId);
+        if (window.location.hash !== `#${bestId}`) {
+          window.history.replaceState(null, '', `#${bestId}`);
+        }
+      }
+    };
+    window.addEventListener('scroll', handler, { passive: true });
+    const t = setTimeout(handler, 300);
+    return () => {
+      window.removeEventListener('scroll', handler);
+      clearTimeout(t);
+    };
+  }, [activeSection]);
 
   // Handle cross-page hash navigation (scroll to section on load)
   useEffect(() => {

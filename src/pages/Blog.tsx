@@ -3,7 +3,7 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Calendar, User, Tag } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, User, Tag } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { MobileMenu } from "@/components/MobileMenu";
 
@@ -75,13 +75,17 @@ const Blog = () => {
                 url={typeof window !== 'undefined' ? window.location.href : undefined}
             />
             {/* Header */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/50 py-3">
+            <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b border-border/50 py-4">
                 <div className="container-custom flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-3">
-                        <div className="pointer-events-none">
-                            <Logo className="w-32 md:w-48 h-auto" />
-                        </div>
-                    </Link>
+                    <div className="flex items-center gap-4 md:gap-8">
+                        <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group">
+                            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Back</span>
+                        </Link>
+                        <Link to="/" className="flex items-center gap-3 group">
+                            <Logo className="w-32 md:w-40 h-auto transition-transform duration-500 group-hover:scale-105" />
+                        </Link>
+                    </div>
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8">
@@ -90,6 +94,9 @@ const Blog = () => {
                         </Link>
                         <Link to="/blog" className="text-sm font-medium text-foreground relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:w-full">
                             Blog
+                        </Link>
+                        <Link to="/mood-board" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            Mood Board
                         </Link>
                         <Button
                             variant="default"
@@ -217,34 +224,47 @@ const Blog = () => {
             </main>
 
             {/* Footer */}
-            <footer className="py-12 border-t border-border bg-background">
-                <div className="container-custom text-center text-foreground/30 font-light text-sm">
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <p>
-                            &copy; {new Date().getFullYear()} DPL Homestar. All rights reserved.
-                            {" "}
-                            <a
-                                href="/privacy-policy"
-                                className="ml-1 text-foreground/40 hover:text-accent underline underline-offset-4"
-                            >
-                                Privacy Policy
+            <footer className="py-20 border-t border-border bg-background">
+                <div className="container-custom flex flex-col items-center text-foreground">
+                    <Logo className="w-48 h-auto opacity-40 hover:opacity-60 transition-all mb-8" />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8">
+                        <div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
+                            <a href="mailto:info@dplhomestar.com" className="text-foreground/80 hover:text-accent transition-colors">
+                                info@dplhomestar.com
                             </a>
-                        </p>
-                        <a
-                            href="https://instagram.com/dplhomestar"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center gap-2 text-foreground/40 hover:text-accent transition-colors"
-                            aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
-                        >
-                            <img
-                                src="/instagram.svg"
-                                alt="Instagram"
-                                className="w-4 h-4 rounded"
-                            />
-                            <span className="text-[11px] uppercase tracking-widest font-medium">@dplhomestar</span>
-                        </a>
+                        </div>
+                        <div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Phone</div>
+                            <a href="tel:+919633860898" className="text-foreground/80 hover:text-accent transition-colors">
+                                +91 9633860898
+                            </a>
+                        </div>
+                        <div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Instagram</div>
+                            <a
+                                href="https://instagram.com/dplhomestar"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
+                                aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
+                            >
+                                <img src="/instagram.svg" alt="Instagram" className="w-4 h-4 rounded" />
+                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
+                            </a>
+                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
+                        </div>
                     </div>
+                    <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] font-medium text-center">
+                        © {new Date().getFullYear()} DPL Homestar. Curated with precision by DCODE Private Limited.
+                        {" "}
+                        <a
+                            href="/privacy-policy"
+                            className="underline underline-offset-4 hover:text-accent text-foreground/60 ml-1"
+                        >
+                            Privacy Policy
+                        </a>
+                    </p>
                 </div>
             </footer>
         </div>
