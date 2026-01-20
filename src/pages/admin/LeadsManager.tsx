@@ -379,7 +379,7 @@ export const LeadsManager = () => {
                 {/* Lead Detail/Edit Modal */}
                 {selectedLead && (
                     <div
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 brand-dark-overlay-60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                         onClick={() => { setSelectedLead(null); setIsEditing(false); }}
                     >
                         <Card

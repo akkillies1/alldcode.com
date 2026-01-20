@@ -227,7 +227,8 @@ const Blog = () => {
             <footer className="py-20 border-t border-border bg-background">
                 <div className="container-custom flex flex-col items-center text-foreground">
                     <Logo className="w-48 h-auto opacity-40 hover:opacity-60 transition-all mb-8" />
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8">
+                    <div className="h-px w-24 bg-accent/20 mx-auto mb-10" />
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center mb-8">
                         <div>
                             <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
                             <a href="mailto:info@dplhomestar.com" className="text-foreground/80 hover:text-accent transition-colors">
@@ -250,6 +251,19 @@ const Blog = () => {
                                 aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
                             >
                                 <img src="/instagram.svg" alt="Instagram" className="w-4 h-4 rounded" />
+                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
+                            </a>
+                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
+                        </div>
+                        <div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Facebook</div>
+                            <a
+                                href="https://facebook.com/dplhomestar"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
+                                aria-label="Follow DPL Homestar on Facebook (@dplhomestar)"
+                            >
                                 <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
                             </a>
                             <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>

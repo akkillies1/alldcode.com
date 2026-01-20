@@ -410,7 +410,7 @@ const Index = () => {
             {['Home', 'About', 'Philosophy', 'Process', 'Services', 'Work'].map((item) => {
               const id = item.toLowerCase() === 'home' ? 'home' : (item.toLowerCase() === 'work' ? 'work' : item.toLowerCase());
               const isActive = activeSection === id;
-              const linkColor = isHeaderScrolled ? 'text-foreground' : 'text-white';
+              const linkColor = isHeaderScrolled ? 'text-foreground' : 'text-accent';
               return (
                 <a
                   key={item}
@@ -457,8 +457,8 @@ const Index = () => {
           className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-background" />
+          <div className="absolute inset-0 brand-dark-overlay-40" />
+          <div className="absolute inset-0 brand-dark-gradient-b-60" />
         </div>
 
         <div className="relative z-10 container-custom text-center">
@@ -467,10 +467,10 @@ const Index = () => {
           </div>
 
           <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-8 leading-tight text-balance animate-fade-in tracking-[0.1em] sm:tracking-[0.15em] uppercase flex flex-wrap items-center justify-center gap-y-2" style={{ animationDelay: '0.2s' }}>
-            <span className="text-foreground dark:text-white">Design.</span>
-            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
-            <span className="text-foreground dark:text-white">Execute.</span>
-            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-white/20 font-light">·</span>
+            <span className="text-foreground dark:text-accent">Design.</span>
+            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-accent/30 font-light">·</span>
+            <span className="text-foreground dark:text-accent">Execute.</span>
+            <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-accent/30 font-light">·</span>
             <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case text-xl sm:text-3xl md:text-4xl lg:text-5xl">Elevate.</span>
           </h1>
 

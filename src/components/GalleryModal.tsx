@@ -112,7 +112,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
     return (
         <DialogPrimitive.Root open={isOpen} onOpenChange={onClose}>
             <DialogPrimitive.Portal>
-                <DialogPrimitive.Overlay className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl animate-in fade-in duration-300" />
+                <DialogPrimitive.Overlay className="fixed inset-0 z-[100] brand-dark-overlay-80 backdrop-blur-xl animate-in fade-in duration-300" />
                 <DialogPrimitive.Content className="fixed inset-0 z-[101] flex items-center justify-center p-2 md:p-10 outline-none">
                     <DialogPrimitive.Title className="sr-only">
                         {currentImage?.title ? `${currentImage.title} — The Design Mood Board` : 'The Design Mood Board'}
@@ -121,10 +121,10 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                         Detailed view of {currentImage?.title}
                     </DialogPrimitive.Description>
 
-                    <div className="bg-[#0A0A0A] w-full max-w-7xl h-full max-h-[92vh] rounded-2xl md:rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] border border-white/5 animate-in zoom-in-95 duration-300">
+                    <div className="bg-popover w-full max-w-7xl h-full max-h-[92vh] rounded-2xl md:rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.4)] border border-white/5 animate-in zoom-in-95 duration-300">
 
                         {/* 1. Header: Title on Top */}
-                        <div className="p-4 md:p-6 lg:px-10 flex items-center justify-between border-b border-white/5 bg-black/40 flex-shrink-0">
+                        <div className="p-4 md:p-6 lg:px-10 flex items-center justify-between border-b border-white/5 brand-dark-overlay-40 flex-shrink-0">
                             <div className="flex items-center gap-3">
                                 {viewMode === 'detail' && (
                                     <Button
@@ -139,7 +139,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                 )}
                                 <div className="w-1 h-5 bg-accent rounded-full" />
                                 <div className="flex flex-col md:flex-row md:items-center">
-                                    <h2 className="text-white/40 text-[9px] md:text-2xl md:text-white font-serif font-medium tracking-[0.2em] md:tracking-tight uppercase md:normal-case mt-1 md:mt-0">
+                                    <h2 className="text-accent/60 text-[9px] md:text-2xl md:text-accent font-serif font-medium tracking-[0.2em] md:tracking-tight uppercase md:normal-case mt-1 md:mt-0">
                                         The Design Mood Board
                                     </h2>
                                     {viewMode === 'detail' && (
@@ -183,7 +183,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                                     alt={image.title}
                                                     className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6">
+                                    <div className="absolute inset-0 brand-dark-gradient-t-90 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col justify-end p-6">
                                                     <span className="text-accent text-[8px] uppercase tracking-[0.2em] font-bold mb-1">{image.mood || 'Signature Luxury'}</span>
                                                     <h3 className="text-white text-lg font-serif italic">{image.title}</h3>
                                                 </div>
@@ -206,7 +206,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                 <div className="h-full flex flex-col lg:flex-row overflow-hidden animate-in fade-in zoom-in-95 duration-500">
 
                                     {/* Left Side: Image Area */}
-                                    <div className="relative flex-[1.5] lg:flex-[2.5] bg-black/20 flex flex-col items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5">
+                    <div className="relative flex-[1.5] lg:flex-[2.5] brand-dark-overlay-40 flex flex-col items-center justify-center overflow-hidden border-b lg:border-b-0 lg:border-r border-white/5">
 
                                         {loading ? (
                                             <div className="flex flex-col items-center gap-4">
@@ -243,7 +243,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                                     {/* Watermark */}
                                                     {!isImageLoading && (
                                                         <div className="absolute bottom-4 right-4 pointer-events-none select-none opacity-40 mix-blend-difference hidden md:block">
-                                                            <p className="text-white font-serif text-[10px] md:text-xs tracking-[0.2em] font-light italic">
+                                            <p className="text-accent font-serif text-[10px] md:text-xs tracking-[0.2em] font-light italic">
                                                                 DPL Homestar
                                                             </p>
                                                         </div>
@@ -255,13 +255,13 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                                     <>
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handlePrevious(); }}
-                                                            className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-black/60 hover:bg-accent text-white transition-all backdrop-blur-md border border-white/5 flex items-center justify-center z-30 shadow-lg"
+                                                            className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full brand-dark-overlay-60 hover:bg-accent text-accent transition-all backdrop-blur-md border border-white/5 flex items-center justify-center z-30 shadow-lg"
                                                         >
                                                             <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
                                                         </button>
                                                         <button
                                                             onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                                                            className="absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-black/60 hover:bg-accent text-white transition-all backdrop-blur-md border border-white/5 flex items-center justify-center z-30 shadow-lg"
+                                                            className="absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 w-10 h-10 lg:w-12 lg:h-12 rounded-full brand-dark-overlay-60 hover:bg-accent text-accent transition-all backdrop-blur-md border border-white/5 flex items-center justify-center z-30 shadow-lg"
                                                         >
                                                             <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
                                                         </button>
@@ -295,7 +295,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                     </div>
 
                                     {/* Right Side: Description */}
-                                    <div className="flex-1 bg-[#0A0A0A] lg:bg-black/40 flex flex-col p-6 md:p-8 lg:max-w-sm overflow-hidden">
+                                    <div className="flex-1 bg-popover lg:brand-dark-overlay-40 flex flex-col p-6 md:p-8 lg:max-w-sm overflow-hidden">
                                         {loading ? (
                                             <div className="space-y-4 animate-pulse">
                                                 <div className="h-2 w-24 bg-white/5 rounded" />
@@ -317,7 +317,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                                                 <div className="mb-6 relative">
                                                     <span className="text-accent text-[9px] uppercase tracking-[0.3em] font-bold block mb-3">Designer's Note</span>
                                                     {currentImage?.description ? (
-                                                        <p className="text-white/80 text-lg md:text-xl leading-relaxed font-serif italic">
+                                            <p className="text-accent/80 text-lg md:text-xl leading-relaxed font-serif italic">
                                                             "{currentImage.description}"
                                                         </p>
                                                     ) : (
@@ -358,7 +358,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
                         </div>
 
                         {/* 3. Footer: Property Ownership Declaration */}
-                        <div className="p-3 md:p-4 bg-black/60 border-t border-white/5 flex items-center justify-center flex-shrink-0">
+                                    <div className="p-3 md:p-4 brand-dark-overlay-60 border-t border-white/5 flex items-center justify-center flex-shrink-0">
                             <p className="text-[8px] md:text-[10px] text-white/20 tracking-wider uppercase font-medium text-center px-4">
                                 © {new Date().getFullYear()} DPL Homestar. All designs and photographic property are protected trademarks of <span className="text-white/40">DCODE Private Limited</span>.
                             </p>

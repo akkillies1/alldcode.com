@@ -41,7 +41,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
   if (!mounted) {
     return (
       <button
-        className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-accent bg-background/10 backdrop-blur-sm rounded-md'}`}
+        className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-foreground hover:text-primary' : 'text-accent hover:text-accent/90 bg-background/10 backdrop-blur-sm rounded-md'}`}
         aria-label="Open menu"
       >
         <Menu className="h-6 w-6" />
@@ -53,7 +53,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <button
-          className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-foreground hover:text-primary' : 'text-white hover:text-accent bg-background/10 backdrop-blur-sm rounded-md'}`}
+          className={`md:hidden p-2 transition-colors ${isScrolled ? 'text-foreground hover:text-primary' : 'text-accent hover:text-accent/90 bg-background/10 backdrop-blur-sm rounded-md'}`}
           aria-label="Open menu"
         >
           <Menu className="h-6 w-6" />
@@ -96,7 +96,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
                 setIsOpen(false);
                 navigate('/mood-board');
               }}
-              className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/5 hover:translate-x-1 text-foreground tracking-tight"
+              className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-background/10 hover:translate-x-1 text-foreground tracking-tight"
             >
               Mood Board
             </button>
@@ -105,7 +105,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
                 setIsOpen(false);
                 navigate('/blog');
               }}
-              className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/5 hover:translate-x-1 text-foreground tracking-tight"
+              className="w-full text-left px-4 py-3 text-lg font-outfit font-semibold rounded-lg transition-all hover:bg-background/10 hover:translate-x-1 text-foreground tracking-tight"
             >
               Blog
             </button>

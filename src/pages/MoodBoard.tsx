@@ -51,17 +51,17 @@ const MoodBoard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white selection:bg-accent/30">
+        <div className="min-h-screen bg-background text-accent selection:bg-accent/30">
             <SEO
                 title="The Design Mood Board | Signature Luxury Selection"
                 description="Explore the curated design vision of DPL Homestar. An immersive gallery of luxury interiors, bespoke furniture, and architectural inspirations."
             />
 
             {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/5 py-4">
+            <nav className="fixed top-0 left-0 right-0 z-50 brand-dark-overlay-80 backdrop-blur-xl border-b border-white/5 py-4">
                 <div className="container-custom flex items-center justify-between">
                     <div className="flex items-center gap-4 md:gap-8">
-                        <Link to="/" className="flex items-center gap-2 text-white/40 hover:text-accent transition-colors group">
+                        <Link to="/" className="flex items-center gap-2 text-accent/60 hover:text-accent transition-colors group">
                             <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                             <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Back</span>
                         </Link>
@@ -72,8 +72,8 @@ const MoodBoard = () => {
                     </div>
 
                     <div className="hidden md:flex items-center gap-8">
-                        <Link to="/" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Home</Link>
-                        <Link to="/blog" className="text-sm font-medium text-white/60 hover:text-white transition-colors">Journal</Link>
+                        <Link to="/" className="text-sm font-medium text-accent/70 hover:text-accent transition-colors">Home</Link>
+                        <Link to="/blog" className="text-sm font-medium text-accent/70 hover:text-accent transition-colors">Journal</Link>
                         <Link to="/#contact">
                             <Button
                                 className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 font-bold uppercase tracking-wider text-[10px]"
@@ -99,16 +99,16 @@ const MoodBoard = () => {
                             The Design <br />
                             <span className="text-accent italic font-light">Mood Board</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-white/50 font-serif italic max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-xl md:text-2xl text-accent/70 font-serif italic max-w-2xl mx-auto leading-relaxed">
                             "Artistic visions, precision crafted. Explore our curated selection of signature spaces and atmospheric details."
                         </p>
                     </div>
 
                     {/* Grid Gallery (Equal Size Tiles) */}
                     {loading ? (
-                        <div className="flex flex-col items-center justify-center py-40">
+                            <div className="flex flex-col items-center justify-center py-40">
                             <div className="w-12 h-12 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
-                            <span className="text-white/20 text-[10px] uppercase tracking-widest mt-6 font-bold">Curating gallery...</span>
+                                <span className="text-accent/40 text-[10px] uppercase tracking-widest mt-6 font-bold">Curating gallery...</span>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
@@ -125,12 +125,12 @@ const MoodBoard = () => {
                                     />
 
                                     {/* Overlay on Hover */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
+                                    <div className="absolute inset-0 brand-dark-gradient-t-90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
                                         <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                                             <span className="text-accent text-[9px] uppercase tracking-[0.3em] font-bold block mb-2">
                                                 {image.mood || 'Signature Luxury'}
                                             </span>
-                                            <h3 className="text-white text-2xl font-serif italic mb-4">
+                                                <h3 className="text-accent text-2xl font-serif italic mb-4">
                                                 {image.title}
                                             </h3>
                                             <div className="flex flex-wrap gap-2">
@@ -144,9 +144,9 @@ const MoodBoard = () => {
                                     </div>
 
                                     {/* Small mood badge (always visible) */}
-                                    <div className="absolute top-4 right-4 px-3 py-1 bg-black/40 backdrop-blur-md rounded-full border border-white/10 opacity-60 group-hover:opacity-0 transition-opacity">
+                                                <div className="absolute top-4 right-4 px-3 py-1 brand-dark-overlay-40 backdrop-blur-md rounded-full border border-white/10 opacity-60 group-hover:opacity-0 transition-opacity">
                                         <span className="text-[8px] uppercase tracking-widest font-bold">
-                                            {image.mood || 'Luxury'}
+                                                        {image.mood || 'Luxury'}
                                         </span>
                                     </div>
                                 </div>
@@ -156,10 +156,13 @@ const MoodBoard = () => {
 
                     {/* Back to Home CTA */}
                     <div className="mt-32 text-center">
-                        <div className="h-px w-24 bg-white/10 mx-auto mb-16" />
-                        <h2 className="text-3xl md:text-5xl font-serif mb-12 italic text-white/80">Inspired by what you see?</h2>
+                        <div className="h-px w-24 bg-accent/20 mx-auto mb-16" />
+                        <h2 className="text-3xl md:text-5xl font-serif mb-12 italic text-accent/80">Inspired by what you see?</h2>
                         <Link to="/#contact">
-                            <Button className="bg-white text-black hover:bg-accent hover:text-accent-foreground rounded-full px-12 h-16 text-lg font-bold transition-all duration-500 group shadow-2xl">
+                            <Button
+                                className="bg-accent text-accent-foreground hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background rounded-full px-12 h-16 text-lg font-bold transition-all duration-500 group shadow-[0_10px_40px_-10px_rgba(252,211,77,0.3)]"
+                                aria-label="Let's Shape Your Vision — contact DPL Homestar"
+                            >
                                 Let's Shape Your Vision
                                 <Sparkles className="ml-3 w-5 h-5 group-hover:rotate-12 transition-transform" />
                             </Button>
@@ -169,43 +172,57 @@ const MoodBoard = () => {
             </main>
 
             {/* Footer */}
-            <footer className="py-20 border-t border-white/5 bg-black">
-                <div className="container-custom flex flex-col items-center text-white">
-                    <Logo className="w-48 h-auto opacity-40 grayscale hover:grayscale-0 transition-all mb-8" />
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center mb-8">
+            <footer className="py-20 border-t border-border bg-background">
+                <div className="container-custom flex flex-col items-center text-foreground">
+                    <Logo className="w-48 h-auto opacity-40 hover:opacity-60 transition-all mb-8" />
+                    <div className="h-px w-24 bg-accent/20 mx-auto mb-10" />
+                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center mb-8">
                         <div>
-                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
-                            <a href="mailto:info@dplhomestar.com" className="text-white/80 hover:text-accent transition-colors">
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
+                            <a href="mailto:info@dplhomestar.com" className="text-foreground/80 hover:text-accent transition-colors">
                                 info@dplhomestar.com
                             </a>
                         </div>
                         <div>
-                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Phone</div>
-                            <a href="tel:+919633860898" className="text-white/80 hover:text-accent transition-colors">
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Phone</div>
+                            <a href="tel:+919633860898" className="text-foreground/80 hover:text-accent transition-colors">
                                 +91 9633860898
                             </a>
                         </div>
                         <div>
-                            <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold mb-2">Instagram</div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Instagram</div>
                             <a
                                 href="https://instagram.com/dplhomestar"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center justify-center gap-2 text-white/80 hover:text-accent transition-colors"
+                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
                                 aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
                             >
                                 <img src="/instagram.svg" alt="Instagram" className="w-4 h-4 rounded" />
                                 <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
                             </a>
-                            <div className="mt-2 text-white/60 text-[11px]">@dplhomestar</div>
+                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
+                        </div>
+                        <div>
+                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Facebook</div>
+                            <a
+                                href="https://facebook.com/dplhomestar"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
+                                aria-label="Follow DPL Homestar on Facebook (@dplhomestar)"
+                            >
+                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
+                            </a>
+                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
                         </div>
                     </div>
-                    <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] font-medium text-center">
+                    <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] font-medium text-center">
                         © {new Date().getFullYear()} DPL HOMESTAR. CURATED WITH PRECISION BY DCODE PRIVATE LIMITED.
                         {" "}
                         <a
                             href="/privacy-policy"
-                            className="underline underline-offset-4 hover:text-accent text-white/40 ml-1"
+                            className="underline underline-offset-4 hover:text-accent text-foreground/60 ml-1"
                         >
                             Privacy Policy
                         </a>
