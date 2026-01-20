@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "has": [
+        { "type": "host", "value": "dplhomestar.vercel.app" }
+      ],
+      "status": 301,
+      "headers": {
+        "Location": "https://dplhomestar.com/$1"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        { "type": "host", "value": "www.dplhomestar.com" }
+      ],
+      "status": 301,
+      "headers": {
+        "Location": "https://dplhomestar.com/$1"
+      }
+    },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
