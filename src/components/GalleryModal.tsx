@@ -34,6 +34,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
 
     // Initial fetch
     useEffect(() => {
+        if (typeof window === 'undefined') return;
         if (isOpen) {
             fetchImages();
             document.body.style.overflow = 'hidden';
@@ -84,6 +85,7 @@ export const GalleryModal = ({ isOpen, onClose, initialIndex = 0, initialViewMod
     };
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
         const handleKeyDown = (e: KeyboardEvent) => {
             if (!isOpen) return;
             if (e.key === 'ArrowRight') handleNext();

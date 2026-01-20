@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: mode === "development",
+    chunkSizeWarningLimit: 1000,
   },
   define: {
     'process.env': {}

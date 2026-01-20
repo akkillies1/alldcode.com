@@ -81,7 +81,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
             <nav className="space-y-2 flex-1">
                 {navItems.map((item) => {
                     const Icon = item.icon;
-                    const isActive = window.location.pathname === item.path;
+                    const isActive = typeof window !== 'undefined' && window.location.pathname === item.path;
                     return (
                         <button
                             key={item.path}

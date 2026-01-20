@@ -6,6 +6,7 @@ export const ThemeToggle = () => {
     const [theme, setTheme] = useState<"light" | "dark">("dark");
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
         const root = window.document.documentElement;
         const initialTheme = root.classList.contains("dark") ? "dark" : "light";
         setTheme(initialTheme);

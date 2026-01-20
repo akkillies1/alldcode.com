@@ -44,7 +44,7 @@ export const GlitchLogo = ({ isScrolled }: { isScrolled: boolean }) => {
     }, []);
 
     return (
-        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => { if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
             <span
                 className={`font-serif font-bold tracking-tight transition-colors duration-300 ${isScrolled ? "text-2xl md:text-3xl text-foreground" : "text-2xl md:text-3xl text-white/90"
                     }`}

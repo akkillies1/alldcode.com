@@ -2,11 +2,13 @@ import { MessageCircle, Phone } from "lucide-react";
 
 export const FloatingActionButtons = () => {
   const handleWhatsApp = () => {
+    if (typeof window === 'undefined') return;
     const message = encodeURIComponent("Hello! I'm interested in your interior design services. I'd like to discuss a project with you.");
     window.open(`https://wa.me/919633860898?text=${message}`, '_blank');
   };
 
   const handleCall = () => {
+    if (typeof window === 'undefined') return;
     window.location.href = 'tel:+919633860898';
   };
 

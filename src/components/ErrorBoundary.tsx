@@ -49,10 +49,10 @@ export class ErrorBoundary extends Component<Props, State> {
                             </div>
                         )}
                         <div className="flex gap-4 justify-center">
-                            <Button onClick={() => window.location.reload()}>
+                            <Button onClick={() => { if (typeof window !== 'undefined') window.location.reload(); }}>
                                 Refresh Page
                             </Button>
-                            <Button variant="outline" onClick={() => window.location.href = '/'}>
+                            <Button variant="outline" onClick={() => { if (typeof window !== 'undefined') window.location.href = '/'; }}>
                                 Go Home
                             </Button>
                         </div>

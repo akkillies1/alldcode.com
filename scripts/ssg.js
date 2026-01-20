@@ -14,6 +14,29 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Mock browser globals for SSG
+global.window = {
+    location: {
+        pathname: '/',
+        href: 'https://dplhomestar.com/',
+        origin: 'https://dplhomestar.com',
+    },
+    scrollTo: () => { },
+    addEventListener: () => { },
+    removeEventListener: () => { },
+};
+global.document = {
+    cookie: '',
+    getElementById: () => null,
+    querySelector: () => null,
+    documentElement: {
+        style: {},
+        classList: {
+            add: () => { },
+            remove: () => { },
+            contains: () => false,
+        },
+    },
+};
 global.localStorage = {
     getItem: () => null,
     setItem: () => { },
@@ -52,18 +75,22 @@ async function build() {
 
     try {
         // 2. Load the template
+        console.log('Loading template...');
         const template = fs.readFileSync(path.resolve(dist, 'index.html'), 'utf-8');
 
         // 3. Load the server entry
+        console.log('Loading server entry...');
         const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
         // 4. Define routes to render
+        console.log('Fetching blog routes...');
         const blogRoutes = await getBlogRoutes();
         const routes = ['/', '/blog', '/mood-board', ...blogRoutes]; // Add any other public routes here
 
         console.log(`Prerendering ${routes.length} routes...`);
 
         for (const url of routes) {
+            console.log(`Prerendering: ${url}`);
             const helmetContext = {};
             const { html: appHtml } = await render(url, helmetContext);
             const { helmet } = helmetContext;
@@ -71,11 +98,11 @@ async function build() {
             // Extract helmet tags
             const headHtml = [
                 helmet.title.toString(),
-                helmet.priority.toString(),
+                helmet.priority ? helmet.priority.toString() : '',
                 helmet.meta.toString(),
                 helmet.link.toString(),
                 helmet.script.toString()
-            ].join('\n');
+            ].filter(Boolean).join('\n');
 
             // 5. Inject into template
             const html = template

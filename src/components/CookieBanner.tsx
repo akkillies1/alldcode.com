@@ -7,6 +7,7 @@ export const CookieBanner = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     try {
       const stored = window.localStorage.getItem(COOKIE_KEY);
       if (!stored) {
