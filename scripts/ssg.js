@@ -14,6 +14,7 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const BASE_URL = 'https://www.dplhomestar.com';
 const SKIP_SSG = process.env.SKIP_SSG === '1';
+const HARD_TIMEOUT_MS = 600000;
 
 // Mock browser globals for SSG
 global.window = {
@@ -49,6 +50,13 @@ global.localStorage = {
 };
 global.sessionStorage = global.localStorage;
 
+function withTimeout(promise, ms) {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), ms)),
+    ]);
+}
+
 async function getAppData() {
     if (!supabaseUrl || !supabaseKey) {
         console.warn('Supabase credentials missing. Skipping dynamic data fetching.');
@@ -57,20 +65,24 @@ async function getAppData() {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch blog posts
-    const { data: posts } = await supabase
-        .from('blog_posts')
-        .select('slug, updated_at')
-        .eq('is_published', true)
-        .order('updated_at', { ascending: false });
+    const { data: posts } = await withTimeout(
+        supabase
+            .from('blog_posts')
+            .select('slug, updated_at')
+            .eq('is_published', true)
+            .order('updated_at', { ascending: false }),
+        15000
+    );
 
-    // Fetch gallery images for mood board lastmod
-    const { data: galleryImages } = await supabase
-        .from('gallery_images')
-        .select('updated_at')
-        .eq('is_published', true)
-        .order('updated_at', { ascending: false })
-        .limit(1);
+    const { data: galleryImages } = await withTimeout(
+        supabase
+            .from('gallery_images')
+            .select('updated_at')
+            .eq('is_published', true)
+            .order('updated_at', { ascending: false })
+            .limit(1),
+        15000
+    );
 
     return {
         posts: posts || [],
@@ -133,6 +145,10 @@ async function build() {
     const root = path.resolve(__dirname, '..');
     const dist = path.resolve(root, 'dist');
     const publicDir = path.resolve(root, 'public');
+    const hardTimer = setTimeout(() => {
+        console.error('SSG hard timeout');
+        process.exit(1);
+    }, HARD_TIMEOUT_MS);
 
     // 1. Fetch data once
     console.log('Fetching application data...');
@@ -143,7 +159,8 @@ async function build() {
 
     if (SKIP_SSG) {
         console.log('Skipping SSG because SKIP_SSG=1');
-        return;
+        clearTimeout(hardTimer);
+        process.exit(0);
     }
 
     // 3. Create vite server to load the server entry
@@ -202,8 +219,12 @@ async function build() {
 
     } catch (e) {
         console.error('SSG failed:', e);
+        clearTimeout(hardTimer);
+        process.exit(1);
     } finally {
         await vite.close();
+        clearTimeout(hardTimer);
+        process.exit(0);
     }
 }
 
