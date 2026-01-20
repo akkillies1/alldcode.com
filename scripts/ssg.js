@@ -13,6 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 const BASE_URL = 'https://www.dplhomestar.com';
+const SKIP_SSG = process.env.SKIP_SSG === '1';
 
 // Mock browser globals for SSG
 global.window = {
@@ -139,6 +140,11 @@ async function build() {
 
     // 2. Generate Sitemap
     generateSitemap(posts, latestGalleryDate, dist, publicDir);
+
+    if (SKIP_SSG) {
+        console.log('Skipping SSG because SKIP_SSG=1');
+        return;
+    }
 
     // 3. Create vite server to load the server entry
     const vite = await createServer({
