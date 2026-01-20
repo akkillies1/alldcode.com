@@ -2,18 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://www.dplhomestar.com</loc>
+        <lastmod>2026-01-20T16:23:51.880Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://www.dplhomestar.com/mood-board</loc>
-        <changefreq>weekly</changefreq>
+        <lastmod>2026-01-18T05:26:58.685Z</lastmod>
+        <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://www.dplhomestar.com/blog</loc>
+        <lastmod>2026-01-18T15:56:15.548Z</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dplhomestar.com/privacy-policy</loc>
+        <lastmod>2026-01-20T16:23:51.887Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.dplhomestar.com/blog/modern-living-room-interior-design-ideas-for-indian-homes</loc>
+        <lastmod>2026-01-18T15:56:15.548Z</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
     </url>
     <url>
         <loc>https://www.dplhomestar.com/blog/test</loc>

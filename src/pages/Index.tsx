@@ -60,12 +60,16 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
   const [heroImage, setHeroImage] = useState(portfolio4);
+  const [mounted, setMounted] = useState(false);
 
   // Set random hero image on mount
   useEffect(() => {
     const images = [portfolio1, portfolio2, portfolio3, portfolio4, heroInterior];
     const randomImage = images[Math.floor(Math.random() * images.length)];
     setHeroImage(randomImage);
+  }, []);
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   const getFlagEmoji = (iso2: string) => {
@@ -866,30 +870,48 @@ const Index = () => {
               <div className="grid md:grid-cols-[120px,1fr,2fr] gap-8">
                 <div>
                   <label htmlFor="countryCode" className="block text-sm font-bold mb-3 tracking-widest uppercase text-muted-foreground">Code *</label>
-                  <Select
-                    value={`${formData.countryIso2}-${formData.countryCode}`}
-                    onValueChange={(value) => {
-                      const [iso2, code] = value.split('-');
-                      setFormData({ ...formData, countryIso2: iso2, countryCode: code });
-                    }}
-                  >
-                    <SelectTrigger className="h-14 bg-background border-border text-foreground transition-all focus:ring-2 focus:ring-accent">
-                      <SelectValue placeholder="Code" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COUNTRY_LIST.map((country) => (
-                        <SelectItem key={country.iso2} value={`${country.iso2}-${country.dial_code}`}>
-                          <span className="flex items-center gap-2">
-                            <span className="text-lg leading-none">
-                              {country.iso2 === "UN" ? "🌍" : getFlagEmoji(country.iso2)}
+                  {mounted ? (
+                    <Select
+                      value={`${formData.countryIso2}-${formData.countryCode}`}
+                      onValueChange={(value) => {
+                        const [iso2, code] = value.split('-');
+                        setFormData({ ...formData, countryIso2: iso2, countryCode: code });
+                      }}
+                    >
+                      <SelectTrigger className="h-14 bg-background border-border text-foreground transition-all focus:ring-2 focus:ring-accent">
+                        <SelectValue placeholder="Code" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {COUNTRY_LIST.map((country) => (
+                          <SelectItem key={country.iso2} value={`${country.iso2}-${country.dial_code}`}>
+                            <span className="flex items-center gap-2">
+                              <span className="text-lg leading-none">
+                                {country.iso2 === "UN" ? "🌍" : getFlagEmoji(country.iso2)}
+                              </span>
+                              <span className="font-medium">{country.dial_code}</span>
+                              <span className="text-muted-foreground text-[10px] hidden md:inline">{country.name}</span>
                             </span>
-                            <span className="font-medium">{country.dial_code}</span>
-                            <span className="text-muted-foreground text-[10px] hidden md:inline">{country.name}</span>
-                          </span>
-                        </SelectItem>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <select
+                      value={`${formData.countryIso2}-${formData.countryCode}`}
+                      onChange={(e) => {
+                        const [iso2, code] = e.target.value.split('-');
+                        setFormData({ ...formData, countryIso2: iso2, countryCode: code });
+                      }}
+                      className="h-14 bg-background border border-border rounded-md text-foreground transition-all focus:ring-2 focus:ring-accent"
+                    >
+                      <option value="" disabled>Code</option>
+                      {COUNTRY_LIST.map((country) => (
+                        <option key={country.iso2} value={`${country.iso2}-${country.dial_code}`}>
+                          {country.dial_code} {country.name}
+                        </option>
                       ))}
-                    </SelectContent>
-                  </Select>
+                    </select>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-bold mb-3 tracking-widest uppercase text-muted-foreground">Phone *</label>
