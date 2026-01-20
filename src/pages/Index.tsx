@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, ChevronDown, Lightbulb, Hammer, Palette, Scissors } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin, Layers, Ruler, PenTool, ChevronDown, Lightbulb, Hammer, Palette, Scissors, Facebook } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -79,6 +79,7 @@ const Index = () => {
 
   // Track scroll position for header shadow
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const handleScroll = () => {
       setIsHeaderScrolled(window.scrollY > 20);
     };
@@ -88,6 +89,7 @@ const Index = () => {
 
   // Reveal animation on scroll
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -129,6 +131,7 @@ const Index = () => {
 
   // Track active section on scroll and sync URL
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const sections = ['home', 'about', 'philosophy', 'process', 'services', 'work', 'testimonials', 'contact'];
 
     const observer = new IntersectionObserver(
@@ -166,6 +169,7 @@ const Index = () => {
 
   // Handle cross-page hash navigation (scroll to section on load)
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     const hash = window.location.hash;
     if (hash) {
       // Small delay to ensure the DOM is ready and reveal animations have started
@@ -586,7 +590,7 @@ const Index = () => {
 
               <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
                 <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
-                  "We create thoughtful, tailored designs — layouts, materials, and color schemes — refined with your feedback to form a complete, client-approved design."
+                  "We create thoughtful, tailored designs — layouts, materials, and color schemes. By submitting detailed 2D plans and 3D visualizations, we refine every aspect with your feedback to form a complete, client-approved design."
                 </p>
               </Card>
             </div>
@@ -1011,6 +1015,16 @@ const Index = () => {
                     alt="Instagram"
                     className="w-5 h-5 rounded group-hover:scale-110 transition-transform"
                   />
+                  <span>@dplhomestar</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/dplhomestar"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group"
+                  aria-label="Follow DPL Homestar on Facebook (@dplhomestar)"
+                >
+                  <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
                   <span>@dplhomestar</span>
                 </a>
               </div>

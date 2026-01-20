@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/ssg.js",
+    "build": "vite build && tsx scripts/generate-sitemap.ts && node scripts/ssg.js",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-sitemap": "tsx scripts/generate-sitemap.ts",
-    "vercel-build": "vite build && node scripts/ssg.js"
+    "vercel-build": "vite build && tsx scripts/generate-sitemap.ts && node scripts/ssg.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

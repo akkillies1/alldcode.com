@@ -32,27 +32,56 @@ async function generateSitemap() {
 
     try {
         // Fetch blog posts
-        const { data: posts, error } = await supabase
+        const { data: posts, error: postsError } = await supabase
             .from('blog_posts')
             .select('slug, updated_at')
-            .eq('is_published', true);
+            .eq('is_published', true)
+            .order('updated_at', { ascending: false });
 
-        if (error) console.error('Error fetching posts:', error);
+        if (postsError) console.error('Error fetching posts:', postsError);
+
+        // Fetch gallery images for mood board lastmod
+        const { data: galleryImages, error: galleryError } = await supabase
+            .from('gallery_images')
+            .select('updated_at')
+            .eq('is_published', true)
+            .order('updated_at', { ascending: false })
+            .limit(1);
+
+        if (galleryError) console.error('Error fetching gallery images:', galleryError);
+
+        const latestPostDate = posts && posts.length > 0 ? new Date(posts[0].updated_at) : new Date();
+        const latestGalleryDate = galleryImages && galleryImages.length > 0 ? new Date(galleryImages[0].updated_at) : new Date();
 
         let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
-        // Add static routes
+        // Add static routes with dynamic lastmod
         staticRoutes.forEach(route => {
+            let lastmod = new Date().toISOString();
+            let priority = '0.8';
+            let changefreq = 'weekly';
+
+            if (route === '/') {
+                priority = '1.0';
+            } else if (route === '/blog') {
+                lastmod = latestPostDate.toISOString();
+                changefreq = 'daily';
+            } else if (route === '/mood-board') {
+                lastmod = latestGalleryDate.toISOString();
+                changefreq = 'daily';
+            }
+
             sitemap += `
     <url>
         <loc>${BASE_URL}${route === '/' ? '' : route}</loc>
-        <changefreq>weekly</changefreq>
-        <priority>${route === '/' ? '1.0' : '0.8'}</priority>
+        <lastmod>${lastmod}</lastmod>
+        <changefreq>${changefreq}</changefreq>
+        <priority>${priority}</priority>
     </url>`;
         });
 
-        // Add blog posts
+        // Add individual blog posts
         posts?.forEach(post => {
             sitemap += `
     <url>

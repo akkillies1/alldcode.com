@@ -2,8 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Load environment variables
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 // Mock browser globals for SSG
 global.localStorage = {
@@ -15,6 +23,21 @@ global.localStorage = {
     key: () => null
 };
 global.sessionStorage = global.localStorage;
+
+async function getBlogRoutes() {
+    if (!supabaseUrl || !supabaseKey) {
+        console.warn('Supabase credentials missing. Skipping dynamic blog routes.');
+        return [];
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: posts } = await supabase
+        .from('blog_posts')
+        .select('slug')
+        .eq('is_published', true);
+
+    return posts ? posts.map(post => `/blog/${post.slug}`) : [];
+}
 
 async function build() {
     const root = path.resolve(__dirname, '..');
@@ -35,7 +58,10 @@ async function build() {
         const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
         // 4. Define routes to render
-        const routes = ['/', '/blog', '/mood-board']; // Add any other public routes here
+        const blogRoutes = await getBlogRoutes();
+        const routes = ['/', '/blog', '/mood-board', ...blogRoutes]; // Add any other public routes here
+
+        console.log(`Prerendering ${routes.length} routes...`);
 
         for (const url of routes) {
             const helmetContext = {};

@@ -72,7 +72,7 @@ const BlogPost = () => {
                 title={post.title}
                 description={post.excerpt || `Read ${post.title} on The DCode Design Journal.`}
                 image={post.featured_image_url || "/og-image.png"}
-                url={window.location.href}
+                url={typeof window !== 'undefined' ? window.location.href : undefined}
                 type="article"
             />
             {/* Header */}

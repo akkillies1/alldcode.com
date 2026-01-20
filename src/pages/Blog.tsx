@@ -72,7 +72,7 @@ const Blog = () => {
             <SEO
                 title={currentTag ? `${currentTag} Articles` : "Design Journal"}
                 description="Insights, trends, and stories from the world of interior design by DPL Homestar."
-                url={window.location.href}
+                url={typeof window !== 'undefined' ? window.location.href : undefined}
             />
             {/* Header */}
             <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/50 py-3">

@@ -135,13 +135,13 @@ const PrivacyPolicy = () => {
 
           <section>
             <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-3">
-              6. Social media (Instagram)
+              6. Social media (Instagram & Facebook)
             </h2>
             <p>
-              We maintain a presence on Instagram at{" "}
+              We maintain a presence on Instagram and Facebook at{" "}
               <strong className="text-foreground">@dplhomestar</strong>. Your
-              interactions with us there are also governed by Instagram’s own
-              privacy policy. We may view and respond to your public comments,
+              interactions with us there are also governed by their respective
+              privacy policies. We may view and respond to your public comments,
               messages, or profile information that you choose to share.
             </p>
           </section>
