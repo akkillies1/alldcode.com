@@ -618,7 +618,7 @@ const Index = () => {
 
               <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
                 <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
-                  "We fine-tune the aesthetics and functionality with precision, ensuring every detail is perfected before moving to the production floor."
+                  "We fine-tune the aesthetics and functionality with precision, ensuring every detail is perfected and fully approved before moving into production."
                 </p>
               </Card>
             </div>
@@ -642,7 +642,7 @@ const Index = () => {
 
               <Card className="p-10 bg-white/[0.02] backdrop-blur-md border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-accent/40 hover:bg-white/[0.04] group-hover:-translate-y-1">
                 <p className="text-foreground/80 leading-relaxed text-xl font-serif italic font-light">
-                  "From factory to site, we manage quality checks and logistics, ensuring every bespoke piece arrives ready for seamless transformation."
+                  "Once the design is finalized and approved, production and execution are completed within 45 days. From factory to site, we manage quality checks and logistics to ensure every bespoke piece arrives ready for seamless transformation."
                 </p>
               </Card>
             </div>
