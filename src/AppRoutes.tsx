@@ -15,6 +15,8 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import MoodBoard from "./pages/MoodBoard";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Locations from "./pages/Locations";
+import Location from "./pages/Location";
 
 export const AppRoutes = () => (
     <Routes>
@@ -23,6 +25,8 @@ export const AppRoutes = () => (
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/locations" element={<Locations />} />
+        <Route path="/locations/:city" element={<Location />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route element={<ProtectedRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />

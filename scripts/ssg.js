@@ -92,7 +92,8 @@ async function getAppData() {
 
 function generateSitemap(posts, latestGalleryDate, distPath, publicPath) {
     console.log('Generating sitemap...');
-    const staticRoutes = ['/', '/mood-board', '/blog', '/privacy-policy'];
+    const locationSlugs = ['kochi','trivandrum','kottayam','thrissur','palakkad','thiruvalla','alappuzha','kozhikode','kannur','coimbatore','bangalore','kerala'];
+    const staticRoutes = ['/', '/mood-board', '/blog', '/privacy-policy', '/locations', ...locationSlugs.map(s => `/locations/${s}`)];
     const latestPostDate = posts.length > 0 ? new Date(posts[0].updated_at) : new Date();
 
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -181,7 +182,8 @@ async function build() {
 
         // 6. Define routes to render
         const blogRoutes = posts.map(post => `/blog/${post.slug}`);
-        const routes = ['/', '/blog', '/mood-board', '/privacy-policy', ...blogRoutes];
+        const locationSlugs = ['kochi','trivandrum','kottayam','thrissur','palakkad','thiruvalla','alappuzha','kozhikode','kannur','coimbatore','bangalore','kerala'];
+        const routes = ['/', '/blog', '/mood-board', '/privacy-policy', '/locations', ...locationSlugs.map(s => `/locations/${s}`), ...blogRoutes];
 
         console.log(`Prerendering ${routes.length} routes...`);
 

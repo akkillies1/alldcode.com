@@ -282,11 +282,21 @@ const Index = () => {
         console.error("Email notification failed (lead saved):", emailError);
       }
 
+      const submittedLocation = formData.location;
       toast({
         title: "✓ Message Sent Successfully",
         description: "Thank you for reaching out. We'll get back to you within 24 hours.",
         className: "bg-green-50 border-green-200 text-green-900",
       });
+
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'lead_submission', {
+          event_category: 'lead',
+          event_label: 'location',
+          location: submittedLocation || 'unknown',
+          page: 'index'
+        });
+      }
 
       setFormData({ name: "", email: "", phone: "", location: "", message: "", countryCode: "+91", countryIso2: "IN" });
     } catch (error: any) {
