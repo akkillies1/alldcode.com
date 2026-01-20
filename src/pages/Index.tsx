@@ -394,13 +394,13 @@ const Index = () => {
             <Logo className="w-32 md:w-48 h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
             <div className={`hidden md:block h-8 w-[1px] transition-all duration-500 ${isHeaderScrolled ? 'bg-white/10' : 'bg-white/30'}`} />
             <div className="flex flex-col">
-              <span className={`text-[8px] md:text-[10px] font-medium tracking-[0.2em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-white/60' : 'text-white/80'}`}>
+              <span className={`text-[8px] md:text-[10px] font-medium tracking-[0.2em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
                 Premier Turnkey
               </span>
-              <span className={`hidden md:block text-[9px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-white drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]'}`}>
+              <span className={`hidden md:block text-[9px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
                 Interior Design
               </span>
-              <span className={`md:hidden text-[7px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-white drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]'}`}>
+              <span className={`md:hidden text-[7px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
                 Design Studio
               </span>
             </div>
@@ -426,13 +426,13 @@ const Index = () => {
             })}
             <a
               href="/mood-board"
-              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-white'}/80 hover:${isHeaderScrolled ? 'text-foreground' : 'text-white'} after:w-0 hover:after:w-full`}
+              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-accent'}/70 hover:${isHeaderScrolled ? 'text-foreground' : 'text-accent'} after:w-0 hover:after:w-full`}
             >
               Mood Board
             </a>
             <a
               href="/blog"
-              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-white'}/80 hover:${isHeaderScrolled ? 'text-foreground' : 'text-white'} after:w-0 hover:after:w-full`}
+              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-accent'}/70 hover:${isHeaderScrolled ? 'text-foreground' : 'text-accent'} after:w-0 hover:after:w-full`}
             >
               Blog
             </a>
@@ -473,8 +473,12 @@ const Index = () => {
             <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-accent/30 font-light">·</span>
             <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case text-xl sm:text-3xl md:text-4xl lg:text-5xl">Elevate.</span>
           </h1>
+ 
+          <p className="text-xl md:text-2xl text-accent font-serif italic mb-6 tracking-wide animate-fade-in" style={{ animationDelay: '0.3s' }}>
+            Kerala’s Premier Interior Turnkey Solutions
+          </p>
 
-          <p className="text-lg md:text-xl text-foreground/70 dark:text-white/70 mb-12 leading-relaxed text-balance animate-fade-in font-light tracking-wide max-w-3xl mx-auto" style={{ animationDelay: '0.4s' }}>
+          <p className="text-lg md:text-xl text-accent mb-12 leading-relaxed text-balance animate-fade-in font-light tracking-wide max-w-3xl mx-auto" style={{ animationDelay: '0.4s' }}>
             From concept to completion, we craft interiors that inspire how you live, work, and feel.
           </p>
 

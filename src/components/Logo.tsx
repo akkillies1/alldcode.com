@@ -41,7 +41,7 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
                 </linearGradient>
             </defs>
 
-            {/* The Text "DPL Home" */}
+            {/* The Text "DPL Homestar" */}
             <text
                 x="25"
                 y="62"
@@ -51,12 +51,12 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
                 letterSpacing="-0.5"
             >
                 <tspan fontWeight="700">DPL</tspan>
-                <tspan dx="12" fontWeight="800">Home</tspan>
+                <tspan dx="12" fontWeight="800">Homestar</tspan>
             </text>
 
             {/* Animated Star & Effects (The "star" in Homestar) */}
             {/* Moved slightly right to accommodate the new text width */}
-            <g transform="translate(285, 54) scale(1.4)">
+            <g transform="translate(340, 54) scale(1.4)">
 
                 {/* Pulsating Radiations (Rings emanating outwards) */}
                 <circle r="12" stroke="#F59E0B" strokeWidth="1" fill="none" opacity="0">
