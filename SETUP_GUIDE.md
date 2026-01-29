@@ -86,10 +86,3 @@ These occur because the Supabase client doesn't know about the new tables yet.
 
 ## 🎯 What's Next: Admin CMS (Phase 3)
 
-After completing the above steps, we can build:
-- Admin login page
-- Dashboard for managing gallery images
-- Interface for adding/editing testimonials
-- Blog post editor
-
-Let me know when you've completed the migration steps and we can continue!
