@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Image, MessageSquare, FileText, TrendingUp, Users } from "lucide-react";
+import { Image, MessageSquare, FileText, TrendingUp, Users, Layers } from "lucide-react";
 
 export const AdminDashboard = () => {
     const [stats, setStats] = useState({
@@ -101,6 +101,16 @@ export const AdminDashboard = () => {
                 <Card className="p-6">
                     <h2 className="text-xl font-medium mb-4">Quick Actions</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <a
+                            href="/admin/projects"
+                            className="p-4 border border-border rounded-lg hover:bg-accent transition-colors"
+                        >
+                            <Layers className="w-8 h-8 mb-2 text-amber-600" />
+                            <h3 className="font-medium mb-1">Manage Projects</h3>
+                            <p className="text-sm text-muted-foreground">
+                                Showcase your work
+                            </p>
+                        </a>
                         <a
                             href="/admin/leads"
                             className="p-4 border border-border rounded-lg hover:bg-accent transition-colors"

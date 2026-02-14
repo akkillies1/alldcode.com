@@ -14,7 +14,7 @@ export interface Database {
           id: string
           title: string
           description: string | null
-          image_url: string
+          image_url: string | null
           thumbnail_url: string | null
           tags: string[]
           social_media_source: string | null
@@ -26,12 +26,14 @@ export interface Database {
           updated_at: string
           alt_text: string | null
           mood: string | null
+          project_id: string | null
+          media_type: string
         }
         Insert: {
           id?: string
           title: string
           description?: string | null
-          image_url: string
+          image_url?: string | null
           thumbnail_url?: string | null
           tags?: string[]
           social_media_source?: string | null
@@ -43,12 +45,14 @@ export interface Database {
           updated_at?: string
           alt_text?: string | null
           mood?: string | null
+          project_id?: string | null
+          media_type?: string
         }
         Update: {
           id?: string
           title?: string
           description?: string | null
-          image_url?: string
+          image_url?: string | null
           thumbnail_url?: string | null
           tags?: string[]
           social_media_source?: string | null
@@ -60,6 +64,55 @@ export interface Database {
           updated_at?: string
           alt_text?: string | null
           mood?: string | null
+          project_id?: string | null
+          media_type?: string
+        }
+      }
+      projects: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          description: string | null
+          cover_image_url: string | null
+          video_url: string | null
+          meta_title: string | null
+          meta_description: string | null
+          keywords: string[]
+          is_published: boolean
+          published_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          slug: string
+          description?: string | null
+          cover_image_url?: string | null
+          video_url?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          keywords?: string[]
+          is_published?: boolean
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          slug?: string
+          description?: string | null
+          cover_image_url?: string | null
+          video_url?: string | null
+          meta_title?: string | null
+          meta_description?: string | null
+          keywords?: string[]
+          is_published?: boolean
+          published_at?: string | null
+          created_at?: string
+          updated_at?: string
         }
       }
       testimonials: {

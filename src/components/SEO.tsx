@@ -6,6 +6,8 @@ interface SEOProps {
     image?: string;
     url?: string;
     type?: string;
+    schema?: object;
+    preloadImage?: string;
 }
 
 export const SEO = ({
@@ -13,11 +15,13 @@ export const SEO = ({
     description = "DPL Homestar elevates spaces beyond the ordinary. Transformative luxury interior design, bespoke furniture, and signature spatial experiences in Kerala.",
     image = "https://dplhomestar.com/og-image.png",
     url,
-    type = "website"
+    type = "website",
+    schema,
+    preloadImage
 }: SEOProps) => {
     const siteTitle = "DPL Homestar";
     const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
-    
+
     // Ensure canonical URL always points to the primary domain
     const getCanonicalUrl = () => {
         if (url) return url;
@@ -37,6 +41,7 @@ export const SEO = ({
             <title>{fullTitle}</title>
             <meta name="description" content={description} />
             <link rel="canonical" href={canonicalUrl} />
+            {preloadImage && <link rel="preload" as="image" href={preloadImage} />}
 
             {/* Open Graph / Facebook */}
             <meta property="og:type" content={type} />
@@ -51,6 +56,13 @@ export const SEO = ({
             <meta property="twitter:title" content={fullTitle} />
             <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={image.startsWith('http') ? image : `https://dplhomestar.com${image}`} />
+
+            {/* JSON-LD Schema */}
+            {schema && (
+                <script type="application/ld+json">
+                    {JSON.stringify(schema)}
+                </script>
+            )}
         </Helmet>
     );
 };

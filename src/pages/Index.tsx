@@ -19,6 +19,8 @@ import { MobileMenu } from "@/components/MobileMenu";
 import { FloatingActionButtons } from "@/components/FloatingActionButtons";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
 import { Testimonials } from "@/components/Testimonials";
 import portfolio1 from "@/assets/portfolio-1.jpg";
@@ -377,79 +379,68 @@ const Index = () => {
 
   const metadata = getMetadata();
 
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.dplhomestar.com/#organization",
+        "name": "DPL Homestar",
+        "url": "https://www.dplhomestar.com",
+        "logo": "https://www.dplhomestar.com/dcode-logo.jpg",
+        "image": "https://www.dplhomestar.com/og-image.png",
+        "description": "DPL Homestar elevates spaces beyond the ordinary. Transformative luxury interior design, bespoke furniture, and signature spatial experiences in Kerala.",
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Kerala"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "24/1701, Door No 14/22AB4, Suite No 883, 2nd floor, KC Arcade, Near TV center, Cochin Special Economin Zone",
+          "addressLocality": "Ernakulam",
+          "addressRegion": "Kerala",
+          "postalCode": "682037",
+          "addressCountry": "IN"
+        },
+        "telephone": "+919633860898",
+        "priceRange": "$$",
+        "areaServed": [
+          { "@type": "State", "name": "Kerala" },
+          { "@type": "AdministrativeArea", "name": "South India" },
+          { "@type": "City", "name": "Bangalore" },
+          { "@type": "City", "name": "Coimbatore" }
+        ]
+      },
+      {
+        "@type": "Service",
+        "name": "Turnkey Interior Design Kerala",
+        "serviceType": "Interior Design",
+        "provider": { "@id": "https://www.dplhomestar.com/#organization" },
+        "areaServed": { "@type": "State", "name": "Kerala" },
+        "description": "Full-service luxury turnkey interior design solutions across Kerala, including modular kitchens, custom furniture, and villa interiors.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": "158"
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background selection:bg-accent/30">
       <SEO
         title={metadata.title}
         description={metadata.description}
+        schema={homeSchema}
+        preloadImage={heroImage}
       />
 
       {/* Floating Action Buttons */}
       <FloatingActionButtons />
 
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isHeaderScrolled ? 'bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/50 py-3' : 'bg-gradient-to-b from-black/60 to-transparent border-b border-transparent py-5'}`}>
-        <div className="container-custom flex items-center justify-between">
-          <div className="flex flex-col md:flex-row md:items-center gap-0 md:gap-4 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <Logo className="w-32 md:w-48 h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
-            <div className={`hidden md:block h-8 w-[1px] transition-all duration-500 ${isHeaderScrolled ? 'bg-white/10' : 'bg-white/30'}`} />
-            <div className="flex flex-col">
-              <span className={`text-[8px] md:text-[10px] font-medium tracking-[0.2em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
-                Premier Turnkey
-              </span>
-              <span className={`hidden md:block text-[9px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
-                Interior Design
-              </span>
-              <span className={`md:hidden text-[7px] font-bold tracking-[0.1em] uppercase transition-all duration-500 ${isHeaderScrolled ? 'text-accent' : 'text-accent'}`}>
-                Design Studio
-              </span>
-            </div>
-          </div>
-
-          <div className="hidden md:flex items-center gap-8">
-            {['Home', 'About', 'Philosophy', 'Process', 'Services', 'Work'].map((item) => {
-              const id = item.toLowerCase() === 'home' ? 'home' : (item.toLowerCase() === 'work' ? 'work' : item.toLowerCase());
-              const isActive = activeSection === id;
-              const linkColor = isHeaderScrolled ? 'text-foreground' : 'text-accent';
-              return (
-                <a
-                  key={item}
-                  href={`#${id}`}
-                  className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isActive
-                    ? `${linkColor} after:w-full`
-                    : `${linkColor}/70 hover:${linkColor} after:w-0 hover:after:w-full`
-                    }`}
-                >
-                  {item}
-                </a>
-              );
-            })}
-            <a
-              href="/mood-board"
-              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-accent'}/70 hover:${isHeaderScrolled ? 'text-foreground' : 'text-accent'} after:w-0 hover:after:w-full`}
-            >
-              Mood Board
-            </a>
-            <a
-              href="/blog"
-              className={`text-sm font-medium transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-accent after:transition-all after:duration-300 ${isHeaderScrolled ? 'text-foreground' : 'text-accent'}/70 hover:${isHeaderScrolled ? 'text-foreground' : 'text-accent'} after:w-0 hover:after:w-full`}
-            >
-              Blog
-            </a>
-            <Button
-              variant="default"
-              size="sm"
-              className="bg-accent text-accent-foreground hover:bg-accent/90 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Contact
-            </Button>
-            <ThemeToggle />
-          </div>
-
-          <MobileMenu isScrolled={isHeaderScrolled} />
-        </div>
-      </nav>
+      <Navbar activeSection={activeSection} />
 
       {/* Home Section (previously Hero) */}
       <section id="home" className="relative min-h-screen flex items-start md:items-center justify-center overflow-hidden pt-48 md:pt-24">
@@ -473,7 +464,7 @@ const Index = () => {
             <span className="hidden xs:inline mx-2 md:mx-3 text-foreground/20 dark:text-accent/30 font-light">·</span>
             <span style={{ color: '#D4AF37' }} className="italic font-serif normal-case text-xl sm:text-3xl md:text-4xl lg:text-5xl">Elevate.</span>
           </h1>
- 
+
           <p className="text-xl md:text-2xl text-accent font-serif italic mb-6 tracking-wide animate-fade-in" style={{ animationDelay: '0.3s' }}>
             Kerala’s Premier Interior Turnkey Solutions
           </p>
@@ -1045,108 +1036,7 @@ const Index = () => {
       </section >
 
       {/* Footer */}
-      <footer className="py-12 md:py-16 border-t border-border bg-background relative overflow-hidden" >
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[120px] -z-10" />
-        <div className="container-custom">
-          <div className="grid md:grid-cols-3 gap-10 md:gap-16 mb-12">
-            <div>
-              <div className="flex items-baseline gap-2 mb-4">
-                <Logo className="w-40 h-auto" />
-              </div>
-              <p className="text-foreground/60 leading-relaxed font-light mb-4">
-                The luxury home interior brand by <span className="text-accent font-semibold">DCODE Private Limited</span>.
-              </p>
-              <p className="text-foreground/40 text-sm leading-relaxed">
-                Transforming spaces into refined living experiences.
-              </p>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-bold mb-6 tracking-widest uppercase text-foreground">Contact</h4>
-              <div className="space-y-4">
-                <a href="mailto:info@dplhomestar.com" className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group">
-                  <Mail className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
-                  <span>info@dplhomestar.com</span>
-                </a>
-                <a href="tel:+919633860898" className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group">
-                  <Phone className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
-                  <span>+91 9633860898</span>
-                </a>
-                <a
-                  href="https://instagram.com/dplhomestar"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group"
-                  aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
-                >
-                  <img
-                    src="/instagram.svg"
-                    alt="Instagram"
-                    className="w-5 h-5 rounded group-hover:scale-110 transition-transform"
-                  />
-                  <span>@dplhomestar</span>
-                </a>
-                <a
-                  href="https://www.facebook.com/dplhomestar"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 text-foreground/60 hover:text-accent transition-colors group"
-                  aria-label="Follow DPL Homestar on Facebook (@dplhomestar)"
-                >
-                  <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform text-accent" />
-                  <span>@dplhomestar</span>
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-bold mb-6 tracking-widest uppercase text-foreground">Location</h4>
-              <div className="flex items-start gap-3 text-foreground/60">
-                <MapPin className="w-5 h-5 mt-1 flex-shrink-0 text-accent" />
-                <span className="text-sm leading-relaxed">
-                  <div className="flex flex-col gap-3">
-                    <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-16 h-16 rounded-md shadow-sm opacity-80" />
-                    <strong className="block text-foreground mb-1 underline decoration-accent/30 decoration-2 underline-offset-4">DCODE PRIVATE LTD</strong>
-                  </div>
-                  24/1701, Door No 14/22AB4, Suite No 883,<br />
-                  2nd floor, KC Arcade, Near TV center,<br />
-                  Cochin Special Economin Zone,<br />
-                  Ernakulam, Kerala 682037
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-5 border-t border-border text-center">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-foreground/30 font-light text-sm">
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-2">
-                  <img src="/dcode-logo.jpg" alt="DCODE Logo" className="w-8 h-8 rounded-sm opacity-60" />
-                  <p>
-                    &copy; {new Date().getFullYear()}{" "}
-                    <span className="text-accent font-medium">DPL Homestar</span> — A brand of{" "}
-                    <span className="text-foreground/50 font-medium">DCODE Private Limited</span>. All rights reserved.
-                    {" "}
-                    <a
-                      href="/privacy-policy"
-                      className="ml-2 text-foreground/40 hover:text-accent underline underline-offset-4"
-                    >
-                      Privacy Policy
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <a
-                href="/admin/login"
-                className="text-[12px] text-foreground/20 hover:text-accent transition-all duration-300 md:self-end self-start uppercase tracking-widest font-bold"
-                aria-label="Admin Access"
-              >
-                *
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer >
+      <Footer />
     </div >
   );
 };

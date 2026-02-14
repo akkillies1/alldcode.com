@@ -173,6 +173,7 @@ const Blog = () => {
                                                     src={post.featured_image_url}
                                                     alt={post.title}
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                    loading="lazy"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full bg-accent/5 flex items-center justify-center text-accent/20">

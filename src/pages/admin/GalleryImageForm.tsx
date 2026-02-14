@@ -10,7 +10,10 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, Loader2, Link } from "lucide-react";
+import { Upload, X, Loader2, Link, Image as ImageIcon, Instagram, Facebook } from "lucide-react";
+import { Database } from "@/integrations/supabase/types";
+
+type Project = Database['public']['Tables']['projects']['Row'];
 
 export const GalleryImageForm = () => {
     const navigate = useNavigate();
@@ -19,6 +22,7 @@ export const GalleryImageForm = () => {
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [fetching, setFetching] = useState(!!id);
+    const [projects, setProjects] = useState<Project[]>([]);
 
     const [formData, setFormData] = useState({
         title: "",
@@ -30,18 +34,32 @@ export const GalleryImageForm = () => {
         social_media_url: "",
         social_media_source: "",
         alt_text: "",
+        project_id: "unassigned", // 'unassigned' or UUID
+        media_type: "image", // 'image', 'instagram', 'facebook'
     });
 
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+    const [inputType, setInputType] = useState<'upload' | 'url'>('upload');
+
+    // ... (rest of state)
+
     useEffect(() => {
+        fetchProjects();
         if (id) {
             fetchImage();
         }
     }, [id]);
 
+    // Correct fetchProjects and useEffect order
+    const fetchProjects = async () => {
+        const { data } = await supabase.from('projects').select('id, title').order('created_at', { ascending: false });
+        if (data) setProjects(data as Project[]);
+    };
+
     const fetchImage = async () => {
+
         try {
             const { data, error } = await supabase
                 .from('gallery_images')
@@ -62,8 +80,12 @@ export const GalleryImageForm = () => {
                     social_media_url: data.social_media_url || "",
                     social_media_source: data.social_media_source || "",
                     alt_text: data.alt_text || "",
+                    project_id: data.project_id || "unassigned",
+                    media_type: data.media_type || "image",
                 });
                 setImagePreview(data.image_url);
+                // If it's an image, we default to showing the preview. 
+                // We keep inputType as 'upload' to show the preview area, but user can switch to URL to edit it.
             }
         } catch (error) {
             console.error("Error fetching image:", error);
@@ -78,15 +100,8 @@ export const GalleryImageForm = () => {
         }
     };
 
-    const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const url = e.target.value;
-        let source = formData.social_media_source;
-
-        if (url.includes("instagram.com")) source = "instagram";
-        else if (url.includes("facebook.com")) source = "facebook";
-        else if (url.includes("pinterest.com")) source = "pinterest";
-
-        setFormData({ ...formData, social_media_url: url, social_media_source: source });
+    const handleMediaTypeChange = (value: string) => {
+        setFormData({ ...formData, media_type: value });
     };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,10 +115,21 @@ export const GalleryImageForm = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!imagePreview) {
+        // Validation: If type is image, we need an image (either new file or existing preview/url)
+        if (formData.media_type === 'image' && !imagePreview) {
             toast({
                 title: "Error",
-                description: "Please select an image",
+                description: "Please select an image or enter a URL",
+                variant: "destructive",
+            });
+            return;
+        }
+
+        // Validation: If type is social, we need a URL
+        if ((formData.media_type === 'instagram' || formData.media_type === 'facebook') && !formData.social_media_url) {
+            toast({
+                title: "Error",
+                description: "Please provide the Social Media URL",
                 variant: "destructive",
             });
             return;
@@ -114,8 +140,8 @@ export const GalleryImageForm = () => {
         try {
             let publicUrl = imagePreview;
 
-            // 1. Upload image to Supabase Storage if new file selected
-            if (imageFile) {
+            // 1. Upload image to Supabase Storage ONLY if new file selected and type is image AND input mode is upload
+            if (imageFile && formData.media_type === 'image' && inputType === 'upload') {
                 setUploading(true);
                 const fileExt = imageFile.name.split('.').pop();
                 const fileName = `${Math.random()}.${fileExt}`;
@@ -132,7 +158,13 @@ export const GalleryImageForm = () => {
                     .getPublicUrl(filePath);
 
                 publicUrl = data.publicUrl;
+            } else if (formData.media_type !== 'image') {
+                // If switching to social, we can optionally clear the image_url or keep it if it existed.
+                // For now let's keep it if it's there, but null if we are creating new
+                if (!id) publicUrl = null;
             }
+            // Note: If inputType === 'url', publicUrl is already set to the value of imagePreview (which is bound to the input)
+
 
             // 2. Save record to database
             const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
@@ -141,14 +173,16 @@ export const GalleryImageForm = () => {
                 title: formData.title,
                 description: formData.description,
                 image_url: publicUrl,
-                thumbnail_url: publicUrl, // Using same URL for now
+                thumbnail_url: publicUrl,
                 tags: tagsArray,
                 is_featured: formData.is_featured,
                 is_published: formData.is_published,
                 display_order: formData.display_order || 0,
                 social_media_url: formData.social_media_url || null,
-                social_media_source: formData.social_media_source || null,
+                social_media_source: formData.media_type === 'image' ? formData.social_media_source : formData.media_type,
                 alt_text: formData.alt_text || formData.title,
+                project_id: formData.project_id === "unassigned" ? null : formData.project_id,
+                media_type: formData.media_type,
             };
 
             let error;
@@ -169,7 +203,7 @@ export const GalleryImageForm = () => {
 
             toast({
                 title: "Success",
-                description: `Image ${id ? "updated" : "uploaded"} successfully`,
+                description: `Entry ${id ? "updated" : "created"} successfully`,
             });
 
             navigate("/admin/gallery");
@@ -198,182 +232,213 @@ export const GalleryImageForm = () => {
 
     return (
         <AdminLayout>
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-4xl mx-auto">
                 <div className="flex items-center justify-between mb-6">
-                    <h1 className="text-3xl font-serif font-medium">{id ? "Edit Image" : "Add New Image"}</h1>
+                    <h1 className="text-3xl font-serif font-medium">{id ? "Edit Entry" : "Add New Entry"}</h1>
                     <Button variant="outline" onClick={() => navigate("/admin/gallery")}>
                         Cancel
                     </Button>
                 </div>
 
-                <Card className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Image Upload */}
-                        <div className="space-y-2">
-                            <Label>Image</Label>
-                            <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-accent/50 transition-colors">
-                                {imagePreview ? (
-                                    <div className="relative">
-                                        <img
-                                            src={imagePreview}
-                                            alt="Preview"
-                                            className="max-h-[300px] mx-auto rounded-lg"
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            size="icon"
-                                            className="absolute top-2 right-2"
-                                            onClick={() => {
-                                                setImageFile(null);
-                                                setImagePreview(null);
-                                            }}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column - Main Form */}
+                    <div className="lg:col-span-2 space-y-6">
+                        <Card className="p-6">
+                            <form id="gallery-form" onSubmit={handleSubmit} className="space-y-6">
+                                {/* Media Type Selection */}
+                                <div className="space-y-4">
+                                    <Label>Content Type</Label>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        <div
+                                            className={`border rounded-lg p-4 cursor-pointer flex flex-col items-center gap-2 transition-all ${formData.media_type === 'image' ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'hover:bg-accent/50'}`}
+                                            onClick={() => handleMediaTypeChange('image')}
                                         >
-                                            <X className="w-4 h-4" />
-                                        </Button>
+                                            <ImageIcon className="w-6 h-6" />
+                                            <span className="text-sm font-medium">Image Upload</span>
+                                        </div>
+                                        <div
+                                            className={`border rounded-lg p-4 cursor-pointer flex flex-col items-center gap-2 transition-all ${formData.media_type === 'instagram' ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'hover:bg-accent/50'}`}
+                                            onClick={() => handleMediaTypeChange('instagram')}
+                                        >
+                                            <Instagram className="w-6 h-6" />
+                                            <span className="text-sm font-medium">Instagram</span>
+                                        </div>
+                                        <div
+                                            className={`border rounded-lg p-4 cursor-pointer flex flex-col items-center gap-2 transition-all ${formData.media_type === 'facebook' ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'hover:bg-accent/50'}`}
+                                            onClick={() => handleMediaTypeChange('facebook')}
+                                        >
+                                            <Facebook className="w-6 h-6" />
+                                            <span className="text-sm font-medium">Facebook</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Dynamic Content Input */}
+                                {formData.media_type === 'image' ? (
+                                    <div className="space-y-2 animate-fade-in">
+                                        <Label>Image File</Label>
+                                        <div className="border-2 border-dashed border-border rounded-lg p-6 text-center hover:bg-accent/50 transition-colors">
+                                            {imagePreview ? (
+                                                <div className="relative">
+                                                    <img
+                                                        src={imagePreview}
+                                                        alt="Preview"
+                                                        className="max-h-[300px] mx-auto rounded-lg shadow-sm"
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        variant="destructive"
+                                                        size="icon"
+                                                        className="absolute top-2 right-2"
+                                                        onClick={() => {
+                                                            setImageFile(null);
+                                                            setImagePreview(null);
+                                                        }}
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col items-center cursor-pointer" onClick={() => document.getElementById('image-upload')?.click()}>
+                                                    <Upload className="w-10 h-10 text-muted-foreground mb-2" />
+                                                    <p className="text-sm text-muted-foreground mb-2">
+                                                        Click or Drag to upload
+                                                    </p>
+                                                    <Input
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        id="image-upload"
+                                                        onChange={handleImageChange}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 ) : (
-                                    <div className="flex flex-col items-center">
-                                        <Upload className="w-10 h-10 text-muted-foreground mb-2" />
-                                        <p className="text-sm text-muted-foreground mb-2">
-                                            Drag and drop or click to upload
+                                    <div className="space-y-2 animate-fade-in">
+                                        <Label htmlFor="social_media_url">
+                                            {formData.media_type === 'instagram' ? 'Instagram Post URL' : 'Facebook Post URL'}
+                                        </Label>
+                                        <div className="relative">
+                                            <Link className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                                            <Input
+                                                id="social_media_url"
+                                                className="pl-9"
+                                                value={formData.social_media_url}
+                                                onChange={(e) => setFormData({ ...formData, social_media_url: e.target.value })}
+                                                placeholder={formData.media_type === 'instagram' ? "https://www.instagram.com/p/..." : "https://www.facebook.com/..."}
+                                            />
+                                        </div>
+                                        <p className="text-xs text-muted-foreground">
+                                            Paste the full URL to the post. It will be embedded on the site.
                                         </p>
-                                        <Input
-                                            type="file"
-                                            accept="image/*"
-                                            className="hidden"
-                                            id="image-upload"
-                                            onChange={handleImageChange}
-                                        />
-                                        <Button type="button" variant="outline" onClick={() => document.getElementById('image-upload')?.click()}>
-                                            Select Image
-                                        </Button>
                                     </div>
                                 )}
-                            </div>
-                        </div>
 
-                        {/* Title */}
-                        <div className="space-y-2">
-                            <Label htmlFor="title">Title</Label>
-                            <Input
-                                id="title"
-                                value={formData.title}
-                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                placeholder="e.g., Modern Living Room"
-                                required
-                            />
-                        </div>
+                                {/* Basic Info */}
+                                <div className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="title">Title</Label>
+                                        <Input
+                                            id="title"
+                                            value={formData.title}
+                                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                            placeholder="e.g., Modern Living Room"
+                                            required
+                                        />
+                                    </div>
 
-                        {/* Description */}
-                        <div className="space-y-2">
-                            <Label htmlFor="description">Description</Label>
-                            <Textarea
-                                id="description"
-                                value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                placeholder="Brief description of the project..."
-                                rows={3}
-                            />
-                        </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="description">Description</Label>
+                                        <Textarea
+                                            id="description"
+                                            value={formData.description}
+                                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                            placeholder="Brief description..."
+                                            rows={3}
+                                        />
+                                    </div>
 
-                        {/* Tags */}
-                        <div className="space-y-2">
-                            <Label htmlFor="tags">Tags (comma separated)</Label>
-                            <Input
-                                id="tags"
-                                value={formData.tags}
-                                onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                                placeholder="e.g., Residential, Kitchen, Modern"
-                            />
-                        </div>
-
-                        {/* Alt Text */}
-                        <div className="space-y-2">
-                            <Label htmlFor="alt_text">SEO Alt Text</Label>
-                            <Input
-                                id="alt_text"
-                                value={formData.alt_text}
-                                onChange={(e) => setFormData({ ...formData, alt_text: e.target.value })}
-                                placeholder="Descriptive text for search engines..."
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                Describes what is in the image. Helps with Google Image search ranking.
-                            </p>
-                        </div>
-
-                        {/* Social Media Integration */}
-                        <div className="space-y-4 border p-4 rounded-lg bg-accent/5">
-                            <h3 className="font-medium flex items-center gap-2">
-                                <Link className="w-4 h-4" />
-                                Social Media Link
-                            </h3>
-                            <div className="grid gap-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="social_media_url">Post URL</Label>
-                                    <Input
-                                        id="social_media_url"
-                                        value={formData.social_media_url}
-                                        onChange={handleUrlChange}
-                                        placeholder="https://instagram.com/p/..."
-                                    />
-                                    <p className="text-xs text-muted-foreground">
-                                        Paste a link to the original social media post
-                                    </p>
+                                    {/* Tags */}
+                                    <div className="space-y-2">
+                                        <Label htmlFor="tags">Tags (comma separated)</Label>
+                                        <Input
+                                            id="tags"
+                                            value={formData.tags}
+                                            onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                                            placeholder="e.g., Residential, Kitchen, Modern"
+                                        />
+                                    </div>
                                 </div>
+                            </form>
+                        </Card>
+                    </div>
+
+                    {/* Right Column - Settings */}
+                    <div className="space-y-6">
+                        <Card className="p-6">
+                            <h2 className="text-lg font-semibold mb-4">Organization</h2>
+                            <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="social_media_source">Source</Label>
+                                    <Label>Project Assignment</Label>
                                     <Select
-                                        value={formData.social_media_source}
-                                        onValueChange={(value) => setFormData({ ...formData, social_media_source: value })}
+                                        value={formData.project_id}
+                                        onValueChange={(value) => setFormData({ ...formData, project_id: value })}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select platform" />
+                                            <SelectValue placeholder="Select a project" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="instagram">Instagram</SelectItem>
-                                            <SelectItem value="facebook">Facebook</SelectItem>
-                                            <SelectItem value="pinterest">Pinterest</SelectItem>
-                                            <SelectItem value="other">Other</SelectItem>
+                                            <SelectItem value="unassigned">Unassigned (Stream)</SelectItem>
+                                            {projects.map(p => (
+                                                <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
+                                    <p className="text-xs text-muted-foreground">
+                                        Link this entry to a specific project album.
+                                    </p>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
 
-                        {/* Options */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="flex items-center justify-between border p-4 rounded-lg">
-                                <Label htmlFor="featured">Featured</Label>
-                                <Switch
-                                    id="featured"
-                                    checked={formData.is_featured}
-                                    onCheckedChange={(checked) => setFormData({ ...formData, is_featured: checked })}
-                                />
+                        <Card className="p-6">
+                            <h2 className="text-lg font-semibold mb-4">Visibility</h2>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="featured">Featured</Label>
+                                    <Switch
+                                        id="featured"
+                                        checked={formData.is_featured}
+                                        onCheckedChange={(checked) => setFormData({ ...formData, is_featured: checked })}
+                                    />
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <Label htmlFor="published">Published</Label>
+                                    <Switch
+                                        id="published"
+                                        checked={formData.is_published}
+                                        onCheckedChange={(checked) => setFormData({ ...formData, is_published: checked })}
+                                    />
+                                </div>
                             </div>
-                            <div className="flex items-center justify-between border p-4 rounded-lg">
-                                <Label htmlFor="published">Published</Label>
-                                <Switch
-                                    id="published"
-                                    checked={formData.is_published}
-                                    onCheckedChange={(checked) => setFormData({ ...formData, is_published: checked })}
-                                />
-                            </div>
-                        </div>
+                        </Card>
 
-                        <Button type="submit" className="w-full" size="lg" disabled={loading}>
+                        <Button type="submit" form="gallery-form" className="w-full" size="lg" disabled={loading}>
                             {loading ? (
                                 <>
                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                                     {uploading ? "Uploading..." : "Saving..."}
                                 </>
                             ) : (
-                                id ? "Update Image" : "Save Image"
+                                id ? "Update Entry" : "Save Entry"
                             )}
                         </Button>
-                    </form>
-                </Card>
+                    </div>
+                </div>
             </div>
         </AdminLayout>
     );
 };
+

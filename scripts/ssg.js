@@ -60,7 +60,7 @@ function withTimeout(promise, ms) {
 async function getAppData() {
     if (!supabaseUrl || !supabaseKey) {
         console.warn('Supabase credentials missing. Skipping dynamic data fetching.');
-        return { posts: [], latestGalleryDate: new Date() };
+        return { posts: [], projects: [], latestGalleryDate: new Date() };
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -70,6 +70,14 @@ async function getAppData() {
             .from('blog_posts')
             .select('slug, updated_at')
             .eq('is_published', true)
+            .order('updated_at', { ascending: false }),
+        15000
+    );
+
+    const { data: projects } = await withTimeout(
+        supabase
+            .from('projects')
+            .select('slug, updated_at')
             .order('updated_at', { ascending: false }),
         15000
     );
@@ -86,14 +94,15 @@ async function getAppData() {
 
     return {
         posts: posts || [],
+        projects: projects || [],
         latestGalleryDate: galleryImages && galleryImages.length > 0 ? new Date(galleryImages[0].updated_at) : new Date()
     };
 }
 
-function generateSitemap(posts, latestGalleryDate, distPath, publicPath) {
+function generateSitemap(posts, projects, latestGalleryDate, distPath, publicPath) {
     console.log('Generating sitemap...');
-    const locationSlugs = ['kochi','trivandrum','kottayam','thrissur','palakkad','thiruvalla','alappuzha','kozhikode','kannur','coimbatore','bangalore','kerala'];
-    const staticRoutes = ['/', '/mood-board', '/blog', '/privacy-policy', '/locations', ...locationSlugs.map(s => `/locations/${s}`)];
+    const locationSlugs = ['kochi', 'trivandrum', 'kottayam', 'thrissur', 'palakkad', 'thiruvalla', 'alappuzha', 'kozhikode', 'kannur', 'coimbatore', 'bangalore', 'kerala'];
+    const staticRoutes = ['/', '/mood-board', '/blog', '/privacy-policy', '/locations', '/guides/interior-design-cost-kerala', ...locationSlugs.map(s => `/locations/${s}`)];
     const latestPostDate = posts.length > 0 ? new Date(posts[0].updated_at) : new Date();
 
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -133,6 +142,16 @@ function generateSitemap(posts, latestGalleryDate, distPath, publicPath) {
     </url>`;
     });
 
+    projects.forEach(project => {
+        sitemap += `
+    <url>
+        <loc>${BASE_URL}/projects/${project.slug}</loc>
+        <lastmod>${new Date(project.updated_at).toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>`;
+    });
+
     sitemap += '\n</urlset>';
 
     fs.writeFileSync(path.join(publicPath, 'sitemap.xml'), sitemap);
@@ -153,10 +172,10 @@ async function build() {
 
     // 1. Fetch data once
     console.log('Fetching application data...');
-    const { posts, latestGalleryDate } = await getAppData();
+    const { posts, projects, latestGalleryDate } = await getAppData();
 
     // 2. Generate Sitemap
-    generateSitemap(posts, latestGalleryDate, dist, publicDir);
+    generateSitemap(posts, projects, latestGalleryDate, dist, publicDir);
 
     if (SKIP_SSG) {
         console.log('Skipping SSG because SKIP_SSG=1');
@@ -182,8 +201,9 @@ async function build() {
 
         // 6. Define routes to render
         const blogRoutes = posts.map(post => `/blog/${post.slug}`);
-        const locationSlugs = ['kochi','trivandrum','kottayam','thrissur','palakkad','thiruvalla','alappuzha','kozhikode','kannur','coimbatore','bangalore','kerala'];
-        const routes = ['/', '/blog', '/mood-board', '/privacy-policy', '/locations', ...locationSlugs.map(s => `/locations/${s}`), ...blogRoutes];
+        const projectRoutes = projects.map(proj => `/projects/${proj.slug}`);
+        const locationSlugs = ['kochi', 'trivandrum', 'kottayam', 'thrissur', 'palakkad', 'thiruvalla', 'alappuzha', 'kozhikode', 'kannur', 'coimbatore', 'bangalore', 'kerala'];
+        const routes = ['/', '/blog', '/mood-board', '/privacy-policy', '/locations', '/guides/interior-design-cost-kerala', ...locationSlugs.map(s => `/locations/${s}`), ...blogRoutes, ...projectRoutes];
 
         console.log(`Prerendering ${routes.length} routes...`);
 

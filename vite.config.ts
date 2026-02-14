@@ -19,7 +19,17 @@ export default defineConfig(({ mode }) => ({
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: mode === "development",
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1200,
+    reportCompressedSize: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-ui': ['lucide-react', '@radix-ui/react-slot', 'class-variance-authority', 'tailwind-merge'],
+          'vendor-utils': ['@supabase/supabase-js', '@tanstack/react-query', 'date-fns']
+        }
+      }
+    }
   },
   define: {
     'process.env': {}

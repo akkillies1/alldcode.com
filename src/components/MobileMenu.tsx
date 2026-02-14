@@ -69,7 +69,7 @@ export const MobileMenu = ({ isScrolled }: MobileMenuProps) => {
             <Logo className="w-40 h-auto mb-6" />
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-bold tracking-[0.1em] uppercase text-accent">
               <span className="flex h-1.5 w-1.5 rounded-full bg-accent animate-pulse"></span>
-              Premier Turnkey Studio
+              Luxury Interior Brand
             </div>
           </div>
 

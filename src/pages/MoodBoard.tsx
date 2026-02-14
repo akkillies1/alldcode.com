@@ -2,240 +2,196 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/Logo";
-import { MobileMenu } from "@/components/MobileMenu";
 import { SEO } from "@/components/SEO";
-import { GalleryModal } from "@/components/GalleryModal";
-import { ArrowLeft, LayoutGrid, Sparkles } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { Sparkles, ArrowRight, Layers } from "lucide-react";
+import { Database } from "@/integrations/supabase/types";
+import { ImageLightbox } from "@/components/ImageLightbox";
 
-interface GalleryImage {
-    id: string;
-    title: string;
-    description: string | null;
-    image_url: string;
-    tags: string[];
-    mood?: string | null;
-}
+type Project = Database['public']['Tables']['projects']['Row'];
+type GalleryImage = Database['public']['Tables']['gallery_images']['Row'];
 
 const MoodBoard = () => {
-    const [images, setImages] = useState<GalleryImage[]>([]);
+    const [projects, setProjects] = useState<Project[]>([]);
+    const [unassignedImages, setUnassignedImages] = useState<GalleryImage[]>([]);
     const [loading, setLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [lightboxIndex, setLightboxIndex] = useState<number>(-1);
 
     useEffect(() => {
-        fetchImages();
+        fetchData();
     }, []);
 
-    const fetchImages = async () => {
+    const fetchData = async () => {
         try {
-            const { data, error } = await supabase
-                .from('gallery_images')
+            // 1. Fetch Published Projects
+            const { data: projectData, error: projectError } = await supabase
+                .from('projects')
                 .select('*')
                 .eq('is_published', true)
-                .order('display_order', { ascending: true });
+                .order('created_at', { ascending: false });
 
-            if (error) throw error;
-            setImages(data || []);
+            if (projectError) throw projectError;
+            setProjects(projectData || []);
+
+            // 2. Fetch Unassigned Images (Orphans) for the Stream
+            const { data: imageData, error: imageError } = await supabase
+                .from('gallery_images')
+                .select('*')
+                .is('project_id', null)
+                .eq('is_published', true)
+                .order('created_at', { ascending: false });
+
+            if (imageError) throw imageError;
+            setUnassignedImages(imageData || []);
+
         } catch (error) {
-            console.error('Error fetching images:', error);
+            console.error('Error fetching data:', error);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleOpenImage = (index: number) => {
-        setSelectedIndex(index);
-        setIsModalOpen(true);
-    };
-
     return (
-        <div className="min-h-screen bg-background text-accent selection:bg-accent/30">
+        <div className="min-h-screen bg-background text-foreground selection:bg-accent/30">
             <SEO
-                title="The Design Mood Board | Signature Luxury Selection"
-                description="Explore the curated design vision of DPL Homestar. An immersive gallery of luxury interiors, bespoke furniture, and architectural inspirations."
+                title="Projects & Mood Board | DPL Homestar"
+                description="Explore our portfolio of completed luxury interiors and our daily design mood board."
             />
 
-            {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 brand-dark-overlay-80 backdrop-blur-xl border-b border-white/5 py-4">
-                <div className="container-custom flex items-center justify-between">
-                    <div className="flex items-center gap-4 md:gap-8">
-                        <Link to="/" className="flex items-center gap-2 text-accent/60 hover:text-accent transition-colors group">
-                            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                            <span className="text-[10px] uppercase tracking-widest font-bold hidden sm:block">Back</span>
-                        </Link>
-
-                        <Link to="/" className="flex items-center gap-3 group">
-                            <Logo className="w-32 md:w-40 h-auto transition-transform duration-500 group-hover:scale-105" />
-                        </Link>
-                    </div>
-
-                    <div className="hidden md:flex items-center gap-8">
-                        <Link to="/" className="text-sm font-medium text-accent/70 hover:text-accent transition-colors">Home</Link>
-                        <Link to="/blog" className="text-sm font-medium text-accent/70 hover:text-accent transition-colors">Journal</Link>
-                        <Link to="/#contact">
-                            <Button
-                                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-full px-6 font-bold uppercase tracking-wider text-[10px]"
-                            >
-                                Inquire Now
-                            </Button>
-                        </Link>
-                    </div>
-
-                    <MobileMenu isScrolled={true} />
-                </div>
-            </nav>
+            <Navbar />
 
             <main className="pt-32 pb-24">
-                <div className="container-custom">
-                    {/* Header Section */}
+                <div className="container mx-auto px-4 md:px-8">
+
+                    {/* Header */}
                     <div className="max-w-4xl mx-auto text-center mb-20 animate-fade-in">
-                        <div className="flex items-center justify-center gap-2 mb-6">
-                            <Sparkles className="w-5 h-5 text-accent animate-pulse" />
-                            <span className="text-accent text-[10px] uppercase tracking-[0.4em] font-bold">The Signature Atelier</span>
+                        <div className="flex items-center justify-center gap-2 mb-4">
+                            <Layers className="w-5 h-5 text-accent animate-pulse" />
+                            <span className="text-accent text-[10px] uppercase tracking-[0.4em] font-bold">The Collection</span>
                         </div>
-                        <h1 className="text-5xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-[0.9]">
-                            The Design <br />
-                            <span className="text-accent italic font-light">Mood Board</span>
+                        <h1 className="text-5xl md:text-7xl font-serif font-medium mb-6 tracking-tight">
+                            Signature <span className="text-accent italic">Projects</span>
                         </h1>
-                        <p className="text-xl md:text-2xl text-accent/70 font-serif italic max-w-2xl mx-auto leading-relaxed">
-                            "Artistic visions, precision crafted. Explore our curated selection of signature spaces and atmospheric details."
+                        <p className="text-lg text-muted-foreground font-serif italic max-w-2xl mx-auto">
+                            "A showcase of our finest turnkey executions and architectural narratives."
                         </p>
                     </div>
 
-                    {/* Grid Gallery (Equal Size Tiles) */}
+                    {/* Projects Grid */}
                     {loading ? (
-                            <div className="flex flex-col items-center justify-center py-40">
-                            <div className="w-12 h-12 border-2 border-accent/20 border-t-accent rounded-full animate-spin" />
-                                <span className="text-accent/40 text-[10px] uppercase tracking-widest mt-6 font-bold">Curating gallery...</span>
+                        <div className="flex justify-center py-20">
+                            <div className="w-10 h-10 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
-                            {images.map((image, index) => (
-                                <div
-                                    key={image.id}
-                                    className="group relative cursor-pointer rounded-2xl overflow-hidden border border-white/5 bg-white/[0.02] aspect-square transition-all duration-700 hover:border-accent/40 hover:shadow-[0_0_50px_rgba(252,211,77,0.1)]"
-                                    onClick={() => handleOpenImage(index)}
-                                >
-                                    <img
-                                        src={image.image_url}
-                                        alt={image.title}
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
-                                    />
-
-                                    {/* Overlay on Hover */}
-                                    <div className="absolute inset-0 brand-dark-gradient-t-90 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 md:p-8">
-                                        <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                            <span className="text-accent text-[9px] uppercase tracking-[0.3em] font-bold block mb-2">
-                                                {image.mood || 'Signature Luxury'}
-                                            </span>
-                                                <h3 className="text-accent text-2xl font-serif italic mb-4">
-                                                {image.title}
-                                            </h3>
-                                            <div className="flex flex-wrap gap-2">
-                                                {image.tags.slice(0, 2).map(tag => (
-                                                    <span key={tag} className="text-[8px] uppercase tracking-widest px-2 py-1 bg-white/10 rounded-sm border border-white/5">
-                                                        #{tag}
-                                                    </span>
-                                                ))}
+                        <>
+                            {projects.length > 0 && (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+                                    {projects.map((project) => (
+                                        <Link
+                                            key={project.id}
+                                            to={`/mood-board/${project.slug}`}
+                                            className="group block"
+                                        >
+                                            <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted mb-4">
+                                                <img
+                                                    src={project.cover_image_url || '/placeholder.svg'}
+                                                    alt={project.title}
+                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                    loading="lazy"
+                                                />
+                                                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                                                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur text-black p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                                    <ArrowRight className="w-5 h-5" />
+                                                </div>
                                             </div>
-                                        </div>
+                                            <h3 className="text-2xl font-serif mb-2 group-hover:text-accent transition-colors">{project.title}</h3>
+                                            <p className="text-sm text-muted-foreground line-clamp-2">{project.description}</p>
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Unassigned / Mood Board Stream */}
+                            {unassignedImages.length > 0 && (
+                                <div className="animate-fade-in">
+                                    <div className="flex items-center justify-center gap-4 mb-12">
+                                        <div className="h-px w-12 bg-border" />
+                                        <h2 className="text-2xl font-serif italic text-muted-foreground">Daily Inspiration</h2>
+                                        <div className="h-px w-12 bg-border" />
                                     </div>
 
-                                    {/* Small mood badge (always visible) */}
-                                                <div className="absolute top-4 right-4 px-3 py-1 brand-dark-overlay-40 backdrop-blur-md rounded-full border border-white/10 opacity-60 group-hover:opacity-0 transition-opacity">
-                                        <span className="text-[8px] uppercase tracking-widest font-bold">
-                                                        {image.mood || 'Luxury'}
-                                        </span>
+                                    <div className="columns-1 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                                        {unassignedImages.map((image) => (
+                                            <div key={image.id} className="break-inside-avoid relative group rounded-lg overflow-hidden bg-card mb-4 shadow-sm hover:shadow-md transition-shadow">
+                                                {image.media_type === 'instagram' && image.social_media_url ? (
+                                                    <div className="relative w-full aspect-[4/5] bg-accent/5">
+                                                        <iframe
+                                                            src={`${image.social_media_url.replace(/\/$/, '')}/embed`}
+                                                            className="w-full h-full border-0 absolute inset-0"
+                                                            scrolling="no"
+                                                            title={image.title}
+                                                            loading="lazy"
+                                                        />
+                                                    </div>
+                                                ) : image.media_type === 'facebook' && image.social_media_url ? (
+                                                    <div className="w-full p-4 bg-[#1877F2]/5 flex flex-col items-center justify-center text-center min-h-[200px]">
+                                                        <span className="text-xs font-bold text-[#1877F2] mb-2 uppercase tracking-widest">Facebook Post</span>
+                                                        <p className="text-sm font-medium mb-4 line-clamp-3">{image.title}</p>
+                                                        <a
+                                                            href={image.social_media_url}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="text-xs bg-[#1877F2] text-white px-3 py-1 rounded-full hover:bg-[#1877F2]/90 transition-colors"
+                                                        >
+                                                            View Post
+                                                        </a>
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        className="relative cursor-pointer"
+                                                        onClick={() => setLightboxIndex(unassignedImages.findIndex(img => img.id === image.id))}
+                                                    >
+                                                        <img
+                                                            src={image.image_url || '/placeholder.svg'}
+                                                            alt={image.title}
+                                                            className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-105"
+                                                            loading="lazy"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                                            <p className="text-white text-sm font-medium line-clamp-2">{image.title}</p>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                            )}
+                        </>
                     )}
 
-                    {/* Back to Home CTA */}
+                    {/* CTA */}
                     <div className="mt-32 text-center">
-                        <div className="h-px w-24 bg-accent/20 mx-auto mb-16" />
-                        <h2 className="text-3xl md:text-5xl font-serif mb-12 italic text-accent/80">Inspired by what you see?</h2>
+                        <h2 className="text-3xl font-serif mb-8 italic">Ready to start your project?</h2>
                         <Link to="/#contact">
-                            <Button
-                                className="bg-accent text-accent-foreground hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background rounded-full px-12 h-16 text-lg font-bold transition-all duration-500 group shadow-[0_10px_40px_-10px_rgba(252,211,77,0.3)]"
-                                aria-label="Let's Shape Your Vision — contact DPL Homestar"
-                            >
-                                Let's Shape Your Vision
-                                <Sparkles className="ml-3 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                            <Button size="lg" className="rounded-full px-8 bg-accent text-accent-foreground hover:bg-accent/90">
+                                Get in Touch <Sparkles className="ml-2 w-4 h-4" />
                             </Button>
                         </Link>
                     </div>
                 </div>
             </main>
 
-            {/* Footer */}
-            <footer className="py-20 border-t border-border bg-background">
-                <div className="container-custom flex flex-col items-center text-foreground">
-                    <Logo className="w-48 h-auto opacity-40 hover:opacity-60 transition-all mb-8" />
-                    <div className="h-px w-24 bg-accent/20 mx-auto mb-10" />
-                    <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 text-center mb-8">
-                        <div>
-                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Email</div>
-                            <a href="mailto:info@dplhomestar.com" className="text-foreground/80 hover:text-accent transition-colors">
-                                info@dplhomestar.com
-                            </a>
-                        </div>
-                        <div>
-                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Phone</div>
-                            <a href="tel:+919633860898" className="text-foreground/80 hover:text-accent transition-colors">
-                                +91 9633860898
-                            </a>
-                        </div>
-                        <div>
-                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Instagram</div>
-                            <a
-                                href="https://instagram.com/dplhomestar"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
-                                aria-label="Follow DPL Homestar on Instagram (@dplhomestar)"
-                            >
-                                <img src="/instagram.svg" alt="Instagram" className="w-4 h-4 rounded" />
-                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
-                            </a>
-                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
-                        </div>
-                        <div>
-                            <div className="text-muted-foreground text-[10px] uppercase tracking-widest font-bold mb-2">Facebook</div>
-                            <a
-                                href="https://facebook.com/dplhomestar"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center justify-center gap-2 text-foreground/80 hover:text-accent transition-colors"
-                                aria-label="Follow DPL Homestar on Facebook (@dplhomestar)"
-                            >
-                                <span className="text-[11px] uppercase tracking-[0.3em] font-bold">@dplhomestar</span>
-                            </a>
-                            <div className="mt-2 text-muted-foreground text-[11px]">@dplhomestar</div>
-                        </div>
-                    </div>
-                    <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em] font-medium text-center">
-                        © {new Date().getFullYear()} DPL HOMESTAR. CURATED WITH PRECISION BY DCODE PRIVATE LIMITED.
-                        {" "}
-                        <a
-                            href="/privacy-policy"
-                            className="underline underline-offset-4 hover:text-accent text-foreground/60 ml-1"
-                        >
-                            Privacy Policy
-                        </a>
-                    </p>
-                </div>
-            </footer>
-
-            <GalleryModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                initialIndex={selectedIndex}
-                initialViewMode="detail"
+            <ImageLightbox
+                images={unassignedImages}
+                currentIndex={lightboxIndex}
+                isOpen={lightboxIndex !== -1}
+                onClose={() => setLightboxIndex(-1)}
+                onNavigate={(index) => setLightboxIndex(index)}
             />
+
+            <Footer />
         </div>
     );
 };

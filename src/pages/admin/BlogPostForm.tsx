@@ -31,6 +31,7 @@ export const BlogPostForm = () => {
 
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [inputType, setInputType] = useState<'upload' | 'url'>('upload');
 
     useEffect(() => {
         if (id) {
@@ -104,16 +105,15 @@ export const BlogPostForm = () => {
             setFormData({ ...formData, title });
         }
     };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            let featuredImageUrl = imagePreview; // Default to existing image
+            let featuredImageUrl = imagePreview; // Default to existing image or URL preview
 
-            // 1. Upload new image if selected
-            if (imageFile) {
+            // 1. Upload new image if selected AND input type is upload
+            if (imageFile && inputType === 'upload') {
                 setUploading(true);
                 const fileExt = imageFile.name.split('.').pop();
                 const fileName = `${Math.random()}.${fileExt}`;
@@ -131,6 +131,7 @@ export const BlogPostForm = () => {
 
                 featuredImageUrl = publicUrl;
             }
+            // Note: If inputType === 'url', featuredImageUrl is already set to the manually entered URL (via imagePreview state)
 
             // 2. Save record to database
             const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== "");
@@ -278,51 +279,94 @@ export const BlogPostForm = () => {
 
                         <Card className="p-6">
                             <h3 className="font-medium mb-4">Featured Image</h3>
-                            <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-accent/50 transition-colors">
-                                {imagePreview ? (
-                                    <div className="relative">
-                                        <img
-                                            src={imagePreview}
-                                            alt="Preview"
-                                            className="w-full rounded-lg"
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="destructive"
-                                            size="icon"
-                                            className="absolute top-2 right-2"
-                                            onClick={() => {
-                                                setImageFile(null);
-                                                setImagePreview(null);
-                                            }}
-                                        >
-                                            <X className="w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col items-center py-4">
-                                        <Upload className="w-8 h-8 text-muted-foreground mb-2" />
-                                        <p className="text-xs text-muted-foreground mb-2">
-                                            Upload cover image
-                                        </p>
-                                        <Input
-                                            type="file"
-                                            accept="image/*"
-                                            className="hidden"
-                                            id="blog-image-upload"
-                                            onChange={handleImageChange}
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="sm"
-                                            onClick={() => document.getElementById('blog-image-upload')?.click()}
-                                        >
-                                            Select Image
-                                        </Button>
-                                    </div>
-                                )}
+                            {/* Toggle Input Type */}
+                            <div className="flex items-center gap-2 p-1 bg-accent/10 rounded-lg w-fit mb-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setInputType('upload')}
+                                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${inputType === 'upload' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-accent/20'}`}
+                                >
+                                    Upload File
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setInputType('url')}
+                                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${inputType === 'url' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:bg-accent/20'}`}
+                                >
+                                    Image URL
+                                </button>
                             </div>
+
+                            {inputType === 'upload' ? (
+                                <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:bg-accent/50 transition-colors relative group">
+                                    {imagePreview ? (
+                                        <div className="relative">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                className="w-full rounded-lg"
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="destructive"
+                                                size="icon"
+                                                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                onClick={() => {
+                                                    setImageFile(null);
+                                                    setImagePreview(null);
+                                                }}
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center py-4">
+                                            <Upload className="w-8 h-8 text-muted-foreground mb-2" />
+                                            <p className="text-xs text-muted-foreground mb-2">
+                                                Upload cover image
+                                            </p>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                className="hidden"
+                                                id="blog-image-upload"
+                                                onChange={handleImageChange}
+                                            />
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => document.getElementById('blog-image-upload')?.click()}
+                                            >
+                                                Select Image
+                                            </Button>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="space-y-2 animate-fade-in">
+                                    <div className="relative">
+                                        <Input
+                                            placeholder="https://example.com/image.jpg"
+                                            value={imagePreview || ''}
+                                            onChange={(e) => setImagePreview(e.target.value)}
+                                        />
+                                    </div>
+                                    {imagePreview && (
+                                        <div className="relative mt-2 rounded-lg overflow-hidden border border-border">
+                                            <img
+                                                src={imagePreview}
+                                                alt="URL Preview"
+                                                className="w-full h-48 object-cover"
+                                                onError={(e) => (e.currentTarget.style.display = 'none')}
+                                            />
+                                        </div>
+                                    )}
+                                    <p className="text-xs text-muted-foreground">
+                                        Paste a direct link to an image.
+                                    </p>
+                                </div>
+                            )}
                         </Card>
 
                         <Card className="p-6">

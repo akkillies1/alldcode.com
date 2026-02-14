@@ -48,10 +48,9 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
                 fontFamily="'Outfit', sans-serif"
                 fontSize="42"
                 fill="url(#textGradient)"
-                letterSpacing="-0.5"
             >
-                <tspan fontWeight="700">DPL</tspan>
-                <tspan dx="12" fontWeight="800">Homestar</tspan>
+                <tspan fontWeight="400" letterSpacing="4">DPL</tspan>
+                <tspan dx="20" fontWeight="800" letterSpacing="-1">Homestar</tspan>
             </text>
 
             {/* Animated Star & Effects (The "star" in Homestar) */}

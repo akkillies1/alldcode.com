@@ -70,18 +70,7 @@
     background-color: hsl(var(--background));
   }
 
-  .dark body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("/dcode-logo.jpg");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.32;
-    mix-blend-mode: soft-light;
-    pointer-events: none;
-    z-index: -2;
-  }
+
 
   .dark body::after {
     content: "";

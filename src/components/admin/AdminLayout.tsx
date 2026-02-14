@@ -11,6 +11,7 @@ import {
     LogOut,
     Menu,
     Users,
+    Layers,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -66,6 +67,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
     const navItems = [
         { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
         { icon: Users, label: "Leads", path: "/admin/leads" },
+        { icon: Layers, label: "Projects", path: "/admin/projects" },
         { icon: Image, label: "Gallery", path: "/admin/gallery" },
         { icon: MessageSquare, label: "Testimonials", path: "/admin/testimonials" },
         { icon: FileText, label: "Blog", path: "/admin/blog" },

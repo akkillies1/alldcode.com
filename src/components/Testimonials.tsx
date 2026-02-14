@@ -86,6 +86,7 @@ export const Testimonials = () => {
                                                 src={testimonial.client_photo_url}
                                                 alt={testimonial.client_name}
                                                 className="w-14 h-14 rounded-full object-cover border-2 border-accent/20"
+                                                loading="lazy"
                                             />
                                         ) : (
                                             <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center">

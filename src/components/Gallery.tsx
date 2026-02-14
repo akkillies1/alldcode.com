@@ -135,6 +135,7 @@ export const Gallery = () => {
                                     src={image.thumbnail_url || image.image_url}
                                     alt={image.alt_text || image.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F13]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                                     <div className="text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
