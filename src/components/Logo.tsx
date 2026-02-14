@@ -11,9 +11,9 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
     // but for now we render the user-provided SVG as is.
     return (
         <svg
-            width="400"
+            width="500"
             height="100"
-            viewBox="0 0 400 100"
+            viewBox="0 0 500 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className={className}
@@ -54,8 +54,8 @@ export const Logo = ({ className = "w-40 h-auto", isScrolled = false }: LogoProp
             </text>
 
             {/* Animated Star & Effects (The "star" in Homestar) */}
-            {/* Moved slightly right to accommodate the new text width */}
-            <g transform="translate(340, 54) scale(1.4)">
+            {/* Tightly integrated position for a unified brand mark */}
+            <g transform="translate(370, 52) scale(1.35)">
 
                 {/* Pulsating Radiations (Rings emanating outwards) */}
                 <circle r="12" stroke="#F59E0B" strokeWidth="1" fill="none" opacity="0">
